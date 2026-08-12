@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# Maven Wrapper startup script
+
+# Resolve links
+PRG="$0"
+while [ -h "$PRG" ]; do
+  ls=$(ls -ld "$PRG")
+  link=$(expr "$ls" : '.*-> \(.*\)$')
+  if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+  else
+    PRG=$(dirname "$PRG")/"$link"
+  fi
+done
+
+SAVED="$(pwd)"
+cd "$(dirname "$PRG")/" || exit
+BASEDIR="$(pwd -P)"
+
+# Use maximum available or specified
+if [ -n "$MAVEN_OPTS" ]; then
+  MAVEN_OPTS="$MAVEN_OPTS"
+fi
+
+WRAPPER_LAUNCHER=org.apache.maven.wrapper.MavenWrapperMain
+
+export MAVEN_HOME=${MAVEN_USER_HOME:-"$HOME/.m2"}
+export MAVEN_CONFIG="$BASEDIR/.mvn"
+
+WRAPPER_JAR="$BASEDIR/.mvn/wrapper/maven-wrapper.jar"
+
+# Check if wrapper jar exists, download if not
+if [ ! -f "$WRAPPER_JAR" ]; then
+  echo "Downloading Maven Wrapper..."
+  WRAPPER_URL=$(grep wrapperUrl "$BASEDIR/.mvn/wrapper/maven-wrapper.properties" | cut -d'=' -f2-)
+  if command -v curl > /dev/null 2>&1; then
+    curl -fsSL -o "$WRAPPER_JAR" "$WRAPPER_URL"
+  elif command -v wget > /dev/null 2>&1; then
+    wget -q -O "$WRAPPER_JAR" "$WRAPPER_URL"
+  else
+    echo "ERROR: Neither curl nor wget found. Cannot download Maven Wrapper."
+    exit 1
+  fi
+fi
+
+# Restore working directory
+cd "$SAVED" || exit
+
+# Execute
+exec "$JAVA_HOME/bin/java" \
+  $MAVEN_OPTS \
+  -classpath "$WRAPPER_JAR" \
+  "-Dmaven.multiModuleProjectDirectory=$BASEDIR" \
+  $WRAPPER_LAUNCHER "$@"
