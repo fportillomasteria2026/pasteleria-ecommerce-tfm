@@ -1,0 +1,86 @@
+<div class="bg-white rounded-xl shadow-md p-6">
+  <h2 class="text-xl font-bold text-amber-900 mb-6">Gestion de Pedidos</h2>
+
+  <div class="flex gap-2 mb-4 flex-wrap">
+    <button (click)="statusFilter.set(''); loadOrders()"
+            [class.bg-amber-600]="!statusFilter()" [class.text-white]="!statusFilter()"
+            [class.bg-gray-100]="statusFilter()" [class.text-gray-600]="statusFilter()"
+            class="px-3 py-1 rounded-lg text-sm font-medium transition-colors">Todos</button>
+    <button (click)="statusFilter.set('PENDIENTE'); loadOrders()"
+            [class.bg-yellow-500]="statusFilter() === 'PENDIENTE'" [class.text-white]="statusFilter() === 'PENDIENTE'"
+            [class.bg-gray-100]="statusFilter() !== 'PENDIENTE'" [class.text-gray-600]="statusFilter() !== 'PENDIENTE'"
+            class="px-3 py-1 rounded-lg text-sm font-medium transition-colors">Pendientes</button>
+    <button (click)="statusFilter.set('EN_PROCESO'); loadOrders()"
+            [class.bg-blue-500]="statusFilter() === 'EN_PROCESO'" [class.text-white]="statusFilter() === 'EN_PROCESO'"
+            [class.bg-gray-100]="statusFilter() !== 'EN_PROCESO'" [class.text-gray-600]="statusFilter() !== 'EN_PROCESO'"
+            class="px-3 py-1 rounded-lg text-sm font-medium transition-colors">En Proceso</button>
+    <button (click)="statusFilter.set('COMPLETADO'); loadOrders()"
+            [class.bg-green-500]="statusFilter() === 'COMPLETADO'" [class.text-white]="statusFilter() === 'COMPLETADO'"
+            [class.bg-gray-100]="statusFilter() !== 'COMPLETADO'" [class.text-gray-600]="statusFilter() !== 'COMPLETADO'"
+            class="px-3 py-1 rounded-lg text-sm font-medium transition-colors">Completados</button>
+  </div>
+
+  <div class="flex gap-2 mb-6">
+    <input type="text" [(ngModel)]="newOrder.customerName" placeholder="Nombre del cliente"
+           class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+    <input type="number" [(ngModel)]="newOrder.totalAmount" placeholder="Total" step="0.01"
+           class="w-24 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+    <select [(ngModel)]="newOrder.status"
+            class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+      <option value="PENDIENTE">Pendiente</option>
+      <option value="EN_PROCESO">En Proceso</option>
+      <option value="COMPLETADO">Completado</option>
+      <option value="CANCELADO">Cancelado</option>
+    </select>
+    <button (click)="addOrder()"
+            class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
+      + Nuevo
+    </button>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b border-gray-200 text-left text-gray-500">
+          <th class="py-2">Cliente</th>
+          <th class="py-2">Estado</th>
+          <th class="py-2">Total</th>
+          <th class="py-2">Fecha</th>
+          <th class="py-2">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (order of orders(); track order.id) {
+          <tr class="border-b border-gray-100">
+            @if (editingOrder()?.id === order.id) {
+              <td class="py-2"><input type="text" [(ngModel)]="editingOrder()!.customerName" class="w-full px-2 py-1 border rounded text-sm" /></td>
+              <td class="py-2">
+                <select [(ngModel)]="editingOrder()!.status" class="px-2 py-1 border rounded text-sm">
+                  <option value="PENDIENTE">Pendiente</option>
+                  <option value="EN_PROCESO">En Proceso</option>
+                  <option value="COMPLETADO">Completado</option>
+                  <option value="CANCELADO">Cancelado</option>
+                </select>
+              </td>
+              <td class="py-2"><input type="number" [(ngModel)]="editingOrder()!.totalAmount" step="0.01" class="w-20 px-2 py-1 border rounded text-sm" /></td>
+              <td class="py-2 text-gray-400">{{ order.createdAt | date:'short' }}</td>
+              <td class="py-2">
+                <button (click)="updateOrder(editingOrder()!)" class="text-green-600 hover:text-green-800 mr-2">Guardar</button>
+                <button (click)="editingOrder.set(null)" class="text-gray-500 hover:text-gray-700">Cancelar</button>
+              </td>
+            } @else {
+              <td class="py-2 font-medium">{{ order.customerName }}</td>
+              <td class="py-2"><span class="px-2 py-0.5 rounded-full text-xs font-medium" [class]="getStatusColor(order.status)">{{ order.status }}</span></td>
+              <td class="py-2">{{ order.totalAmount | currency:'EUR' }}</td>
+              <td class="py-2 text-gray-400">{{ order.createdAt | date:'short' }}</td>
+              <td class="py-2">
+                <button (click)="editingOrder.set({...order})" class="text-blue-600 hover:text-blue-800 mr-2">Editar</button>
+                <button (click)="deleteOrder(order.id!)" class="text-red-600 hover:text-red-800">Eliminar</button>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

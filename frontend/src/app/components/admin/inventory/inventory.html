@@ -1,0 +1,112 @@
+<div class="bg-white rounded-xl shadow-md p-6">
+  <h2 class="text-xl font-bold text-amber-900 mb-6">Inventario y Recetas</h2>
+
+  <div class="flex gap-2 mb-6">
+    <button (click)="activeTab.set('ingredients')"
+            [class.bg-amber-600]="activeTab() === 'ingredients'"
+            [class.text-white]="activeTab() === 'ingredients'"
+            [class.bg-gray-100]="activeTab() !== 'ingredients'"
+            [class.text-gray-600]="activeTab() !== 'ingredients'"
+            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+      Ingredientes
+    </button>
+    <button (click)="activeTab.set('recipes')"
+            [class.bg-amber-600]="activeTab() === 'recipes'"
+            [class.text-white]="activeTab() === 'recipes'"
+            [class.bg-gray-100]="activeTab() !== 'recipes'"
+            [class.text-gray-600]="activeTab() !== 'recipes'"
+            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+      Recetas
+    </button>
+  </div>
+
+  @if (activeTab() === 'ingredients') {
+    <div>
+      <div class="flex gap-2 mb-4">
+        <input type="text" [(ngModel)]="newIngredient.name" placeholder="Nombre"
+               class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+        <input type="number" [(ngModel)]="newIngredient.stockQuantity" placeholder="Cantidad" step="0.01"
+               class="w-24 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+        <select [(ngModel)]="newIngredient.unit"
+                class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+          <option value="kg">kg</option>
+          <option value="g">g</option>
+          <option value="l">l</option>
+          <option value="ml">ml</option>
+          <option value="u">u</option>
+        </select>
+        <button (click)="addIngredient()"
+                class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
+          + Anadir
+        </button>
+      </div>
+
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-gray-200 text-left text-gray-500">
+            <th class="py-2">Nombre</th>
+            <th class="py-2">Cantidad</th>
+            <th class="py-2">Unidad</th>
+            <th class="py-2">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of ingredients(); track item.id) {
+            <tr class="border-b border-gray-100">
+              @if (editingIngredient()?.id === item.id) {
+                <td class="py-2"><input type="text" [(ngModel)]="editingIngredient()!.name" class="w-full px-2 py-1 border rounded text-sm" /></td>
+                <td class="py-2"><input type="number" [(ngModel)]="editingIngredient()!.stockQuantity" step="0.01" class="w-20 px-2 py-1 border rounded text-sm" /></td>
+                <td class="py-2"><input type="text" [(ngModel)]="editingIngredient()!.unit" class="w-16 px-2 py-1 border rounded text-sm" /></td>
+                <td class="py-2">
+                  <button (click)="updateIngredient(editingIngredient()!)" class="text-green-600 hover:text-green-800 mr-2">Guardar</button>
+                  <button (click)="editingIngredient.set(null)" class="text-gray-500 hover:text-gray-700">Cancelar</button>
+                </td>
+              } @else {
+                <td class="py-2 font-medium">{{ item.name }}</td>
+                <td class="py-2">{{ item.stockQuantity }}</td>
+                <td class="py-2">{{ item.unit }}</td>
+                <td class="py-2">
+                  <button (click)="editingIngredient.set({...item})" class="text-blue-600 hover:text-blue-800 mr-2">Editar</button>
+                  <button (click)="deleteIngredient(item.id!)" class="text-red-600 hover:text-red-800">Eliminar</button>
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (activeTab() === 'recipes') {
+    <div>
+      <div class="flex gap-2 mb-4">
+        <input type="text" [(ngModel)]="newRecipe.name" placeholder="Nombre de la receta"
+               class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+        <button (click)="addRecipe()"
+                class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
+          + Anadir
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        @for (recipe of recipes(); track recipe.id) {
+          <div class="border border-gray-200 rounded-lg p-4">
+            @if (editingRecipe()?.id === recipe.id) {
+              <input type="text" [(ngModel)]="editingRecipe()!.name" class="w-full px-2 py-1 border rounded text-sm mb-2 font-bold" />
+              <textarea [(ngModel)]="editingRecipe()!.instructions" rows="3" class="w-full px-2 py-1 border rounded text-sm mb-2"></textarea>
+              <button (click)="updateRecipe(editingRecipe()!)" class="text-green-600 hover:text-green-800 text-sm mr-2">Guardar</button>
+              <button (click)="editingRecipe.set(null)" class="text-gray-500 hover:text-gray-700 text-sm">Cancelar</button>
+            } @else {
+              <h3 class="font-bold text-amber-900 mb-1">{{ recipe.name }}</h3>
+              <p class="text-gray-600 text-sm whitespace-pre-line">{{ recipe.instructions }}</p>
+              <div class="mt-2">
+                <button (click)="editingRecipe.set({...recipe})" class="text-blue-600 hover:text-blue-800 text-sm mr-2">Editar</button>
+                <button (click)="deleteRecipe(recipe.id!)" class="text-red-600 hover:text-red-800 text-sm">Eliminar</button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
