@@ -1,12 +1,21 @@
 package com.promptmaestro.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class ChatService {
+
+    private static final Logger log = LoggerFactory.getLogger(ChatService.class);
 
     @Autowired(required = false)
     private VertexAiGeminiChatModel chatModel;
@@ -14,9 +23,16 @@ public class ChatService {
     @Value("${spring.autoconfigure.exclude:}")
     private String excludeConfig;
 
+    // Cache de respuestas frecuentes (ultimas 20 preguntas)
+    private final LinkedHashMap<String, String> responseCache = new LinkedHashMap<>(20, 0.75f, true) {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<String, String> eldest) {
+            return size() > 20;
+        }
+    };
+
     private static final String BUSINESS_CONTEXT = """
-        Eres el asistente virtual de BELIETA, una pasteleria artesanal en Alhaurin de la Torre, Malaga.
-        Responde SOLO sobre temas relacionados con el negocio. Si la pregunta no es sobre el negocio, responde amablemente que solo puedes ayudar con consultas de la pasteleria.
+        Eres "Belieta", asistente virtual de una pasteleria artesanal en Alhaurin de la Torre, Malaga.
 
         DATOS DEL NEGOCIO:
         - Nombre: Belieta Pasteleria Artesanal
@@ -25,60 +41,110 @@ public class ChatService {
         - Horario: Lunes a Sabado, 9:00 - 20:00
         - WhatsApp: 744 60 18 61
 
-        PRODUCTOS Y SERVICIOS:
-        - Tartas personalizadas para bodas, cumpleanos y ocasiones especiales
-        - Pasteleria fina: croissants, macarons y delicias francesas
-        - Postres clasico: tiramisu, cheesecake y otros
-        - Elaboraciones especiales y bandejas surtidas
-        - Regalos y cajas de dulces artesanales
+        PRODUCTOS:
+        - Tartas personalizadas (bodas, cumpleanos, comuniones)
+        - Pasteleria fina (croissants, macarons, napolitanas)
+        - Postres (tiramisu, cheesecake, vasos de bizcocho)
+        - Galletas y cookies artesanales
+        - Bandejas surtidas y cajas de regalo
 
-        REGLAS:
-        - Responde en espanol, de forma breve y amable (maximo 3-4 lineas)
-        - Si te preguntan por precios, di que llamen al telefono para presupuesto personalizado
-        - Si te preguntan por pedidos, recomienda contactar por WhatsApp
-        - Usa un tono cercano y profesional
+        REGLAS ESTRICTAS:
+        1. Responde SOLO en espanol, maximo 3 lineas
+        2. Usa tono cercano y profesional
+        3. NUNCA inventes precios - di "Llamanos al 744 60 18 61 para presupuesto"
+        4. Para pedidos, recomienda WhatsApp: 744 60 18 61
+        5. Si la pregunta no es del negocio, di: "Solo puedo ayudarte con consultas de la pasteleria"
+        6. No hagas preguntas al usuario, solo responde
         """;
 
     public String chat(String userMessage) {
-        if (chatModel == null || (excludeConfig != null && excludeConfig.contains("VertexAiGeminiAutoConfiguration"))) {
-            return getMockResponse(userMessage);
+        String normalizedMsg = messageKey(userMessage);
+
+        // 1. Buscar en cache
+        String cached = responseCache.get(normalizedMsg);
+        if (cached != null) {
+            log.info("Cache hit para: {}", normalizedMsg);
+            return cached;
         }
 
-        String prompt = BUSINESS_CONTEXT + "\n\nPregunta del cliente: " + userMessage;
-        return chatModel.call(prompt);
+        // 2. Si Gemini no esta disponible, usar mock
+        if (chatModel == null || (excludeConfig != null && excludeConfig.contains("VertexAiGeminiAutoConfiguration"))) {
+            String mockResponse = getMockResponse(userMessage);
+            responseCache.put(normalizedMsg, mockResponse);
+            return mockResponse;
+        }
+
+        // 3. Llamar a Gemini con timeout
+        try {
+            String prompt = BUSINESS_CONTEXT + "\n\nPregunta del cliente: " + userMessage;
+            String response = CompletableFuture.supplyAsync(() -> chatModel.call(prompt))
+                    .get(15, TimeUnit.SECONDS);
+
+            // Limpiar respuesta
+            response = cleanResponse(response);
+            responseCache.put(normalizedMsg, response);
+            return response;
+
+        } catch (Exception e) {
+            log.error("Error llamando a Gemini: {}", e.getMessage());
+            String fallback = getMockResponse(userMessage);
+            responseCache.put(normalizedMsg, fallback);
+            return fallback;
+        }
+    }
+
+    private String messageKey(String msg) {
+        return msg.toLowerCase().trim().replaceAll("\\s+", " ");
+    }
+
+    private String cleanResponse(String response) {
+        if (response == null) return "Disculpa, no pude procesar tu pregunta.";
+        String cleaned = response.trim();
+        // Si la respuesta es muy larga, cortar a 3 lineas
+        String[] lines = cleaned.split("\n");
+        if (lines.length > 3) {
+            cleaned = lines[0] + "\n" + lines[1] + "\n" + lines[2];
+        }
+        return cleaned;
     }
 
     private String getMockResponse(String message) {
         String lower = message.toLowerCase();
 
+        if (lower.contains("hola") || lower.contains("buenos") || lower.contains("buenas")) {
+            return "Hola! Bienvenido a Belieta. En que puedo ayudarte?";
+        }
+        if (lower.contains("gracias")) {
+            return "De nada! Si necesitas algo mas, aqui estamos.";
+        }
         if (lower.contains("horario") || lower.contains("hora") || lower.contains("abierto")) {
             return "Nuestro horario es de Lunes a Sabado de 9:00 a 20:00. Te esperamos!";
         }
-        if (lower.contains("direccion") || lower.contains("donde") || lower.contains("ubicacion") || lower.contains("mapa")) {
-            return "Estamos en C/ La Torre, 31, CP 29130 Alhaurin de la Torre, Malaga. Puedes vernos en el mapa en la seccion Quienes Somos.";
+        if (lower.contains("direccion") || lower.contains("donde") || lower.contains("ubicacion")) {
+            return "Estamos en C/ La Torre, 31, 29130 Alhaurin de la Torre, Malaga.";
         }
-        if (lower.contains("telefono") || lower.contains("llamar") || lower.contains("contacto")) {
-            return "Puedes llamarnos al 744 60 18 61 o escribirnos por WhatsApp al mismo numero.";
+        if (lower.contains("telefono") || lower.contains("llamar")) {
+            return "Puedes llamarnos al 744 60 18 61.";
         }
         if (lower.contains("whatsapp")) {
-            return "Escribenos por WhatsApp al 744 60 18 61 y te atendemos encantados!";
+            return "Escribenos por WhatsApp al 744 60 18 61 y te atendemos!";
         }
-        if (lower.contains("tarta") || lower.contains("pastel") || lower.contains("cumpleanos") || lower.contains("boda")) {
-            return "Hacemos tartas personalizadas para toda ocasion: bodas, cumpleanos, comuniones... Llamanos para presupuesto sin compromiso!";
+        if (lower.contains("tarta") || lower.contains("pastel") || lower.contains("cumplea")) {
+            return "Hacemos tartas personalizadas para toda ocasion. Llamanos para presupuesto sin compromiso!";
         }
         if (lower.contains("precio") || lower.contains("coste") || lower.contains("cuanto")) {
-            return "Cada producto es unico! Llamanos al 744 60 18 61 para un presupuesto personalizado.";
+            return "Cada producto es unico! Llamanos al 744 60 18 61 para presupuesto personalizado.";
         }
         if (lower.contains("pedido") || lower.contains("pedir") || lower.contains("encargar")) {
-            return "Puedes hacer tu pedido por WhatsApp al 744 60 18 61 o llamarnos directamente. Estamos encantados de ayudarte!";
+            return "Haz tu pedido por WhatsApp al 744 60 18 61 o llamanos directamente.";
         }
-        if (lower.contains("hola") || lower.contains("buenos") || lower.contains("buenas")) {
-            return "Hola! Bienvenido a Belieta. En que podemos ayudarte hoy?";
+        if (lower.contains("galleta") || lower.contains("cookie")) {
+            return "Tenemos galletas artesanales de mantequilla, chocolate y frutas. Pregunta por nuestras cookies especiales!";
         }
-        if (lower.contains("gracias")) {
-            return "De nada! Si necesitas cualquier cosa, aqui estamos. Un saludo!";
+        if (lower.contains("regalo") || lower.contains("caja")) {
+            return "Tenemos cajas de regalo y bandejas surtidas perfectas para cualquier occasion. Llamanos para informacion!";
         }
 
-        return "Gracias por tu consulta! Para mas informacion, puedes llamarnos al 744 60 18 61 o escribirnos por WhatsApp. En que mas puedo ayudarte?";
+        return "Para esa consulta, llamame al 744 60 18 61 o escribeme por WhatsApp. En que mas puedo ayudarte?";
     }
 }
