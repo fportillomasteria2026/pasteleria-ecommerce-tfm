@@ -1,8 +1,0 @@
-{
-  "buildCommand": "cd frontend && npm run build",
-  "outputDirectory": "frontend/dist/frontend",
-  "framework": "angular",
-  "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
-  ]
-}
