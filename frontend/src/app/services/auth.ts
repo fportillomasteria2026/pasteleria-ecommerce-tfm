@@ -17,7 +17,7 @@ export interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = 'https://belieta-backend.onrender.com/api/auth';
 
   private _isLoggedIn = signal(false);
   private _username = signal('');

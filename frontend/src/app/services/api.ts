@@ -54,7 +54,7 @@ export interface Order {
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'http://localhost:8080/api';
+  private baseUrl = 'https://belieta-backend.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 
