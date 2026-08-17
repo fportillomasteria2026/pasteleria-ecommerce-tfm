@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/chat/**").permitAll()
                 .requestMatchers("/api/debug/**").permitAll()
+                .requestMatchers("/api/setup/**").permitAll()
                 .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
             )
