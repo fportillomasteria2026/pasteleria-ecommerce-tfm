@@ -1,20 +1,4 @@
-<div class="min-h-screen bg-amber-50">
-  <nav class="bg-amber-800 text-white shadow-lg">
-    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-      <a routerLink="/" class="text-2xl font-bold tracking-tight">Pasteleria Dulce Arte</a>
-      <div class="flex gap-6 items-center text-sm font-medium">
-        <a routerLink="/" routerLinkActive="text-amber-300" [routerLinkActiveOptions]="{exact:true}" class="hover:text-amber-300 transition-colors">Inicio</a>
-        <a routerLink="/gallery" routerLinkActive="text-amber-300" class="hover:text-amber-300 transition-colors">Galeria</a>
-        @if (authService.isLoggedIn() && authService.isAdmin()) {
-          <a routerLink="/admin/dashboard" routerLinkActive="text-amber-300" class="hover:text-amber-300 transition-colors">Admin</a>
-          <button (click)="logout()" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded transition-colors">Salir</button>
-        } @else {
-          <a routerLink="/admin/login" class="hover:text-amber-300 transition-colors">Acceder</a>
-        }
-      </div>
-    </div>
-  </nav>
-
+<div style="min-height:100vh; background:#FAF6F1;">
   <main>
     <router-outlet />
   </main>

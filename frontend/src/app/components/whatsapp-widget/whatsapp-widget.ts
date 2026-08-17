@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './whatsapp-widget.css',
 })
 export class WhatsAppWidget {
-  phoneNumber = '34600000000';
-  message = 'Hola! Me interesa hacer un pedido en Pasteleria Dulce Arte.';
+  phoneNumber = '34744601861';
+  message = 'Hola! Me interesa hacer un pedido en Belieta.';
 
   getWhatsAppUrl(): string {
     return `https://wa.me/${this.phoneNumber}?text=${encodeURIComponent(this.message)}`;

@@ -1,10 +1,12 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService, ProductImage } from '../../services/api';
+import { WhatsAppWidget } from '../whatsapp-widget/whatsapp-widget';
+import { ChatWidget } from '../chat-widget/chat-widget';
 
 @Component({
   selector: 'app-gallery',
-  imports: [FormsModule],
+  imports: [FormsModule, WhatsAppWidget, ChatWidget],
   templateUrl: './gallery.html',
   styleUrl: './gallery.css',
 })
@@ -12,6 +14,7 @@ export class Gallery implements OnInit {
   products = signal<ProductImage[]>([]);
   loading = signal(true);
   searchQuery = '';
+  searchFocused = false;
 
   constructor(private apiService: ApiService) {}
 

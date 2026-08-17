@@ -19,13 +19,17 @@ public class Ingredient {
     @Column(nullable = false)
     private String unit;
 
+    @Column(nullable = false)
+    private String category;
+
     public Ingredient() {}
 
-    public Ingredient(Long id, String name, Double stockQuantity, String unit) {
+    public Ingredient(Long id, String name, Double stockQuantity, String unit, String category) {
         this.id = id;
         this.name = name;
         this.stockQuantity = stockQuantity;
         this.unit = unit;
+        this.category = category;
     }
 
     public Long getId() { return id; }
@@ -36,6 +40,8 @@ public class Ingredient {
     public void setStockQuantity(Double stockQuantity) { this.stockQuantity = stockQuantity; }
     public String getUnit() { return unit; }
     public void setUnit(String unit) { this.unit = unit; }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
     public static Builder builder() { return new Builder(); }
 
@@ -44,10 +50,12 @@ public class Ingredient {
         private String name;
         private Double stockQuantity;
         private String unit;
+        private String category;
         public Builder id(Long id) { this.id = id; return this; }
         public Builder name(String name) { this.name = name; return this; }
         public Builder stockQuantity(Double stockQuantity) { this.stockQuantity = stockQuantity; return this; }
         public Builder unit(String unit) { this.unit = unit; return this; }
-        public Ingredient build() { return new Ingredient(id, name, stockQuantity, unit); }
+        public Builder category(String category) { this.category = category; return this; }
+        public Ingredient build() { return new Ingredient(id, name, stockQuantity, unit, category); }
     }
 }

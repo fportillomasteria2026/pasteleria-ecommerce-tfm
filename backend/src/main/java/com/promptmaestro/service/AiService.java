@@ -3,6 +3,7 @@ package com.promptmaestro.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,18 +16,23 @@ import java.util.Map;
 @Service
 public class AiService {
 
-    private final VertexAiGeminiChatModel chatModel;
+    @Autowired(required = false)
+    private VertexAiGeminiChatModel chatModel;
+
     private final ObjectMapper objectMapper;
 
-    @Value("${spring.ai.vertex.ai.gemini.api-key}")
-    private String apiKey;
+    @Value("${spring.autoconfigure.exclude:}")
+    private String excludeConfig;
 
-    public AiService(VertexAiGeminiChatModel chatModel, ObjectMapper objectMapper) {
-        this.chatModel = chatModel;
+    public AiService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
     public List<String> generateHashtags(MultipartFile image) throws IOException {
+        if (chatModel == null || (excludeConfig != null && excludeConfig.contains("VertexAiGeminiAutoConfiguration"))) {
+            return List.of("#tarta", "#chocolate", "#pasteleria", "#local", "#testing");
+        }
+
         String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
         String mimeType = image.getContentType() != null ? image.getContentType() : "image/jpeg";
 

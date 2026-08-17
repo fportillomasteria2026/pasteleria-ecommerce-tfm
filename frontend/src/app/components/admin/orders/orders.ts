@@ -57,13 +57,23 @@ export class Orders implements OnInit {
     });
   }
 
-  getStatusColor(status: string): string {
+  getStatusBg(status: string): string {
     switch (status) {
-      case 'PENDIENTE': return 'bg-yellow-100 text-yellow-800';
-      case 'EN_PROCESO': return 'bg-blue-100 text-blue-800';
-      case 'COMPLETADO': return 'bg-green-100 text-green-800';
-      case 'CANCELADO': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'PENDIENTE': return '#FEF3C7';
+      case 'EN_PROCESO': return '#DBEAFE';
+      case 'COMPLETADO': return '#DCFCE7';
+      case 'CANCELADO': return '#FEE2E2';
+      default: return '#F3F4F6';
+    }
+  }
+
+  getStatusTextColor(status: string): string {
+    switch (status) {
+      case 'PENDIENTE': return '#92400E';
+      case 'EN_PROCESO': return '#1E40AF';
+      case 'COMPLETADO': return '#166534';
+      case 'CANCELADO': return '#991B1B';
+      default: return '#374151';
     }
   }
 }

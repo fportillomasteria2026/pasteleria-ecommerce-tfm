@@ -1,81 +1,97 @@
-<div class="bg-white rounded-xl shadow-md p-6">
-  <h2 class="text-xl font-bold text-amber-900 mb-6">Gestion de Pedidos</h2>
-
-  <div class="flex gap-2 mb-4 flex-wrap">
-    <button (click)="statusFilter.set(''); loadOrders()"
-            [class.bg-amber-600]="!statusFilter()" [class.text-white]="!statusFilter()"
-            [class.bg-gray-100]="statusFilter()" [class.text-gray-600]="statusFilter()"
-            class="px-3 py-1 rounded-lg text-sm font-medium transition-colors">Todos</button>
-    <button (click)="statusFilter.set('PENDIENTE'); loadOrders()"
-            [class.bg-yellow-500]="statusFilter() === 'PENDIENTE'" [class.text-white]="statusFilter() === 'PENDIENTE'"
-            [class.bg-gray-100]="statusFilter() !== 'PENDIENTE'" [class.text-gray-600]="statusFilter() !== 'PENDIENTE'"
-            class="px-3 py-1 rounded-lg text-sm font-medium transition-colors">Pendientes</button>
-    <button (click)="statusFilter.set('EN_PROCESO'); loadOrders()"
-            [class.bg-blue-500]="statusFilter() === 'EN_PROCESO'" [class.text-white]="statusFilter() === 'EN_PROCESO'"
-            [class.bg-gray-100]="statusFilter() !== 'EN_PROCESO'" [class.text-gray-600]="statusFilter() !== 'EN_PROCESO'"
-            class="px-3 py-1 rounded-lg text-sm font-medium transition-colors">En Proceso</button>
-    <button (click)="statusFilter.set('COMPLETADO'); loadOrders()"
-            [class.bg-green-500]="statusFilter() === 'COMPLETADO'" [class.text-white]="statusFilter() === 'COMPLETADO'"
-            [class.bg-gray-100]="statusFilter() !== 'COMPLETADO'" [class.text-gray-600]="statusFilter() !== 'COMPLETADO'"
-            class="px-3 py-1 rounded-lg text-sm font-medium transition-colors">Completados</button>
+<div style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:32px; font-family:'Lato',Arial,sans-serif;">
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:28px;">
+    <div style="width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,#C8A96E,#B8954A); display:flex; align-items:center; justify-content:center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    </div>
+    <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:20px; font-weight:700; color:#3E2723;">Gestion de Pedidos</h2>
   </div>
 
-  <div class="flex gap-2 mb-6">
+  <!-- Status filters -->
+  <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
+    <button (click)="statusFilter.set(''); loadOrders()"
+            [style.background]="!statusFilter() ? '#3E2723' : '#F0E6D6'"
+            [style.color]="!statusFilter() ? '#FAF6F1' : '#8B7355'"
+            style="padding:8px 16px; border:none; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;">Todos</button>
+    <button (click)="statusFilter.set('PENDIENTE'); loadOrders()"
+            [style.background]="statusFilter() === 'PENDIENTE' ? '#EAB308' : '#F0E6D6'"
+            [style.color]="statusFilter() === 'PENDIENTE' ? 'white' : '#8B7355'"
+            style="padding:8px 16px; border:none; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;">Pendientes</button>
+    <button (click)="statusFilter.set('EN_PROCESO'); loadOrders()"
+            [style.background]="statusFilter() === 'EN_PROCESO' ? '#3B82F6' : '#F0E6D6'"
+            [style.color]="statusFilter() === 'EN_PROCESO' ? 'white' : '#8B7355'"
+            style="padding:8px 16px; border:none; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;">En Proceso</button>
+    <button (click)="statusFilter.set('COMPLETADO'); loadOrders()"
+            [style.background]="statusFilter() === 'COMPLETADO' ? '#22C55E' : '#F0E6D6'"
+            [style.color]="statusFilter() === 'COMPLETADO' ? 'white' : '#8B7355'"
+            style="padding:8px 16px; border:none; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;">Completados</button>
+  </div>
+
+  <!-- Add order form -->
+  <div style="display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap;">
     <input type="text" [(ngModel)]="newOrder.customerName" placeholder="Nombre del cliente"
-           class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+           style="flex:1; min-width:150px; padding:10px 14px; border:2px solid #E0D5C5; border-radius:8px; font-size:13px; outline:none; font-family:'Lato',Arial,sans-serif; color:#3E2723;"
+           onfocus="this.style.borderColor='#C8A96E'" onblur="this.style.borderColor='#E0D5C5'" />
     <input type="number" [(ngModel)]="newOrder.totalAmount" placeholder="Total" step="0.01"
-           class="w-24 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+           style="width:100px; padding:10px 14px; border:2px solid #E0D5C5; border-radius:8px; font-size:13px; outline:none; font-family:'Lato',Arial,sans-serif; color:#3E2723;"
+           onfocus="this.style.borderColor='#C8A96E'" onblur="this.style.borderColor='#E0D5C5'" />
     <select [(ngModel)]="newOrder.status"
-            class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+            style="padding:10px 14px; border:2px solid #E0D5C5; border-radius:8px; font-size:13px; outline:none; font-family:'Lato',Arial,sans-serif; color:#3E2723; background:white;">
       <option value="PENDIENTE">Pendiente</option>
       <option value="EN_PROCESO">En Proceso</option>
       <option value="COMPLETADO">Completado</option>
       <option value="CANCELADO">Cancelado</option>
     </select>
     <button (click)="addOrder()"
-            class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
+            style="padding:10px 20px; border:none; border-radius:8px; background:#22C55E; color:white; font-size:12px; font-weight:700; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;"
+            onmouseover="this.style.background='#16A34A'" onmouseout="this.style.background='#22C55E'">
       + Nuevo
     </button>
   </div>
 
-  <div class="overflow-x-auto">
-    <table class="w-full text-sm">
+  <!-- Orders table -->
+  <div style="overflow-x:auto;">
+    <table style="width:100%; border-collapse:collapse; font-size:13px;">
       <thead>
-        <tr class="border-b border-gray-200 text-left text-gray-500">
-          <th class="py-2">Cliente</th>
-          <th class="py-2">Estado</th>
-          <th class="py-2">Total</th>
-          <th class="py-2">Fecha</th>
-          <th class="py-2">Acciones</th>
+        <tr style="border-bottom:2px solid #E0D5C5;">
+          <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Cliente</th>
+          <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Estado</th>
+          <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Total</th>
+          <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Fecha</th>
+          <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Acciones</th>
         </tr>
       </thead>
       <tbody>
         @for (order of orders(); track order.id) {
-          <tr class="border-b border-gray-100">
+          <tr style="border-bottom:1px solid #F0E6D6;">
             @if (editingOrder()?.id === order.id) {
-              <td class="py-2"><input type="text" [(ngModel)]="editingOrder()!.customerName" class="w-full px-2 py-1 border rounded text-sm" /></td>
-              <td class="py-2">
-                <select [(ngModel)]="editingOrder()!.status" class="px-2 py-1 border rounded text-sm">
+              <td style="padding:10px 8px;"><input type="text" [(ngModel)]="editingOrder()!.customerName" style="width:100%; padding:8px; border:1px solid #E0D5C5; border-radius:4px; font-size:13px; box-sizing:border-box;" /></td>
+              <td style="padding:10px 8px;">
+                <select [(ngModel)]="editingOrder()!.status" style="padding:8px; border:1px solid #E0D5C5; border-radius:4px; font-size:13px;">
                   <option value="PENDIENTE">Pendiente</option>
                   <option value="EN_PROCESO">En Proceso</option>
                   <option value="COMPLETADO">Completado</option>
                   <option value="CANCELADO">Cancelado</option>
                 </select>
               </td>
-              <td class="py-2"><input type="number" [(ngModel)]="editingOrder()!.totalAmount" step="0.01" class="w-20 px-2 py-1 border rounded text-sm" /></td>
-              <td class="py-2 text-gray-400">{{ order.createdAt | date:'short' }}</td>
-              <td class="py-2">
-                <button (click)="updateOrder(editingOrder()!)" class="text-green-600 hover:text-green-800 mr-2">Guardar</button>
-                <button (click)="editingOrder.set(null)" class="text-gray-500 hover:text-gray-700">Cancelar</button>
+              <td style="padding:10px 8px;"><input type="number" [(ngModel)]="editingOrder()!.totalAmount" step="0.01" style="width:90px; padding:8px; border:1px solid #E0D5C5; border-radius:4px; font-size:13px;" /></td>
+              <td style="padding:10px 8px; color:#BCAAA4; font-size:12px;">{{ order.createdAt | date:'short' }}</td>
+              <td style="padding:10px 8px;">
+                <button (click)="updateOrder(editingOrder()!)" style="color:#22C55E; background:none; border:none; cursor:pointer; font-size:12px; font-weight:600; margin-right:8px;">Guardar</button>
+                <button (click)="editingOrder.set(null)" style="color:#8B7355; background:none; border:none; cursor:pointer; font-size:12px;">Cancelar</button>
               </td>
             } @else {
-              <td class="py-2 font-medium">{{ order.customerName }}</td>
-              <td class="py-2"><span class="px-2 py-0.5 rounded-full text-xs font-medium" [class]="getStatusColor(order.status)">{{ order.status }}</span></td>
-              <td class="py-2">{{ order.totalAmount | currency:'EUR' }}</td>
-              <td class="py-2 text-gray-400">{{ order.createdAt | date:'short' }}</td>
-              <td class="py-2">
-                <button (click)="editingOrder.set({...order})" class="text-blue-600 hover:text-blue-800 mr-2">Editar</button>
-                <button (click)="deleteOrder(order.id!)" class="text-red-600 hover:text-red-800">Eliminar</button>
+              <td style="padding:10px 8px; font-weight:600; color:#3E2723;">{{ order.customerName }}</td>
+              <td style="padding:10px 8px;">
+                <span [style.background]="getStatusBg(order.status)" [style.color]="getStatusTextColor(order.status)"
+                      style="padding:4px 12px; border-radius:20px; font-size:11px; font-weight:600; display:inline-block;">
+                  {{ order.status }}
+                </span>
+              </td>
+              <td style="padding:10px 8px; color:#8B7355;">{{ order.totalAmount | currency:'EUR' }}</td>
+              <td style="padding:10px 8px; color:#BCAAA4; font-size:12px;">{{ order.createdAt | date:'short' }}</td>
+              <td style="padding:10px 8px;">
+                <button (click)="editingOrder.set({...order})" style="padding:4px 10px; border:1px solid #E0D5C5; border-radius:4px; background:white; color:#2563EB; font-size:11px; font-weight:600; cursor:pointer; margin-right:6px;">Editar</button>
+                <button (click)="deleteOrder(order.id!)" style="padding:4px 10px; border:1px solid #FECACA; border-radius:4px; background:white; color:#DC2626; font-size:11px; font-weight:600; cursor:pointer;">Eliminar</button>
               </td>
             }
           </tr>
@@ -83,4 +99,11 @@
       </tbody>
     </table>
   </div>
+
+  @if (orders().length === 0) {
+    <div style="text-align:center; padding:40px; color:#8B7355;">
+      <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>
+      <p style="font-size:13px;">No hay pedidos registrados</p>
+    </div>
+  }
 </div>

@@ -1,73 +1,80 @@
-<div class="bg-white rounded-xl shadow-md p-6">
-  <h2 class="text-xl font-bold text-amber-900 mb-6">Inventario y Recetas</h2>
+<div style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:32px; font-family:'Lato',Arial,sans-serif;">
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:28px;">
+    <div style="width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,#C8A96E,#B8954A); display:flex; align-items:center; justify-content:center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    </div>
+    <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:20px; font-weight:700; color:#3E2723;">Inventario y Recetas</h2>
+  </div>
 
-  <div class="flex gap-2 mb-6">
+  <!-- Tabs -->
+  <div style="display:flex; gap:8px; margin-bottom:28px;">
     <button (click)="activeTab.set('ingredients')"
-            [class.bg-amber-600]="activeTab() === 'ingredients'"
-            [class.text-white]="activeTab() === 'ingredients'"
-            [class.bg-gray-100]="activeTab() !== 'ingredients'"
-            [class.text-gray-600]="activeTab() !== 'ingredients'"
-            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+            [style.background]="activeTab() === 'ingredients' ? '#3E2723' : '#F0E6D6'"
+            [style.color]="activeTab() === 'ingredients' ? '#FAF6F1' : '#8B7355'"
+            style="padding:10px 20px; border:none; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;">
       Ingredientes
     </button>
     <button (click)="activeTab.set('recipes')"
-            [class.bg-amber-600]="activeTab() === 'recipes'"
-            [class.text-white]="activeTab() === 'recipes'"
-            [class.bg-gray-100]="activeTab() !== 'recipes'"
-            [class.text-gray-600]="activeTab() !== 'recipes'"
-            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+            [style.background]="activeTab() === 'recipes' ? '#3E2723' : '#F0E6D6'"
+            [style.color]="activeTab() === 'recipes' ? '#FAF6F1' : '#8B7355'"
+            style="padding:10px 20px; border:none; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;">
       Recetas
     </button>
   </div>
 
   @if (activeTab() === 'ingredients') {
-    <div>
-      <div class="flex gap-2 mb-4">
-        <input type="text" [(ngModel)]="newIngredient.name" placeholder="Nombre"
-               class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
-        <input type="number" [(ngModel)]="newIngredient.stockQuantity" placeholder="Cantidad" step="0.01"
-               class="w-24 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
-        <select [(ngModel)]="newIngredient.unit"
-                class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
-          <option value="kg">kg</option>
-          <option value="g">g</option>
-          <option value="l">l</option>
-          <option value="ml">ml</option>
-          <option value="u">u</option>
-        </select>
-        <button (click)="addIngredient()"
-                class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
-          + Anadir
-        </button>
-      </div>
+    <!-- Add ingredient form -->
+    <div style="display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap;">
+      <input type="text" [(ngModel)]="newIngredient.name" placeholder="Nombre del ingrediente"
+             style="flex:1; min-width:150px; padding:10px 14px; border:2px solid #E0D5C5; border-radius:8px; font-size:13px; outline:none; font-family:'Lato',Arial,sans-serif; color:#3E2723;"
+             onfocus="this.style.borderColor='#C8A96E'" onblur="this.style.borderColor='#E0D5C5'" />
+      <input type="number" [(ngModel)]="newIngredient.stockQuantity" placeholder="Cantidad" step="0.01"
+             style="width:100px; padding:10px 14px; border:2px solid #E0D5C5; border-radius:8px; font-size:13px; outline:none; font-family:'Lato',Arial,sans-serif; color:#3E2723;"
+             onfocus="this.style.borderColor='#C8A96E'" onblur="this.style.borderColor='#E0D5C5'" />
+      <select [(ngModel)]="newIngredient.unit"
+              style="padding:10px 14px; border:2px solid #E0D5C5; border-radius:8px; font-size:13px; outline:none; font-family:'Lato',Arial,sans-serif; color:#3E2723; background:white;">
+        <option value="kg">kg</option>
+        <option value="g">g</option>
+        <option value="l">l</option>
+        <option value="ml">ml</option>
+        <option value="u">u</option>
+      </select>
+      <button (click)="addIngredient()"
+              style="padding:10px 20px; border:none; border-radius:8px; background:#22C55E; color:white; font-size:12px; font-weight:700; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;"
+              onmouseover="this.style.background='#16A34A'" onmouseout="this.style.background='#22C55E'">
+        + Anadir
+      </button>
+    </div>
 
-      <table class="w-full text-sm">
+    <!-- Ingredients table -->
+    <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:13px;">
         <thead>
-          <tr class="border-b border-gray-200 text-left text-gray-500">
-            <th class="py-2">Nombre</th>
-            <th class="py-2">Cantidad</th>
-            <th class="py-2">Unidad</th>
-            <th class="py-2">Acciones</th>
+          <tr style="border-bottom:2px solid #E0D5C5;">
+            <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Nombre</th>
+            <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Cantidad</th>
+            <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Unidad</th>
+            <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Acciones</th>
           </tr>
         </thead>
         <tbody>
           @for (item of ingredients(); track item.id) {
-            <tr class="border-b border-gray-100">
+            <tr style="border-bottom:1px solid #F0E6D6;">
               @if (editingIngredient()?.id === item.id) {
-                <td class="py-2"><input type="text" [(ngModel)]="editingIngredient()!.name" class="w-full px-2 py-1 border rounded text-sm" /></td>
-                <td class="py-2"><input type="number" [(ngModel)]="editingIngredient()!.stockQuantity" step="0.01" class="w-20 px-2 py-1 border rounded text-sm" /></td>
-                <td class="py-2"><input type="text" [(ngModel)]="editingIngredient()!.unit" class="w-16 px-2 py-1 border rounded text-sm" /></td>
-                <td class="py-2">
-                  <button (click)="updateIngredient(editingIngredient()!)" class="text-green-600 hover:text-green-800 mr-2">Guardar</button>
-                  <button (click)="editingIngredient.set(null)" class="text-gray-500 hover:text-gray-700">Cancelar</button>
+                <td style="padding:10px 8px;"><input type="text" [(ngModel)]="editingIngredient()!.name" style="width:100%; padding:8px; border:1px solid #E0D5C5; border-radius:4px; font-size:13px; box-sizing:border-box;" /></td>
+                <td style="padding:10px 8px;"><input type="number" [(ngModel)]="editingIngredient()!.stockQuantity" step="0.01" style="width:80px; padding:8px; border:1px solid #E0D5C5; border-radius:4px; font-size:13px;" /></td>
+                <td style="padding:10px 8px;"><input type="text" [(ngModel)]="editingIngredient()!.unit" style="width:60px; padding:8px; border:1px solid #E0D5C5; border-radius:4px; font-size:13px;" /></td>
+                <td style="padding:10px 8px;">
+                  <button (click)="updateIngredient(editingIngredient()!)" style="color:#22C55E; background:none; border:none; cursor:pointer; font-size:12px; font-weight:600; margin-right:8px;">Guardar</button>
+                  <button (click)="editingIngredient.set(null)" style="color:#8B7355; background:none; border:none; cursor:pointer; font-size:12px;">Cancelar</button>
                 </td>
               } @else {
-                <td class="py-2 font-medium">{{ item.name }}</td>
-                <td class="py-2">{{ item.stockQuantity }}</td>
-                <td class="py-2">{{ item.unit }}</td>
-                <td class="py-2">
-                  <button (click)="editingIngredient.set({...item})" class="text-blue-600 hover:text-blue-800 mr-2">Editar</button>
-                  <button (click)="deleteIngredient(item.id!)" class="text-red-600 hover:text-red-800">Eliminar</button>
+                <td style="padding:10px 8px; font-weight:600; color:#3E2723;">{{ item.name }}</td>
+                <td style="padding:10px 8px; color:#8B7355;">{{ item.stockQuantity }}</td>
+                <td style="padding:10px 8px; color:#8B7355;">{{ item.unit }}</td>
+                <td style="padding:10px 8px;">
+                  <button (click)="editingIngredient.set({...item})" style="color:#2563EB; background:none; border:none; cursor:pointer; font-size:12px; font-weight:600; margin-right:8px;">Editar</button>
+                  <button (click)="deleteIngredient(item.id!)" style="color:#DC2626; background:none; border:none; cursor:pointer; font-size:12px; font-weight:600;">Eliminar</button>
                 </td>
               }
             </tr>
@@ -75,38 +82,60 @@
         </tbody>
       </table>
     </div>
+
+    @if (ingredients().length === 0) {
+      <div style="text-align:center; padding:40px; color:#8B7355;">
+        <div style="font-size:36px; margin-bottom:8px;">&#128230;</div>
+        <p style="font-size:13px;">No hay ingredientes registrados</p>
+      </div>
+    }
   }
 
   @if (activeTab() === 'recipes') {
-    <div>
-      <div class="flex gap-2 mb-4">
-        <input type="text" [(ngModel)]="newRecipe.name" placeholder="Nombre de la receta"
-               class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
-        <button (click)="addRecipe()"
-                class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
-          + Anadir
-        </button>
-      </div>
-
-      <div class="space-y-3">
-        @for (recipe of recipes(); track recipe.id) {
-          <div class="border border-gray-200 rounded-lg p-4">
-            @if (editingRecipe()?.id === recipe.id) {
-              <input type="text" [(ngModel)]="editingRecipe()!.name" class="w-full px-2 py-1 border rounded text-sm mb-2 font-bold" />
-              <textarea [(ngModel)]="editingRecipe()!.instructions" rows="3" class="w-full px-2 py-1 border rounded text-sm mb-2"></textarea>
-              <button (click)="updateRecipe(editingRecipe()!)" class="text-green-600 hover:text-green-800 text-sm mr-2">Guardar</button>
-              <button (click)="editingRecipe.set(null)" class="text-gray-500 hover:text-gray-700 text-sm">Cancelar</button>
-            } @else {
-              <h3 class="font-bold text-amber-900 mb-1">{{ recipe.name }}</h3>
-              <p class="text-gray-600 text-sm whitespace-pre-line">{{ recipe.instructions }}</p>
-              <div class="mt-2">
-                <button (click)="editingRecipe.set({...recipe})" class="text-blue-600 hover:text-blue-800 text-sm mr-2">Editar</button>
-                <button (click)="deleteRecipe(recipe.id!)" class="text-red-600 hover:text-red-800 text-sm">Eliminar</button>
-              </div>
-            }
-          </div>
-        }
-      </div>
+    <!-- Add recipe form -->
+    <div style="display:flex; gap:8px; margin-bottom:24px;">
+      <input type="text" [(ngModel)]="newRecipe.name" placeholder="Nombre de la receta"
+             style="flex:1; padding:10px 14px; border:2px solid #E0D5C5; border-radius:8px; font-size:13px; outline:none; font-family:'Lato',Arial,sans-serif; color:#3E2723;"
+             onfocus="this.style.borderColor='#C8A96E'" onblur="this.style.borderColor='#E0D5C5'" />
+      <button (click)="addRecipe()"
+              style="padding:10px 20px; border:none; border-radius:8px; background:#22C55E; color:white; font-size:12px; font-weight:700; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;"
+              onmouseover="this.style.background='#16A34A'" onmouseout="this.style.background='#22C55E'">
+        + Anadir
+      </button>
     </div>
+
+    <!-- Recipes list -->
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      @for (recipe of recipes(); track recipe.id) {
+        <div style="border:1px solid #E0D5C5; border-radius:12px; padding:20px; transition:box-shadow 0.3s;"
+             onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.05)'"
+             onmouseout="this.style.boxShadow='none'">
+          @if (editingRecipe()?.id === recipe.id) {
+            <input type="text" [(ngModel)]="editingRecipe()!.name" style="width:100%; padding:10px; border:1px solid #E0D5C5; border-radius:6px; font-size:14px; font-weight:700; color:#3E2723; margin-bottom:8px; box-sizing:border-box;" />
+            <textarea [(ngModel)]="editingRecipe()!.instructions" rows="3" style="width:100%; padding:10px; border:1px solid #E0D5C5; border-radius:6px; font-size:13px; color:#8B7355; resize:vertical; margin-bottom:8px; box-sizing:border-box;"></textarea>
+            <div style="display:flex; gap:8px;">
+              <button (click)="updateRecipe(editingRecipe()!)" style="padding:8px 16px; border:none; border-radius:6px; background:#22C55E; color:white; font-size:12px; font-weight:600; cursor:pointer;">Guardar</button>
+              <button (click)="editingRecipe.set(null)" style="padding:8px 16px; border:none; border-radius:6px; background:#F0E6D6; color:#8B7355; font-size:12px; font-weight:600; cursor:pointer;">Cancelar</button>
+            </div>
+          } @else {
+            <h3 style="font-family:'Playfair Display',Georgia,serif; font-size:16px; font-weight:700; color:#3E2723; margin-bottom:6px;">{{ recipe.name }}</h3>
+            <p style="font-size:13px; color:#8B7355; line-height:1.7; white-space:pre-line; margin-bottom:12px;">{{ recipe.instructions }}</p>
+            <div style="display:flex; gap:8px;">
+              <button (click)="editingRecipe.set({...recipe})" style="padding:6px 14px; border:1px solid #E0D5C5; border-radius:6px; background:white; color:#2563EB; font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s;"
+                      onmouseover="this.style.background='#EFF6FF'" onmouseout="this.style.background='white'">Editar</button>
+              <button (click)="deleteRecipe(recipe.id!)" style="padding:6px 14px; border:1px solid #FECACA; border-radius:6px; background:white; color:#DC2626; font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s;"
+                      onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background='white'">Eliminar</button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    @if (recipes().length === 0) {
+      <div style="text-align:center; padding:40px; color:#8B7355;">
+        <div style="font-size:36px; margin-bottom:8px;">&#128221;</div>
+        <p style="font-size:13px;">No hay recetas registradas</p>
+      </div>
+    }
   }
 </div>

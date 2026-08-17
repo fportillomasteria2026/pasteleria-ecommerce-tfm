@@ -1,0 +1,52 @@
+<!-- Chat Toggle Button -->
+<div class="chat-toggle" (click)="toggle()">
+  @if (!isOpen()) {
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  } @else {
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  }
+</div>
+
+<!-- Chat Window -->
+@if (isOpen()) {
+  <div class="chat-window">
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar">B</div>
+        <div>
+          <div class="chat-name">Belieta</div>
+          <div class="chat-status">Asistente Virtual</div>
+        </div>
+      </div>
+      <button class="chat-close" (click)="toggle()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-messages">
+      @for (msg of messages(); track $index) {
+        <div class="chat-msg" [class.user]="msg.isUser" [class.bot]="!msg.isUser">
+          <div class="chat-bubble">{{ msg.text }}</div>
+          <div class="chat-time">{{ msg.time }}</div>
+        </div>
+      }
+      @if (isLoading()) {
+        <div class="chat-msg bot">
+          <div class="chat-bubble typing">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input-wrap">
+      <input type="text" [(ngModel)]="userInput" (keyup.enter)="send()" placeholder="Escribe tu pregunta..." class="chat-input" />
+      <button class="chat-send" (click)="send()" [disabled]="!userInput.trim() || isLoading()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+}

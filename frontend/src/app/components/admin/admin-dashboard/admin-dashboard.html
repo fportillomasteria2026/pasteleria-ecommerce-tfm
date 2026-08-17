@@ -1,39 +1,119 @@
-<div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold text-amber-900 mb-6">Panel de Administracion</h1>
+<div style="display:flex; min-height:calc(100vh - 130px); font-family:'Lato',Arial,sans-serif;">
+  <!-- Sidebar -->
+  <div style="width:260px; background:white; border-right:1px solid #E0D5C5; padding:32px 0; flex-shrink:0;">
+    <!-- User info -->
+    <div style="padding:0 24px 24px; border-bottom:1px solid #F0E6D6; margin-bottom:16px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#C8A96E,#B8954A); display:flex; align-items:center; justify-content:center; font-size:16px; color:white; font-weight:700;">A</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:#3E2723;">Administrador</div>
+          <div style="font-size:11px; color:#8B7355;">Panel de control</div>
+        </div>
+      </div>
+    </div>
 
-  <div class="flex gap-6">
-    <nav class="w-56 bg-white rounded-xl shadow-md p-4 h-fit">
-      <ul class="space-y-1">
-        <li>
-          <a routerLink="/admin/products/upload" routerLinkActive="bg-amber-100 text-amber-900 font-semibold"
-             class="block px-4 py-2 rounded-lg hover:bg-amber-50 transition-colors text-sm">
-            Subir Producto
-          </a>
-        </li>
-        <li>
-          <a routerLink="/admin/inventory" routerLinkActive="bg-amber-100 text-amber-900 font-semibold"
-             class="block px-4 py-2 rounded-lg hover:bg-amber-50 transition-colors text-sm">
-            Inventario y Recetas
-          </a>
-        </li>
-        <li>
-          <a routerLink="/admin/orders" routerLinkActive="bg-amber-100 text-amber-900 font-semibold"
-             class="block px-4 py-2 rounded-lg hover:bg-amber-50 transition-colors text-sm">
-            Pedidos
-          </a>
-        </li>
-      </ul>
+    <!-- Nav links -->
+    <nav style="padding:0 12px;">
+      <a routerLink="/admin/dashboard" routerLinkActive="active-link"
+         style="display:flex; align-items:center; gap:12px; padding:12px 16px; border-radius:8px; color:#8B7355; text-decoration:none; font-size:13px; font-weight:500; transition:all 0.2s; margin-bottom:4px;"
+         onmouseover="this.style.background='#F0E6D6'; this.style.color='#3E2723'"
+         onmouseout="if(!this.classList.contains('active-link')){this.style.background='transparent'; this.style.color='#8B7355'}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a routerLink="/admin/products/upload" routerLinkActive="active-link"
+         style="display:flex; align-items:center; gap:12px; padding:12px 16px; border-radius:8px; color:#8B7355; text-decoration:none; font-size:13px; font-weight:500; transition:all 0.2s; margin-bottom:4px;"
+         onmouseover="this.style.background='#F0E6D6'; this.style.color='#3E2723'"
+         onmouseout="if(!this.classList.contains('active-link')){this.style.background='transparent'; this.style.color='#8B7355'}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Subir Producto (IA)
+      </a>
+      <a routerLink="/admin/ingredients" routerLinkActive="active-link"
+         style="display:flex; align-items:center; gap:12px; padding:12px 16px; border-radius:8px; color:#8B7355; text-decoration:none; font-size:13px; font-weight:500; transition:all 0.2s; margin-bottom:4px;"
+         onmouseover="this.style.background='#F0E6D6'; this.style.color='#3E2723'"
+         onmouseout="if(!this.classList.contains('active-link')){this.style.background='transparent'; this.style.color='#8B7355'}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Ingredientes
+      </a>
+      <a routerLink="/admin/recipes" routerLinkActive="active-link"
+         style="display:flex; align-items:center; gap:12px; padding:12px 16px; border-radius:8px; color:#8B7355; text-decoration:none; font-size:13px; font-weight:500; transition:all 0.2s; margin-bottom:4px;"
+         onmouseover="this.style.background='#F0E6D6'; this.style.color='#3E2723'"
+         onmouseout="if(!this.classList.contains('active-link')){this.style.background='transparent'; this.style.color='#8B7355'}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Recetas
+      </a>
+      <a routerLink="/admin/orders" routerLinkActive="active-link"
+         style="display:flex; align-items:center; gap:12px; padding:12px 16px; border-radius:8px; color:#8B7355; text-decoration:none; font-size:13px; font-weight:500; transition:all 0.2s; margin-bottom:4px;"
+         onmouseover="this.style.background='#F0E6D6'; this.style.color='#3E2723'"
+         onmouseout="if(!this.classList.contains('active-link')){this.style.background='transparent'; this.style.color='#8B7355'}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Pedidos
+      </a>
     </nav>
 
-    <div class="flex-1">
-      <router-outlet />
-      @if (!showChildRoute()) {
-        <div class="bg-white rounded-xl shadow-md p-8 text-center">
-          <div class="text-5xl mb-4">🍰</div>
-          <h2 class="text-xl font-semibold text-amber-900 mb-2">Bienvenido al Panel de Administracion</h2>
-          <p class="text-gray-500 text-sm">Selecciona una opcion del menu lateral para empezar</p>
-        </div>
-      }
+    <!-- Logout -->
+    <div style="padding:16px 12px 0; margin-top:16px; border-top:1px solid #F0E6D6;">
+      <a routerLink="/" style="display:flex; align-items:center; gap:12px; padding:12px 16px; border-radius:8px; color:#8B7355; text-decoration:none; font-size:13px; transition:all 0.2s;"
+         onmouseover="this.style.background='#FEF2F2'; this.style.color='#B91C1C'"
+         onmouseout="this.style.background='transparent'; this.style.color='#8B7355'">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Volver al sitio
+      </a>
     </div>
   </div>
+
+  <!-- Main content -->
+  <div style="flex:1; padding:32px; background:#FAF6F1;">
+    <router-outlet />
+    @if (!showChildRoute()) {
+      <div style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:48px; text-align:center;">
+        <div style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,#F0E6D6,#E0D5C5); display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 20px;">&#127856;</div>
+        <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:24px; font-weight:700; color:#3E2723; margin-bottom:8px;">Bienvenido al Panel</h2>
+        <p style="font-size:14px; color:#8B7355; max-width:400px; margin:0 auto;">Selecciona una opcion del menu lateral para empezar a gestionar tu pasteleria.</p>
+
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:32px; max-width:800px; margin-left:auto; margin-right:auto;">
+          <a routerLink="/admin/products/upload" style="padding:20px 16px; background:#FAF6F1; border-radius:12px; text-decoration:none; transition:all 0.3s;"
+             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="font-size:28px; margin-bottom:8px;">&#128247;</div>
+            <div style="font-size:12px; font-weight:600; color:#3E2723;">Subir Producto</div>
+            <div style="font-size:10px; color:#8B7355; margin-top:2px;">Con IA</div>
+          </a>
+          <a routerLink="/admin/ingredients" style="padding:20px 16px; background:#FAF6F1; border-radius:12px; text-decoration:none; transition:all 0.3s;"
+             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="font-size:28px; margin-bottom:8px;">&#128230;</div>
+            <div style="font-size:12px; font-weight:600; color:#3E2723;">Ingredientes</div>
+            <div style="font-size:10px; color:#8B7355; margin-top:2px;">Stock</div>
+          </a>
+          <a routerLink="/admin/recipes" style="padding:20px 16px; background:#FAF6F1; border-radius:12px; text-decoration:none; transition:all 0.3s;"
+             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="font-size:28px; margin-bottom:8px;">&#128221;</div>
+            <div style="font-size:12px; font-weight:600; color:#3E2723;">Recetas</div>
+            <div style="font-size:10px; color:#8B7355; margin-top:2px;">Formulas</div>
+          </a>
+          <a routerLink="/admin/orders" style="padding:20px 16px; background:#FAF6F1; border-radius:12px; text-decoration:none; transition:all 0.3s;"
+             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="font-size:28px; margin-bottom:8px;">&#128196;</div>
+            <div style="font-size:12px; font-weight:600; color:#3E2723;">Pedidos</div>
+            <div style="font-size:10px; color:#8B7355; margin-top:2px;">Gestion</div>
+          </a>
+        </div>
+      </div>
+    }
+  </div>
 </div>
+
+<style>
+.active-link {
+  background: #3E2723 !important;
+  color: #FAF6F1 !important;
+  font-weight: 600 !important;
+}
+.active-link:hover {
+  background: #3E2723 !important;
+  color: #FAF6F1 !important;
+}
+</style>

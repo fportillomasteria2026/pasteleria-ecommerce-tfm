@@ -1,0 +1,111 @@
+<div style="font-family:'Lato',Arial,sans-serif;">
+  <!-- Header -->
+  <div style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:16px 24px; margin-bottom:12px; display:flex; align-items:center; gap:12px;">
+    <div style="width:36px; height:36px; border-radius:8px; background:linear-gradient(135deg,#C8A96E,#B8954A); display:flex; align-items:center; justify-content:center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    </div>
+    <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:18px; font-weight:700; color:#3E2723;">Materia Prima del Obrador</h2>
+  </div>
+
+  <!-- CRUD Form -->
+  <div style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:20px 24px; margin-bottom:12px;">
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
+      <div style="width:8px; height:8px; border-radius:50%;" [style.background]="isNewItem() ? '#22C55E' : '#C8A96E'"></div>
+      <h3 style="font-size:14px; font-weight:700; color:#3E2723;">{{ isNewItem() ? 'Nueva Materia Prima' : 'Editar: ' + formItem.nombre }}</h3>
+    </div>
+
+    <div style="display:flex; gap:12px; margin-bottom:12px;">
+      <div style="flex:1.5;">
+        <label style="display:block; font-size:10px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:4px;">Nombre *</label>
+        <input type="text" [(ngModel)]="formItem.nombre" placeholder="Ej: Harina de Fuerza" style="width:100%; padding:8px 12px; border:1px solid #E0D5C5; border-radius:6px; font-size:12px; box-sizing:border-box;" />
+      </div>
+      <div style="flex:1;">
+        <label style="display:block; font-size:10px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:4px;">Marca</label>
+        <input type="text" [(ngModel)]="formItem.marca" placeholder="Marca" style="width:100%; padding:8px 12px; border:1px solid #E0D5C5; border-radius:6px; font-size:12px; box-sizing:border-box;" />
+      </div>
+      <div style="flex:1;">
+        <label style="display:block; font-size:10px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:4px;">Proveedor</label>
+        <input type="text" [(ngModel)]="formItem.proveedor" placeholder="Proveedor" style="width:100%; padding:8px 12px; border:1px solid #E0D5C5; border-radius:6px; font-size:12px; box-sizing:border-box;" />
+      </div>
+    </div>
+
+    <div style="display:flex; gap:12px; margin-bottom:14px;">
+      <div style="flex:0.6;">
+        <label style="display:block; font-size:10px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:4px;">Formato</label>
+        <input type="text" [(ngModel)]="formItem.formato" placeholder="Saco, Barra..." style="width:100%; padding:8px 12px; border:1px solid #E0D5C5; border-radius:6px; font-size:12px; box-sizing:border-box;" />
+      </div>
+      <div style="flex:0.5;">
+        <label style="display:block; font-size:10px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:4px;">Peso</label>
+        <input type="number" [(ngModel)]="formItem.peso" step="0.001" style="width:100%; padding:8px 12px; border:1px solid #E0D5C5; border-radius:6px; font-size:12px; box-sizing:border-box;" />
+      </div>
+      <div style="flex:0.5;">
+        <label style="display:block; font-size:10px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:4px;">Unidad</label>
+        <select [(ngModel)]="formItem.unidad" style="width:100%; padding:8px 12px; border:1px solid #E0D5C5; border-radius:6px; font-size:12px; box-sizing:border-box;">
+          @for (u of unidades; track u) { <option [value]="u">{{ u }}</option> }
+        </select>
+      </div>
+      <div style="flex:0.5;">
+        <label style="display:block; font-size:10px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:4px;">Cantidad</label>
+        <input type="number" [(ngModel)]="formItem.cantidad" step="0.001" style="width:100%; padding:8px 12px; border:1px solid #E0D5C5; border-radius:6px; font-size:12px; box-sizing:border-box;" />
+      </div>
+      <div style="flex:0.6;">
+        <label style="display:block; font-size:10px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:4px;">Coste (EUR)</label>
+        <input type="number" [(ngModel)]="formItem.coste" step="0.01" style="width:100%; padding:8px 12px; border:1px solid #E0D5C5; border-radius:6px; font-size:12px; box-sizing:border-box;" />
+      </div>
+    </div>
+
+    <div style="display:flex; gap:8px; padding-top:12px; border-top:1px solid #F0E6D6;">
+      <button (click)="saveItem()" style="padding:10px 28px; border:none; border-radius:6px; background:#22C55E; color:white; font-size:12px; font-weight:700; cursor:pointer;">
+        {{ isNewItem() ? 'Crear' : 'Guardar' }}
+      </button>
+      @if (!isNewItem()) {
+        <button (click)="deleteItem(formItem.id!)" style="padding:10px 18px; border:1px solid #FECACA; border-radius:6px; background:white; color:#DC2626; font-size:12px; font-weight:700; cursor:pointer;">Eliminar</button>
+      }
+      <button (click)="newItem()" style="padding:10px 18px; border:1px solid #E0D5C5; border-radius:6px; background:white; color:#8B7355; font-size:12px; font-weight:700; cursor:pointer;">Limpiar</button>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:20px 24px;">
+    <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:12px;">
+        <thead>
+          <tr style="border-bottom:2px solid #E0D5C5;">
+            <th style="text-align:left; padding:10px 8px; color:#8B7355; font-size:10px; text-transform:uppercase;">Nombre</th>
+            <th style="text-align:left; padding:10px 8px; color:#8B7355; font-size:10px; text-transform:uppercase;">Marca</th>
+            <th style="text-align:left; padding:10px 8px; color:#8B7355; font-size:10px; text-transform:uppercase;">Proveedor</th>
+            <th style="text-align:left; padding:10px 8px; color:#8B7355; font-size:10px; text-transform:uppercase;">Formato</th>
+            <th style="text-align:right; padding:10px 8px; color:#8B7355; font-size:10px; text-transform:uppercase;">Peso</th>
+            <th style="text-align:left; padding:10px 8px; color:#8B7355; font-size:10px; text-transform:uppercase;">Unidad</th>
+            <th style="text-align:right; padding:10px 8px; color:#8B7355; font-size:10px; text-transform:uppercase;">Cantidad</th>
+            <th style="text-align:right; padding:10px 8px; color:#8B7355; font-size:10px; text-transform:uppercase;">Coste</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of items(); track item.id) {
+            <tr style="border-bottom:1px solid #F0E6D6; cursor:pointer; transition:background 0.2s;"
+                [style.background]="formItem.id === item.id ? '#FEF3C7' : 'transparent'"
+                (click)="selectItem(item)"
+                onmouseover="if(this.style.backgroundColor!=='rgb(254, 243, 199)')this.style.background='#F5F0EB'"
+                onmouseout="if(this.style.backgroundColor!=='rgb(254, 243, 199)')this.style.background='transparent'">
+              <td style="padding:10px 8px; font-weight:600; color:#3E2723;">{{ item.nombre }}</td>
+              <td style="padding:10px 8px; color:#8B7355;">{{ item.marca || '-' }}</td>
+              <td style="padding:10px 8px; color:#8B7355;">{{ item.proveedor || '-' }}</td>
+              <td style="padding:10px 8px; color:#8B7355;">{{ item.formato || '-' }}</td>
+              <td style="padding:10px 8px; text-align:right; color:#8B7355;">{{ item.peso || '-' }}</td>
+              <td style="padding:10px 8px; color:#8B7355;">{{ item.unidad || '-' }}</td>
+              <td style="padding:10px 8px; text-align:right; color:#8B7355;">{{ item.cantidad || '-' }}</td>
+              <td style="padding:10px 8px; text-align:right; font-weight:600; color:#C8A96E;">{{ item.coste ? item.coste.toFixed(2) + ' EUR' : '-' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (items().length === 0 && !loading()) {
+      <div style="text-align:center; padding:30px; color:#8B7355;">
+        <p style="font-size:13px;">No hay materias primas registradas</p>
+      </div>
+    }
+  </div>
+</div>

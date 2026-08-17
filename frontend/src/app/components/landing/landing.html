@@ -1,49 +1,213 @@
-<div class="bg-gradient-to-b from-amber-100 to-amber-50">
-  <section class="container mx-auto px-4 py-20 text-center">
-    <h1 class="text-5xl font-bold text-amber-900 mb-4">Pasteleria Dulce Arte</h1>
-    <p class="text-xl text-amber-700 mb-8 max-w-2xl mx-auto">
-      Descubre nuestras creaciones artesanales. Cada pastel cuenta una historia, cada bocado un momento inolvidable.
-    </p>
-    <a routerLink="/gallery" class="inline-block bg-amber-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-amber-700 transition-colors shadow-md">
-      Ver Galeria
-    </a>
-  </section>
-
-  <section class="container mx-auto px-4 py-16">
-    <h2 class="text-3xl font-bold text-amber-900 text-center mb-10">Nuestros Productos Destacados</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-        <div class="h-48 bg-amber-200 flex items-center justify-center text-amber-600 text-5xl">🎂</div>
-        <div class="p-6">
-          <h3 class="font-bold text-lg text-amber-900 mb-2">Tartas Personalizadas</h3>
-          <p class="text-gray-600 text-sm">Diseños unicos para bodas, cumpleanos y ocasiones especiales.</p>
-        </div>
-      </div>
-      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-        <div class="h-48 bg-pink-200 flex items-center justify-center text-pink-600 text-5xl">🧁</div>
-        <div class="p-6">
-          <h3 class="font-bold text-lg text-amber-900 mb-2">Pasteleria Fina</h3>
-          <p class="text-gray-600 text-sm">Croissants, macarons, y delicias de la reposteria francesa.</p>
-        </div>
-      </div>
-      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-        <div class="h-48 bg-green-200 flex items-center justify-center text-green-600 text-5xl">🍰</div>
-        <div class="p-6">
-          <h3 class="font-bold text-lg text-amber-900 mb-2">Postres Clasicos</h3>
-          <p class="text-gray-600 text-sm">Tiramisu, cheesecake y los clasicos de siempre con un toque especial.</p>
-        </div>
-      </div>
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <a href="tel:34744601861" class="topbar-item">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        744 60 18 61
+      </a>
+      <span class="topbar-item hide-mobile">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        C/ La Torre, 31 - Alhaurin de la Torre
+      </span>
     </div>
-  </section>
-
-  <section class="bg-amber-800 text-white py-16">
-    <div class="container mx-auto px-4 text-center">
-      <h2 class="text-3xl font-bold mb-4">Haz tu pedido</h2>
-      <p class="text-amber-200 mb-6">Contactanos por WhatsApp y cuentanos que necesitas</p>
-      <div class="text-4xl mb-2">+34 600 000 000</div>
-      <p class="text-amber-300 text-sm">Entrega en 24-48h en Madrid Centro</p>
+    <div class="topbar-right hide-mobile">
+      <span class="topbar-item">
+        <span class="dot-open"></span>
+        Lun-Sab 9:00-20:00
+      </span>
     </div>
-  </section>
+  </div>
 </div>
 
+<!-- Navbar -->
+<div class="navbar">
+  <div class="navbar-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">&#127856;</div>
+      <div class="logo-text">
+        <span class="logo-name">Belieta</span>
+        <span class="logo-sub">Pasteleria Artesanal</span>
+      </div>
+    </a>
+    <div class="nav-links hide-mobile">
+      <a href="/">Inicio</a>
+      <a href="/quienes-somos">Quienes Somos</a>
+      <a href="/gallery">Galeria</a>
+      <a href="/admin/login" class="nav-cta">Acceder</a>
+    </div>
+    <button class="mobile-toggle" (click)="menuOpen = !menuOpen">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        @if (!menuOpen) {
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        } @else {
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        }
+      </svg>
+    </button>
+  </div>
+  @if (menuOpen) {
+    <div class="mobile-menu">
+      <a href="/">Inicio</a>
+      <a href="/quienes-somos">Quienes Somos</a>
+      <a href="/gallery">Galeria</a>
+      <a href="/admin/login">Acceder</a>
+    </div>
+  }
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span>Pasteleria Artesanal</span>
+    </div>
+    <h1 class="hero-title">
+      El dulce sabor<br>
+      <em>de la tradicion</em>
+    </h1>
+    <p class="hero-sub">
+      Creaciones artesanales con ingredientes de primera calidad. Cada pastel cuenta una historia, cada bocado un momento inolvidable.
+    </p>
+    <div class="hero-btns">
+      <a href="/gallery" class="btn-primary">Ver Galeria</a>
+      <a href="#productos" class="btn-outline">Nuestros Productos</a>
+    </div>
+  </div>
+  <div class="hero-curve">
+    <svg viewBox="0 0 1440 120" fill="none" style="width:100%;height:auto;"><path d="M0 120L60 108C120 96 240 72 360 66C480 60 600 72 720 78C840 84 960 84 1080 78C1200 72 1320 60 1380 54L1440 48V120H0Z" fill="#FAF6F1"/></svg>
+  </div>
+</div>
+
+<!-- PRODUCTOS -->
+<div id="productos" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Nuestras Especialidades</span>
+      <h2 class="section-title">Productos <em>Destacados</em></h2>
+      <div class="title-line"></div>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-img" style="background:linear-gradient(135deg,#D7CCC8,#BCAAA4);">
+          <svg width="80" height="80" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" fill="#8D6E63" opacity="0.3"/><path d="M30 65 C30 45 40 35 50 35 C60 35 70 45 70 65" fill="#A1887F"/><ellipse cx="50" cy="65" rx="22" ry="6" fill="#6D4C41"/><circle cx="42" cy="50" r="4" fill="#FFAB91"/><circle cx="55" cy="47" r="3" fill="#FFAB91"/><circle cx="48" cy="55" r="3.5" fill="#FFAB91"/></svg>
+          <span class="product-badge" style="background:#C8A96E;color:#3E2723;">Estrella</span>
+        </div>
+        <div class="product-info">
+          <h3>Tartas Personalizadas</h3>
+          <p>Disenos unicos para bodas, cumpleanos y ocasiones especiales.</p>
+          <a href="/gallery" class="link-arrow">Ver mas &rarr;</a>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img" style="background:linear-gradient(135deg,#FFCCBC,#FF8A65);">
+          <svg width="80" height="80" viewBox="0 0 100 100" fill="none"><rect x="25" y="40" width="50" height="30" rx="4" fill="#FFAB91"/><rect x="30" y="35" width="40" height="8" rx="2" fill="#FF8A65"/><circle cx="38" cy="55" r="5" fill="#FFE0B2"/><circle cx="52" cy="52" r="4" fill="#FFE0B2"/><circle cx="60" cy="58" r="3" fill="#FFE0B2"/></svg>
+          <span class="product-badge" style="background:#FF7043;color:white;">Nuevo</span>
+        </div>
+        <div class="product-info">
+          <h3>Pasteleria Fina</h3>
+          <p>Croissants, macarons y delicias de la reposteria francesa.</p>
+          <a href="/gallery" class="link-arrow">Ver mas &rarr;</a>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img" style="background:linear-gradient(135deg,#C8E6C9,#81C784);">
+          <svg width="80" height="80" viewBox="0 0 100 100" fill="none"><ellipse cx="50" cy="60" rx="28" ry="18" fill="#66BB6A"/><ellipse cx="50" cy="55" rx="25" ry="14" fill="#A5D6A7"/><circle cx="42" cy="52" r="3" fill="#EF5350"/><circle cx="55" cy="50" r="2.5" fill="#EF5350"/><circle cx="48" cy="58" r="2" fill="#EF5350"/><rect x="46" y="35" width="8" height="20" rx="2" fill="#8D6E63"/></svg>
+          <span class="product-badge" style="background:#4CAF50;color:white;">Clasico</span>
+        </div>
+        <div class="product-info">
+          <h3>Postres Clasicos</h3>
+          <p>Tiramisu, cheesecake y los clasicos de siempre con toque especial.</p>
+          <a href="/gallery" class="link-arrow">Ver mas &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOBRE NOSOTROS -->
+<div class="section section-beige">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <div class="about-img">
+          <svg width="160" height="160" viewBox="0 0 200 200" fill="none"><circle cx="100" cy="100" r="90" fill="#A1887F" opacity="0.5"/><path d="M60 140 C60 100 80 80 100 80 C120 80 140 100 140 140" fill="#8D6E63"/><ellipse cx="100" cy="140" rx="42" ry="12" fill="#6D4C41"/><circle cx="85" cy="105" r="8" fill="#FFAB91"/><circle cx="112" cy="100" r="6" fill="#FFAB91"/><circle cx="95" cy="118" r="7" fill="#FFAB91"/></svg>
+        </div>
+        <div class="about-img-decor"></div>
+      </div>
+      <div>
+        <span class="eyebrow">Nuestra Historia</span>
+        <h2 class="section-title">Tradicion y <em>Pasion</em></h2>
+        <p class="text-body">Desde hace mas de dos decadas, en <strong>Belieta</strong> dedicamos nuestra vida a crear momentos dulces e inolvidables. Cada pieza lleva el sello de la artesania y el carino de quien ama lo que hace.</p>
+        <p class="text-body">Utilizamos ingredientes de primera calidad y recetas tradicionales perfeccionadas con el toque innovador que nos caracteriza.</p>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-num">20+</div><div class="stat-label">Anos</div></div>
+          <div class="stat-card"><div class="stat-num">5k+</div><div class="stat-label">Clientes</div></div>
+          <div class="stat-card"><div class="stat-num">100%</div><div class="stat-label">Artesanal</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-decor"></div>
+  <div class="cta-decor-2"></div>
+  <div class="container cta-content">
+    <span class="eyebrow" style="color:#C8A96E;">Contacto</span>
+    <h2 class="section-title" style="color:white;">Haz tu <em>Pedido</em></h2>
+    <p class="text-body" style="color:rgba(255,255,255,0.65);">Contactanos y cuentanos que necesitas. Estamos aqui para hacer realidad tus antojos dulces.</p>
+    <div class="cta-btns">
+      <a href="https://wa.me/34744601861" target="_blank" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a href="tel:34744601861" class="btn-outline-white">Llamar</a>
+    </div>
+    <p style="margin-top:32px;font-size:13px;color:rgba(255,255,255,0.4);">Entrega a domicilio en Alhaurin de la Torre</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="logo-icon-sm">&#127856;</div>
+          <span class="footer-brand-name">Belieta</span>
+        </div>
+        <p class="text-sm-muted">Pasteleria artesanal en Alhaurin de la Torre.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Enlaces</h4>
+        <div class="footer-links">
+          <a href="/">Inicio</a>
+          <a href="/quienes-somos">Quienes Somos</a>
+          <a href="/gallery">Galeria</a>
+          <a href="/admin/login">Area Privada</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-heading">Contacto</h4>
+        <div class="footer-contact">
+          <span>744 60 18 61</span>
+          <span>C/ La Torre, 31</span>
+          <span>29130 Alhaurin de la Torre</span>
+          <span>Lun-Sab 9:00-20:00</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Belieta Pasteleria Artesanal.</p>
+      <p>Trabajo de Fin de Master en IA</p>
+    </div>
+  </div>
+</footer>
+
 <app-whatsapp-widget />
+<app-chat-widget />

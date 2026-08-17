@@ -21,12 +21,25 @@ export interface Ingredient {
   name: string;
   stockQuantity: number;
   unit: string;
+  category?: string;
 }
 
 export interface Recipe {
   id?: number;
   name: string;
   instructions: string;
+}
+
+export interface MateriaPrima {
+  id?: number;
+  nombre: string;
+  marca?: string;
+  proveedor?: string;
+  coste?: number;
+  formato?: string;
+  peso?: number;
+  unidad?: string;
+  cantidad?: number;
 }
 
 export interface Order {
@@ -115,5 +128,26 @@ export class ApiService {
 
   deleteOrder(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/admin/orders/${id}`);
+  }
+
+  // Materia Prima
+  getMateriaPrima(): Observable<MateriaPrima[]> {
+    return this.http.get<MateriaPrima[]>(`${this.baseUrl}/admin/materia-prima`);
+  }
+
+  getMateriaPrimaByCategoria(categoria: string): Observable<MateriaPrima[]> {
+    return this.http.get<MateriaPrima[]>(`${this.baseUrl}/admin/materia-prima/categoria/${categoria}`);
+  }
+
+  createMateriaPrima(item: MateriaPrima): Observable<MateriaPrima> {
+    return this.http.post<MateriaPrima>(`${this.baseUrl}/admin/materia-prima`, item);
+  }
+
+  updateMateriaPrima(id: number, item: MateriaPrima): Observable<MateriaPrima> {
+    return this.http.put<MateriaPrima>(`${this.baseUrl}/admin/materia-prima/${id}`, item);
+  }
+
+  deleteMateriaPrima(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/admin/materia-prima/${id}`);
   }
 }

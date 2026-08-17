@@ -1,53 +1,118 @@
-<div class="container mx-auto px-4 py-10">
-  <h1 class="text-3xl font-bold text-amber-900 mb-8">Galeria de Productos</h1>
-
-  <div class="mb-8 flex gap-3">
-    <input
-      type="text"
-      [(ngModel)]="searchQuery"
-      (keyup.enter)="search()"
-      placeholder="Buscar por titulo o #hashtag..."
-      class="flex-1 px-4 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm"
-    />
-    <button (click)="search()"
-            class="bg-amber-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-amber-700 transition-colors">
-      Buscar
-    </button>
+<div class="g-page">
+  <!-- Header -->
+  <div class="g-header">
+    <div class="g-header-inner">
+      <a href="/" class="g-back">&larr; Volver al inicio</a>
+      <div class="g-header-content">
+        <span class="g-eyebrow">Nuestras Creaciones</span>
+        <h1 class="g-title">Galeria de <em>Productos</em></h1>
+        <p class="g-subtitle">Usa el buscador por hashtags para encontrar exactamente lo que buscas.</p>
+        <div class="g-line"></div>
+      </div>
+    </div>
   </div>
 
-  @if (loading()) {
-    <div class="text-center text-amber-600 py-12">Cargando productos...</div>
-  }
-
-  @if (!loading() && products().length === 0) {
-    <div class="text-center text-gray-500 py-12">
-      <p class="text-lg mb-2">No se encontraron productos</p>
-      <p class="text-sm">Prueba con otros terminos de busqueda</p>
+  <!-- Buscador -->
+  <div class="g-search-wrap">
+    <div class="g-search">
+      <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="search()" placeholder="Buscar por titulo o #hashtag..." class="g-input" />
+      <button (click)="search()" class="g-btn-search">Buscar</button>
     </div>
-  }
+  </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    @for (product of products(); track product.id) {
-      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-        <img [src]="'http://localhost:8080' + product.imageUrl"
-             [alt]="product.title || 'Producto'"
-             class="w-full h-48 object-cover"
-             onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23fde68a%22 width=%22200%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2248%22>🍰</text></svg>'"/>
-        <div class="p-4">
-          <h3 class="font-bold text-amber-900 mb-1">{{ product.title || 'Sin titulo' }}</h3>
-          @if (product.description) {
-            <p class="text-gray-600 text-sm mb-2 line-clamp-2">{{ product.description }}</p>
-          }
-          <div class="flex flex-wrap gap-1 mt-2">
-            @for (tag of product.hashtags; track tag) {
-              <button (click)="filterByTag(tag)"
-                      class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full hover:bg-amber-200 transition-colors cursor-pointer">
-                {{ tag }}
-              </button>
-            }
-          </div>
-        </div>
+  <!-- Grid -->
+  <div class="g-grid-wrap">
+    @if (loading()) {
+      <div class="g-loading">
+        <div class="g-spinner"></div>
+        <p>Cargando productos...</p>
       </div>
     }
+
+    @if (!loading() && products().length === 0) {
+      <div class="g-empty">
+        <div style="font-size:48px;margin-bottom:12px;">&#127856;</div>
+        <h3>No se encontraron productos</h3>
+        <p>Prueba con otros terminos de busqueda</p>
+      </div>
+    }
+
+    <div class="g-grid">
+      @for (product of products(); track product.id) {
+        <div class="g-card">
+          <div class="g-card-img">
+            <img [src]="'http://localhost:8080' + product.imageUrl" [alt]="product.title || 'Producto'" onerror="this.style.display='none'" />
+            <div class="g-card-placeholder">&#127856;</div>
+          </div>
+          <div class="g-card-body">
+            <h3>{{ product.title || 'Sin titulo' }}</h3>
+            @if (product.description) {
+              <p>{{ product.description }}</p>
+            }
+            <div class="g-tags">
+              @for (tag of product.hashtags; track tag) {
+                <button (click)="filterByTag(tag)" class="g-tag">{{ tag }}</button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
   </div>
 </div>
+
+<app-whatsapp-widget />
+<app-chat-widget />
+
+<style>
+.g-page { background: #FAF6F1; min-height: 100vh; font-family: 'Lato', Arial, sans-serif; }
+
+/* Header */
+.g-header { padding: 60px 0 40px; background: #F0E6D6; }
+.g-header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.g-back { display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; border-radius: 50px; border: 1px solid #BCAAA4; color: #8B7355; font-size: 12px; font-weight: 600; text-decoration: none; margin-bottom: 32px; transition: all 0.3s; }
+.g-back:hover { border-color: #C8A96E; color: #3E2723; }
+.g-header-content { text-align: center; }
+.g-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: #C8A96E; margin-bottom: 16px; }
+.g-title { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(28px, 5vw, 48px); font-weight: 700; color: #3E2723; margin-bottom: 12px; }
+.g-title em { font-style: italic; color: #C8A96E; font-weight: 400; }
+.g-subtitle { font-size: 15px; color: #8B7355; }
+.g-line { width: 80px; height: 4px; margin: 24px auto 0; background: linear-gradient(90deg, #C8A96E, #B8954A); border-radius: 2px; }
+
+/* Search */
+.g-search-wrap { max-width: 700px; margin: 0 auto; padding: 32px 24px 0; }
+.g-search { display: flex; gap: 12px; }
+.g-input { flex: 1; padding: 14px 24px; border: 2px solid #E0D5C5; border-radius: 50px; font-size: 14px; outline: none; font-family: 'Lato', Arial, sans-serif; color: #3E2723; background: white; }
+.g-input:focus { border-color: #C8A96E; }
+.g-btn-search { padding: 14px 28px; border-radius: 50px; background: #C8A96E; color: #3E2723; border: none; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; font-family: 'Lato', Arial, sans-serif; white-space: nowrap; }
+
+/* Grid */
+.g-grid-wrap { max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; }
+.g-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
+.g-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: transform 0.3s, box-shadow 0.3s; }
+.g-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+.g-card-img { height: 220px; background: linear-gradient(135deg, #D7CCC8, #BCAAA4); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+.g-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.g-card-placeholder { font-size: 48px; position: absolute; }
+.g-card-body { padding: 20px; }
+.g-card-body h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 17px; font-weight: 700; color: #3E2723; margin-bottom: 6px; }
+.g-card-body p { font-size: 13px; color: #8B7355; line-height: 1.6; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.g-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.g-tag { padding: 4px 12px; border-radius: 20px; background: #F0E6D6; color: #3E2723; font-size: 11px; font-weight: 600; border: none; cursor: pointer; font-family: 'Lato', Arial, sans-serif; transition: background 0.2s; }
+.g-tag:hover { background: #C8A96E; }
+
+/* Loading / Empty */
+.g-loading, .g-empty { text-align: center; padding: 60px 0; color: #8B7355; }
+.g-spinner { display: inline-block; width: 40px; height: 40px; border: 3px solid #E0D5C5; border-top-color: #C8A96E; border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.g-empty h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #3E2723; margin-bottom: 8px; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  .g-header { padding: 40px 0 28px; }
+  .g-search { flex-direction: column; }
+  .g-btn-search { width: 100%; }
+  .g-grid { grid-template-columns: 1fr; }
+  .g-card-img { height: 200px; }
+}
+</style>
