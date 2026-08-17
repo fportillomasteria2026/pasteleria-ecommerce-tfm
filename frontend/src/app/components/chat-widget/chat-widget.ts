@@ -42,7 +42,7 @@ export class ChatWidget {
         this.isLoading.set(false);
       },
       error: () => {
-        this.messages.update(m => [...m, { text: 'Disculpa, ha habido un error. Intentalo de nuevo.', isUser: false, time: this.getTime() }]);
+        this.messages.update(m => [...m, { text: 'Disculpa, ha habido un error. Inténtalo de nuevo.', isUser: false, time: this.getTime() }]);
         this.isLoading.set(false);
       }
     });

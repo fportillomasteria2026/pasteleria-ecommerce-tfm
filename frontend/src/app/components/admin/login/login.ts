@@ -40,7 +40,7 @@ export class Login {
       },
       error: () => {
         this.loading.set(false);
-        this.errorMessage.set('Usuario o contrasena incorrectos');
+        this.errorMessage.set('Usuario o contraseña incorrectos');
       }
     });
   }

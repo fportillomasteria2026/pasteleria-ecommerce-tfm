@@ -50,7 +50,7 @@ export class ProductUpload {
         this.uploading.set(false);
       },
       error: () => {
-        this.errorMessage.set('Error al subir la imagen. Intentalo de nuevo.');
+        this.errorMessage.set('Error al subir la imagen. Inténtalo de nuevo.');
         this.uploading.set(false);
       }
     });

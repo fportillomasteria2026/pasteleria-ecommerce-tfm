@@ -12,7 +12,7 @@
             [style.background]="activeTab() === 'ingredients' ? '#3E2723' : '#F0E6D6'"
             [style.color]="activeTab() === 'ingredients' ? '#FAF6F1' : '#8B7355'"
             style="padding:10px 20px; border:none; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;">
-      Ingredientes
+      Materia Prima
     </button>
     <button (click)="activeTab.set('recipes')"
             [style.background]="activeTab() === 'recipes' ? '#3E2723' : '#F0E6D6'"
@@ -86,7 +86,7 @@
     @if (ingredients().length === 0) {
       <div style="text-align:center; padding:40px; color:#8B7355;">
         <div style="font-size:36px; margin-bottom:8px;">&#128230;</div>
-        <p style="font-size:13px;">No hay ingredientes registrados</p>
+        <p style="font-size:13px;">No hay materias primas registradas</p>
       </div>
     }
   }
