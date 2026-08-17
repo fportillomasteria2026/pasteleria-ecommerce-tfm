@@ -8,6 +8,7 @@ import { ProductUpload } from './components/admin/product-upload/product-upload'
 import { Ingredients } from './components/admin/ingredients/ingredients';
 import { Recipes } from './components/admin/recipes/recipes';
 import { Orders } from './components/admin/orders/orders';
+import { Tartas } from './components/admin/tartas/tartas';
 import { adminGuard } from './guards/admin-guard';
 
 export const routes: Routes = [
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'admin/login', component: Login },
   { path: 'admin/dashboard', component: AdminDashboard, canActivate: [adminGuard] },
   { path: 'admin/products/upload', component: ProductUpload, canActivate: [adminGuard] },
+  { path: 'admin/tartas', component: Tartas, canActivate: [adminGuard] },
   { path: 'admin/ingredients', component: Ingredients, canActivate: [adminGuard] },
   { path: 'admin/recipes', component: Recipes, canActivate: [adminGuard] },
   { path: 'admin/orders', component: Orders, canActivate: [adminGuard] },

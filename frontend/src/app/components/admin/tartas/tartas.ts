@@ -1,0 +1,120 @@
+import { Component, OnInit, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
+interface Tarta {
+  id?: number;
+  sku?: string;
+  nombre: string;
+  descripcion?: string;
+  imagenUrl?: string;
+  tamano: string;
+  pisos: number;
+  forma: string;
+  dimensiones?: string;
+  saborBizcocho?: string;
+  frutas?: string;
+  tipoCrema?: string;
+  tipoPersonalizacion?: string;
+  precioPublico: number;
+  coste?: number;
+  disponible: boolean;
+  activo?: boolean;
+  notas?: string;
+}
+
+@Component({
+  selector: 'app-tartas',
+  imports: [FormsModule],
+  templateUrl: './tartas.html',
+  styleUrl: './tartas.css',
+})
+export class Tartas implements OnInit {
+  items = signal<Tarta[]>([]);
+  loading = signal(true);
+  isNewItem = signal(false);
+  formItem: Tarta = this.getEmptyItem();
+  searchQuery = '';
+
+  tamanos = ['XS', 'S', 'M', 'L', 'XL'];
+  formas = ['Cilindrica', 'Cuadrada', 'Rectangular'];
+  sabores = ['Chocolate', 'Vainilla', 'Red Velvet', 'Fresa', 'Zanahoria', 'Limón', 'Nuez', 'Coco', 'Otro'];
+  cremas = ['Buttercream', 'Ganache', 'Crema Chantilly', 'Mousse', 'Glaceau', 'Relleno de Fruta', 'Otro'];
+  personalizaciones = ['Papeleria', 'Papel de Azucar', 'Mezcla', 'Sin Personalizacion'];
+
+  private apiUrl = 'https://belieta-backend.onrender.com/api/admin/tartas';
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.loadItems();
+  }
+
+  loadItems(): void {
+    this.loading.set(true);
+    this.http.get<Tarta[]>(this.apiUrl).subscribe({
+      next: (data) => { this.items.set(data); this.loading.set(false); },
+      error: () => { this.items.set([]); this.loading.set(false); }
+    });
+  }
+
+  getEmptyItem(): Tarta {
+    return {
+      nombre: '',
+      descripcion: '',
+      tamano: 'M',
+      pisos: 2,
+      forma: 'Cilindrica',
+      dimensiones: '',
+      saborBizcocho: '',
+      frutas: '',
+      tipoCrema: '',
+      tipoPersonalizacion: 'Sin Personalizacion',
+      precioPublico: 0,
+      coste: 0,
+      disponible: true,
+      notas: ''
+    };
+  }
+
+  newItem(): void {
+    this.formItem = this.getEmptyItem();
+    this.isNewItem.set(true);
+  }
+
+  selectItem(item: Tarta): void {
+    this.formItem = { ...item };
+    this.isNewItem.set(false);
+  }
+
+  saveItem(): void {
+    if (!this.formItem.nombre) return;
+    if (this.isNewItem()) {
+      this.http.post<Tarta>(this.apiUrl, this.formItem).subscribe({
+        next: () => { this.loadItems(); this.newItem(); }
+      });
+    } else {
+      if (!this.formItem.id) return;
+      this.http.put<Tarta>(`${this.apiUrl}/${this.formItem.id}`, this.formItem).subscribe({
+        next: () => { this.loadItems(); this.newItem(); }
+      });
+    }
+  }
+
+  deleteItem(id: number): void {
+    this.http.delete(`${this.apiUrl}/${id}`).subscribe({
+      next: () => { this.loadItems(); this.newItem(); }
+    });
+  }
+
+  search(): void {
+    if (!this.searchQuery.trim()) {
+      this.loadItems();
+      return;
+    }
+    this.http.get<Tarta[]>(`${this.apiUrl}/search?q=${this.searchQuery}`).subscribe({
+      next: (data) => { this.items.set(data); this.loading.set(false); },
+      error: () => { this.loading.set(false); }
+    });
+  }
+}
