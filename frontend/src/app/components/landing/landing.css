@@ -40,7 +40,7 @@
 .mobile-menu a { display: block; padding: 12px 0; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #3E2723; text-decoration: none; border-bottom: 1px solid #F0E6D6; }
 
 /* === HERO === */
-.hero { position: relative; height: 70vh; min-height: 400px; display: flex; align-items: flex-end; overflow: hidden; font-family: 'Lato', Arial, sans-serif; }
+.hero { position: relative; height: 80vh; min-height: 420px; display: flex; align-items: flex-end; overflow: hidden; font-family: 'Lato', Arial, sans-serif; }
 .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #3E2723 0%, #5D4037 40%, #8D6E63 70%, #A1887F 100%); }
 .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1)); }
 .hero-content { position: relative; z-index: 2; padding: 0 48px 80px; max-width: 750px; }
