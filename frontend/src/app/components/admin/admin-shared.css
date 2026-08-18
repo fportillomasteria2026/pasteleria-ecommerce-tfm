@@ -1,0 +1,68 @@
+:host { display: block; }
+
+/* === BUTTONS === */
+.btn-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border: 1px solid #E0D5C5; border-radius: 50px;
+  color: #8B7355; font-size: 12px; font-weight: 600; text-decoration: none;
+  margin-bottom: 12px; transition: all 0.3s;
+}
+.btn-back:hover { border-color: #C8A96E; color: #3E2723; }
+.btn-green { padding: 8px 16px; border: none; border-radius: 6px; background: #22C55E; color: white; font-size: 11px; font-weight: 700; cursor: pointer; }
+.btn-red { padding: 8px 14px; border: 1px solid #FECACA; border-radius: 6px; background: white; color: #DC2626; font-size: 11px; font-weight: 700; cursor: pointer; }
+.btn-gray { padding: 8px 14px; border: 1px solid #E0D5C5; border-radius: 6px; background: white; color: #8B7355; font-size: 11px; font-weight: 700; cursor: pointer; }
+.btn-blue { padding: 4px 10px; border: 1px solid #E0D5C5; border-radius: 4px; background: white; color: #2563EB; font-size: 10px; font-weight: 600; cursor: pointer; }
+.btn-red-outline { padding: 4px 10px; border: 1px solid #FECACA; border-radius: 4px; background: white; color: #DC2626; font-size: 10px; font-weight: 600; cursor: pointer; }
+.btn-xs { padding: 3px 8px; font-size: 10px; }
+
+/* === CARD === */
+.card { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+.card-title { font-family: 'Playfair Display', Georgia, serif; font-size: 16px; font-weight: 700; color: #3E2723; }
+.icon-box { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #C8A96E, #B8954A); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+
+/* === FORM === */
+.form-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.form-dot { width: 8px; height: 8px; border-radius: 50%; }
+.form-title { font-size: 13px; font-weight: 700; color: #3E2723; }
+.form-row { display: flex; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; align-items: flex-end; }
+.form-row-bg { padding: 8px; background: #F9F6F1; border-radius: 6px; }
+.form-row-bg-green { padding: 8px; background: #F0F7F4; border-radius: 6px; }
+.form-row-bg-orange { padding: 8px; background: #FDF6F0; border-radius: 6px; }
+.form-actions { display: flex; gap: 6px; padding-top: 10px; border-top: 1px solid #F0E6D6; margin-top: 8px; }
+
+/* === FIELDS === */
+.field { display: flex; flex-direction: column; }
+.field label { font-size: 9px; font-weight: 700; color: #8B7355; text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.03em; }
+.field-xs { flex: 0 0 80px; min-width: 80px; }
+.field-sm { flex: 0 0 120px; min-width: 100px; }
+.field-md { flex: 1; min-width: 120px; }
+.field-lg { flex: 1.5; min-width: 150px; }
+.input { width: 100%; padding: 6px 8px; border: 1px solid #E0D5C5; border-radius: 4px; font-size: 11px; box-sizing: border-box; font-family: 'Lato', Arial, sans-serif; color: #3E2723; background: white; }
+.input:focus { border-color: #C8A96E; outline: none; }
+.input-sm { padding: 6px 10px; border: 1px solid #E0D5C5; border-radius: 6px; font-size: 11px; font-family: 'Lato', Arial, sans-serif; }
+.check { width: 14px; height: 14px; }
+.check-label { font-size: 11px; color: #8B7355; display: flex; align-items: center; gap: 4px; cursor: pointer; }
+
+/* === TABLE === */
+.table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.table th { text-align: left; padding: 8px 6px; color: #8B7355; font-size: 9px; text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 2px solid #E0D5C5; white-space: nowrap; }
+.table td { padding: 6px; border-bottom: 1px solid #F0E6D6; }
+.table tr { cursor: pointer; transition: background 0.15s; }
+.table tr:hover { background: #F5F0EB; }
+.row-selected { background: #FEF3C7 !important; }
+.cell-muted { color: #8B7355; font-size: 10px; }
+.cell-bold { font-weight: 600; color: #3E2723; }
+.cell-center { text-align: center; }
+.cell-right { text-align: right; }
+.cell-price { font-weight: 600; color: #C8A96E; }
+.badge { padding: 2px 8px; border-radius: 10px; background: #F0E6D6; color: #3E2723; font-size: 10px; font-weight: 600; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.empty-msg { text-align: center; padding: 30px; color: #8B7355; font-size: 12px; }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .form-row { flex-direction: column; }
+  .field-xs, .field-sm, .field-md, .field-lg { flex: 1; min-width: 100%; }
+  .table { font-size: 10px; }
+  .table th, .table td { padding: 6px 4px; }
+}

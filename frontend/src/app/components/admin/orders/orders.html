@@ -1,114 +1,66 @@
 <div style="font-family:'Lato',Arial,sans-serif;">
-  <!-- Back button -->
-  <a routerLink="/admin/dashboard" style="display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border:1px solid #E0D5C5; border-radius:50px; color:#8B7355; font-size:12px; font-weight:600; text-decoration:none; margin-bottom:16px; transition:all 0.3s;" onmouseover="this.style.borderColor='#C8A96E'; this.style.color='#3E2723'" onmouseout="this.style.borderColor='#E0D5C5'; this.style.color='#8B7355'">
-    &larr; Volver al Dashboard
-  </a>
-  <div style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:32px;">
-  <div style="display:flex; align-items:center; gap:12px; margin-bottom:28px;">
-    <div style="width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,#C8A96E,#B8954A); display:flex; align-items:center; justify-content:center;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+  <a routerLink="/admin/dashboard" class="btn-back">&larr; Volver al Dashboard</a>
+
+  <!-- Header -->
+  <div class="card" style="padding:16px 20px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div class="icon-box">&#128196;</div>
+      <h2 class="card-title">Gestion de Pedidos</h2>
     </div>
-    <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:20px; font-weight:700; color:#3E2723;">Gestion de Pedidos</h2>
+    <button (click)="newItem()" class="btn-green">+ Nuevo</button>
   </div>
 
-  <!-- Status filters -->
-  <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
-    <button (click)="statusFilter.set(''); loadOrders()"
-            [style.background]="!statusFilter() ? '#3E2723' : '#F0E6D6'"
-            [style.color]="!statusFilter() ? '#FAF6F1' : '#8B7355'"
-            style="padding:8px 16px; border:none; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;">Todos</button>
-    <button (click)="statusFilter.set('PENDIENTE'); loadOrders()"
-            [style.background]="statusFilter() === 'PENDIENTE' ? '#EAB308' : '#F0E6D6'"
-            [style.color]="statusFilter() === 'PENDIENTE' ? 'white' : '#8B7355'"
-            style="padding:8px 16px; border:none; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;">Pendientes</button>
-    <button (click)="statusFilter.set('EN_PROCESO'); loadOrders()"
-            [style.background]="statusFilter() === 'EN_PROCESO' ? '#3B82F6' : '#F0E6D6'"
-            [style.color]="statusFilter() === 'EN_PROCESO' ? 'white' : '#8B7355'"
-            style="padding:8px 16px; border:none; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;">En Proceso</button>
-    <button (click)="statusFilter.set('COMPLETADO'); loadOrders()"
-            [style.background]="statusFilter() === 'COMPLETADO' ? '#22C55E' : '#F0E6D6'"
-            [style.color]="statusFilter() === 'COMPLETADO' ? 'white' : '#8B7355'"
-            style="padding:8px 16px; border:none; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;">Completados</button>
+  <!-- Filtros -->
+  <div style="display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap;">
+    <button (click)="statusFilter.set(''); loadOrders()" class="filter-btn" [class.filter-active]="!statusFilter()">Todos</button>
+    <button (click)="statusFilter.set('PENDIENTE'); loadOrders()" class="filter-btn" [class.filter-yellow]="statusFilter() === 'PENDIENTE'">Pendientes</button>
+    <button (click)="statusFilter.set('EN_PROCESO'); loadOrders()" class="filter-btn" [class.filter-blue]="statusFilter() === 'EN_PROCESO'">En Proceso</button>
+    <button (click)="statusFilter.set('COMPLETADO'); loadOrders()" class="filter-btn" [class.filter-green]="statusFilter() === 'COMPLETADO'">Completados</button>
   </div>
 
-  <!-- Add order form -->
-  <div style="display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap;">
-    <input type="text" [(ngModel)]="newOrder.customerName" placeholder="Nombre del cliente"
-           style="flex:1; min-width:150px; padding:10px 14px; border:2px solid #E0D5C5; border-radius:8px; font-size:13px; outline:none; font-family:'Lato',Arial,sans-serif; color:#3E2723;"
-           onfocus="this.style.borderColor='#C8A96E'" onblur="this.style.borderColor='#E0D5C5'" />
-    <input type="number" [(ngModel)]="newOrder.totalAmount" placeholder="Total" step="0.01"
-           style="width:100px; padding:10px 14px; border:2px solid #E0D5C5; border-radius:8px; font-size:13px; outline:none; font-family:'Lato',Arial,sans-serif; color:#3E2723;"
-           onfocus="this.style.borderColor='#C8A96E'" onblur="this.style.borderColor='#E0D5C5'" />
-    <select [(ngModel)]="newOrder.status"
-            style="padding:10px 14px; border:2px solid #E0D5C5; border-radius:8px; font-size:13px; outline:none; font-family:'Lato',Arial,sans-serif; color:#3E2723; background:white;">
-      <option value="PENDIENTE">Pendiente</option>
-      <option value="EN_PROCESO">En Proceso</option>
-      <option value="COMPLETADO">Completado</option>
-      <option value="CANCELADO">Cancelado</option>
-    </select>
-    <button (click)="addOrder()"
-            style="padding:10px 20px; border:none; border-radius:8px; background:#22C55E; color:white; font-size:12px; font-weight:700; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;"
-            onmouseover="this.style.background='#16A34A'" onmouseout="this.style.background='#22C55E'">
-      + Nuevo
-    </button>
-  </div>
-
-  <!-- Orders table -->
-  <div style="overflow-x:auto;">
-    <table style="width:100%; border-collapse:collapse; font-size:13px;">
-      <thead>
-        <tr style="border-bottom:2px solid #E0D5C5;">
-          <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Cliente</th>
-          <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Estado</th>
-          <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Total</th>
-          <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Fecha</th>
-          <th style="text-align:left; padding:12px 8px; color:#8B7355; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (order of orders(); track order.id) {
-          <tr style="border-bottom:1px solid #F0E6D6;">
-            @if (editingOrder()?.id === order.id) {
-              <td style="padding:10px 8px;"><input type="text" [(ngModel)]="editingOrder()!.customerName" style="width:100%; padding:8px; border:1px solid #E0D5C5; border-radius:4px; font-size:13px; box-sizing:border-box;" /></td>
-              <td style="padding:10px 8px;">
-                <select [(ngModel)]="editingOrder()!.status" style="padding:8px; border:1px solid #E0D5C5; border-radius:4px; font-size:13px;">
-                  <option value="PENDIENTE">Pendiente</option>
-                  <option value="EN_PROCESO">En Proceso</option>
-                  <option value="COMPLETADO">Completado</option>
-                  <option value="CANCELADO">Cancelado</option>
-                </select>
-              </td>
-              <td style="padding:10px 8px;"><input type="number" [(ngModel)]="editingOrder()!.totalAmount" step="0.01" style="width:90px; padding:8px; border:1px solid #E0D5C5; border-radius:4px; font-size:13px;" /></td>
-              <td style="padding:10px 8px; color:#BCAAA4; font-size:12px;">{{ order.createdAt | date:'short' }}</td>
-              <td style="padding:10px 8px;">
-                <button (click)="updateOrder(editingOrder()!)" style="color:#22C55E; background:none; border:none; cursor:pointer; font-size:12px; font-weight:600; margin-right:8px;">Guardar</button>
-                <button (click)="editingOrder.set(null)" style="color:#8B7355; background:none; border:none; cursor:pointer; font-size:12px;">Cancelar</button>
-              </td>
-            } @else {
-              <td style="padding:10px 8px; font-weight:600; color:#3E2723;">{{ order.customerName }}</td>
-              <td style="padding:10px 8px;">
-                <span [style.background]="getStatusBg(order.status)" [style.color]="getStatusTextColor(order.status)"
-                      style="padding:4px 12px; border-radius:20px; font-size:11px; font-weight:600; display:inline-block;">
-                  {{ order.status }}
-                </span>
-              </td>
-              <td style="padding:10px 8px; color:#8B7355;">{{ order.totalAmount | currency:'EUR' }}</td>
-              <td style="padding:10px 8px; color:#BCAAA4; font-size:12px;">{{ order.createdAt | date:'short' }}</td>
-              <td style="padding:10px 8px;">
-                <button (click)="editingOrder.set({...order})" style="padding:4px 10px; border:1px solid #E0D5C5; border-radius:4px; background:white; color:#2563EB; font-size:11px; font-weight:600; cursor:pointer; margin-right:6px;">Editar</button>
-                <button (click)="deleteOrder(order.id!)" style="padding:4px 10px; border:1px solid #FECACA; border-radius:4px; background:white; color:#DC2626; font-size:11px; font-weight:600; cursor:pointer;">Eliminar</button>
-              </td>
-            }
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-
-  @if (orders().length === 0) {
-    <div style="text-align:center; padding:40px; color:#8B7355;">
-      <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>
-      <p style="font-size:13px;">No hay pedidos registrados</p>
+  <!-- Formulario -->
+  <div class="card" style="padding:16px 20px; margin-bottom:12px;">
+    <div class="form-header">
+      <div class="form-dot" [style.background]="isNewItem() ? '#22C55E' : '#C8A96E'"></div>
+      <h3 class="form-title">{{ isNewItem() ? 'Nuevo Pedido' : 'Editar Pedido #' + formItem.id }}</h3>
     </div>
-  }
+
+    <div class="form-row">
+      <div class="field field-lg"><label>Cliente</label><input type="text" [(ngModel)]="formItem.customerName" placeholder="Nombre del cliente" class="input" /></div>
+      <div class="field field-sm"><label>Estado</label><select [(ngModel)]="formItem.status" class="input"><option value="PENDIENTE">Pendiente</option><option value="EN_PROCESO">En Proceso</option><option value="COMPLETADO">Completado</option><option value="CANCELADO">Cancelado</option></select></div>
+      <div class="field field-xs"><label>Total EUR</label><input type="number" [(ngModel)]="formItem.totalAmount" step="0.01" class="input" /></div>
+    </div>
+
+    <div class="form-actions">
+      <button (click)="saveItem()" class="btn-green">{{ isNewItem() ? 'Crear' : 'Guardar' }}</button>
+      @if (!isNewItem()) { <button (click)="deleteItem(formItem.id!)" class="btn-red">Eliminar</button> }
+      <button (click)="newItem()" class="btn-gray">Limpiar</button>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="card" style="padding:16px 20px;">
+    <div style="overflow-x:auto;">
+      <table class="table">
+        <thead>
+          <tr><th>Cliente</th><th>Estado</th><th style="text-align:right">Total</th><th>Fecha</th><th></th></tr>
+        </thead>
+        <tbody>
+          @for (order of items(); track order.id) {
+            <tr [class.row-selected]="formItem.id === order.id" (click)="selectItem(order)">
+              <td class="cell-bold">{{ order.customerName }}</td>
+              <td><span class="badge" [style.background]="getStatusBg(order.status)" [style.color]="getStatusColor(order.status)">{{ order.status }}</span></td>
+              <td class="cell-right cell-price">{{ order.totalAmount.toFixed(2) }} EUR</td>
+              <td class="cell-muted">{{ order.createdAt | date:'short' }}</td>
+              <td>
+                <button (click)="$event.stopPropagation(); selectItem(order)" class="btn-xs btn-blue">Editar</button>
+                <button (click)="$event.stopPropagation(); deleteItem(order.id!)" class="btn-xs btn-red-outline">Borrar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    @if (items().length === 0 && !loading()) { <p class="empty-msg">No hay pedidos registrados</p> }
+  </div>
 </div>

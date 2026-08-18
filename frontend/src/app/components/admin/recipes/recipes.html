@@ -1,63 +1,50 @@
 <div style="font-family:'Lato',Arial,sans-serif;">
-  <!-- Back button -->
-  <a routerLink="/admin/dashboard" style="display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border:1px solid #E0D5C5; border-radius:50px; color:#8B7355; font-size:12px; font-weight:600; text-decoration:none; margin-bottom:16px; transition:all 0.3s;" onmouseover="this.style.borderColor='#C8A96E'; this.style.color='#3E2723'" onmouseout="this.style.borderColor='#E0D5C5'; this.style.color='#8B7355'">
-    &larr; Volver al Dashboard
-  </a>
-  <div style="background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:32px;">
+  <a routerLink="/admin/dashboard" class="btn-back">&larr; Volver al Dashboard</a>
+
   <!-- Header -->
-  <div style="display:flex; align-items:center; gap:12px; margin-bottom:28px;">
-    <div style="width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,#C8A96E,#B8954A); display:flex; align-items:center; justify-content:center;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+  <div class="card" style="padding:16px 20px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div class="icon-box">&#128221;</div>
+      <h2 class="card-title">Gestion de Recetas</h2>
     </div>
-    <div>
-      <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:20px; font-weight:700; color:#3E2723;">Gestion de Recetas</h2>
-      <p style="font-size:12px; color:#8B7355;">Formulas y elaboraciones de la pasteleria</p>
+    <button (click)="newItem()" class="btn-green">+ Nueva</button>
+  </div>
+
+  <!-- Formulario -->
+  <div class="card" style="padding:16px 20px; margin-bottom:12px;">
+    <div class="form-header">
+      <div class="form-dot" [style.background]="isNewItem() ? '#22C55E' : '#C8A96E'"></div>
+      <h3 class="form-title">{{ isNewItem() ? 'Nueva Receta' : 'Editar: ' + formItem.name }}</h3>
+    </div>
+
+    <div class="form-row">
+      <div class="field field-lg"><label>Nombre *</label><input type="text" [(ngModel)]="formItem.name" placeholder="Nombre de la receta" class="input" /></div>
+    </div>
+    <div class="form-row">
+      <div class="field" style="flex:1;"><label>Instrucciones</label><textarea [(ngModel)]="formItem.instructions" rows="2" placeholder="Instrucciones de preparacion..." class="input" style="resize:vertical;"></textarea></div>
+    </div>
+
+    <div class="form-actions">
+      <button (click)="saveItem()" class="btn-green">{{ isNewItem() ? 'Crear' : 'Guardar' }}</button>
+      @if (!isNewItem()) { <button (click)="deleteItem(formItem.id!)" class="btn-red">Eliminar</button> }
+      <button (click)="newItem()" class="btn-gray">Limpiar</button>
     </div>
   </div>
 
-  <!-- Add form -->
-  <div style="display:flex; gap:8px; margin-bottom:24px;">
-    <input type="text" [(ngModel)]="newRecipe.name" placeholder="Nombre de la receta"
-           style="flex:1; padding:10px 14px; border:2px solid #E0D5C5; border-radius:8px; font-size:13px; outline:none; font-family:'Lato',Arial,sans-serif; color:#3E2723;"
-           onfocus="this.style.borderColor='#C8A96E'" onblur="this.style.borderColor='#E0D5C5'" />
-    <button (click)="addRecipe()"
-            style="padding:10px 20px; border:none; border-radius:8px; background:#22C55E; color:white; font-size:12px; font-weight:700; cursor:pointer; font-family:'Lato',Arial,sans-serif; transition:all 0.3s;"
-            onmouseover="this.style.background='#16A34A'" onmouseout="this.style.background='#22C55E'">
-      + Anadir
-    </button>
-  </div>
-
-  <!-- Recipes list -->
-  <div style="display:flex; flex-direction:column; gap:12px;">
-    @for (recipe of recipes(); track recipe.id) {
-      <div style="border:1px solid #E0D5C5; border-radius:12px; padding:20px; transition:box-shadow 0.3s;"
-           onmouseover="this.style.boxShadow='0 4px 15px rgba(0,0,0,0.05)'"
-           onmouseout="this.style.boxShadow='none'">
-        @if (editingRecipe()?.id === recipe.id) {
-          <input type="text" [(ngModel)]="editingRecipe()!.name" style="width:100%; padding:10px; border:1px solid #E0D5C5; border-radius:6px; font-size:14px; font-weight:700; color:#3E2723; margin-bottom:8px; box-sizing:border-box;" />
-          <textarea [(ngModel)]="editingRecipe()!.instructions" rows="3" style="width:100%; padding:10px; border:1px solid #E0D5C5; border-radius:6px; font-size:13px; color:#8B7355; resize:vertical; margin-bottom:8px; box-sizing:border-box;"></textarea>
-          <div style="display:flex; gap:8px;">
-            <button (click)="updateRecipe(editingRecipe()!)" style="padding:8px 16px; border:none; border-radius:6px; background:#22C55E; color:white; font-size:12px; font-weight:600; cursor:pointer;">Guardar</button>
-            <button (click)="editingRecipe.set(null)" style="padding:8px 16px; border:none; border-radius:6px; background:#F0E6D6; color:#8B7355; font-size:12px; font-weight:600; cursor:pointer;">Cancelar</button>
+  <!-- Lista -->
+  <div class="card" style="padding:16px 20px;">
+    @for (recipe of items(); track recipe.id) {
+      <div style="border:1px solid #E0D5C5; border-radius:8px; padding:12px; margin-bottom:8px; cursor:pointer; transition:all 0.2s;" [style.background]="formItem.id === recipe.id ? '#FEF3C7' : 'white'" (click)="selectItem(recipe)" onmouseover="if(!this.style.background.includes('254'))this.style.background='#F5F0EB'" onmouseout="if(!this.style.background.includes('254'))this.style.background='white'">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-family:'Playfair Display',Georgia,serif; font-size:14px; font-weight:700; color:#3E2723;">{{ recipe.name }}</h3>
+          <div>
+            <button (click)="$event.stopPropagation(); selectItem(recipe)" class="btn-xs btn-blue">Editar</button>
+            <button (click)="$event.stopPropagation(); deleteItem(recipe.id!)" class="btn-xs btn-red-outline">Borrar</button>
           </div>
-        } @else {
-          <h3 style="font-family:'Playfair Display',Georgia,serif; font-size:16px; font-weight:700; color:#3E2723; margin-bottom:6px;">{{ recipe.name }}</h3>
-          <p style="font-size:13px; color:#8B7355; line-height:1.7; white-space:pre-line; margin-bottom:12px;">{{ recipe.instructions }}</p>
-          <div style="display:flex; gap:8px;">
-            <button (click)="editingRecipe.set({...recipe})" style="padding:6px 14px; border:1px solid #E0D5C5; border-radius:6px; background:white; color:#2563EB; font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s;"
-                    onmouseover="this.style.background='#EFF6FF'" onmouseout="this.style.background='white'">Editar</button>
-            <button (click)="deleteRecipe(recipe.id!)" style="padding:6px 14px; border:1px solid #FECACA; border-radius:6px; background:white; color:#DC2626; font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s;"
-                    onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background='white'">Eliminar</button>
-          </div>
-        }
+        </div>
+        <p style="font-size:11px; color:#8B7355; margin-top:4px; line-height:1.5; white-space:pre-line;">{{ recipe.instructions }}</p>
       </div>
     }
+    @if (items().length === 0 && !loading()) { <p class="empty-msg">No hay recetas registradas</p> }
   </div>
-
-  @if (recipes().length === 0 && !loading()) {
-    <div style="text-align:center; padding:40px; color:#8B7355;">
-      <div style="font-size:36px; margin-bottom:8px;">&#128221;</div>
-      <p style="font-size:13px;">No hay recetas registradas</p>
-    </div>
-  }
 </div>
