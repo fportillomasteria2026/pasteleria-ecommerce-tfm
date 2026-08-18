@@ -11,12 +11,11 @@ import { RouterLink } from '@angular/router';
   styleUrl: './orders.css',
 })
 export class Orders implements OnInit {
-  orders = signal<Order[]>([]);
+  items = signal<Order[]>([]);
   statusFilter = signal('');
   loading = signal(true);
-
-  newOrder: Order = { customerName: '', status: 'PENDIENTE', totalAmount: 0 };
-  editingOrder = signal<Order | null>(null);
+  isNewItem = signal(false);
+  formItem: Order = { customerName: '', status: 'PENDIENTE', totalAmount: 0 };
 
   constructor(private apiService: ApiService) {}
 
@@ -27,34 +26,38 @@ export class Orders implements OnInit {
   loadOrders(): void {
     this.loading.set(true);
     this.apiService.getOrders(this.statusFilter() || undefined).subscribe({
-      next: (data) => { this.orders.set(data); this.loading.set(false); },
-      error: () => { this.orders.set([]); this.loading.set(false); }
+      next: (data) => { this.items.set(data); this.loading.set(false); },
+      error: () => { this.items.set([]); this.loading.set(false); }
     });
   }
 
-  addOrder(): void {
-    if (!this.newOrder.customerName) return;
-    this.apiService.createOrder(this.newOrder).subscribe({
-      next: (order) => {
-        this.orders.update(list => [...list, order]);
-        this.newOrder = { customerName: '', status: 'PENDIENTE', totalAmount: 0 };
-      }
-    });
+  newItem(): void {
+    this.formItem = { customerName: '', status: 'PENDIENTE', totalAmount: 0 };
+    this.isNewItem.set(true);
   }
 
-  updateOrder(order: Order): void {
-    if (!order.id) return;
-    this.apiService.updateOrder(order.id, order).subscribe({
-      next: () => {
-        this.editingOrder.set(null);
-        this.loadOrders();
-      }
-    });
+  selectItem(item: Order): void {
+    this.formItem = { ...item };
+    this.isNewItem.set(false);
   }
 
-  deleteOrder(id: number): void {
+  saveItem(): void {
+    if (!this.formItem.customerName) return;
+    if (this.isNewItem()) {
+      this.apiService.createOrder(this.formItem).subscribe({
+        next: () => { this.loadOrders(); this.newItem(); }
+      });
+    } else {
+      if (!this.formItem.id) return;
+      this.apiService.updateOrder(this.formItem.id, this.formItem).subscribe({
+        next: () => { this.loadOrders(); this.newItem(); }
+      });
+    }
+  }
+
+  deleteItem(id: number): void {
     this.apiService.deleteOrder(id).subscribe({
-      next: () => this.loadOrders()
+      next: () => { this.loadOrders(); this.newItem(); }
     });
   }
 
@@ -68,7 +71,7 @@ export class Orders implements OnInit {
     }
   }
 
-  getStatusTextColor(status: string): string {
+  getStatusColor(status: string): string {
     switch (status) {
       case 'PENDIENTE': return '#92400E';
       case 'EN_PROCESO': return '#1E40AF';

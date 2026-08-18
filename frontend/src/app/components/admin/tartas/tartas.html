@@ -1,95 +1,103 @@
-<div style="font-family:'Lato',Arial,sans-serif;">
-  <a routerLink="/admin/dashboard" class="btn-back">&larr; Volver al Dashboard</a>
+<div style="font-family:'Lato',Arial,sans-serif; padding:16px;">
+  <a routerLink="/admin/dashboard" style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border:1px solid #E0D5C5; border-radius:50px; color:#8B7355; font-size:11px; font-weight:600; text-decoration:none; margin-bottom:10px;">&larr; Volver al Dashboard</a>
 
   <!-- Header -->
-  <div class="card" style="padding:16px 20px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+  <div style="background:white; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.04); padding:12px 16px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between;">
     <div style="display:flex; align-items:center; gap:10px;">
-      <div class="icon-box">&#127856;</div>
-      <h2 class="card-title">Gestion de Tartas</h2>
+      <div style="width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,#C8A96E,#B8954A); display:flex; align-items:center; justify-content:center; font-size:14px;">&#127856;</div>
+      <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:16px; font-weight:700; color:#3E2723;">Gestion de Tartas</h2>
     </div>
-    <div style="display:flex; gap:8px;">
-      <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="search()" placeholder="Buscar..." class="input-sm" style="width:180px;" />
-      <button (click)="newItem()" class="btn-green">+ Nueva</button>
+    <div style="display:flex; gap:6px; align-items:center;">
+      <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="search()" placeholder="Buscar..." style="padding:6px 10px; border:1px solid #E0D5C5; border-radius:6px; font-size:11px; width:160px;" />
+      <button (click)="newItem()" style="padding:7px 14px; border:none; border-radius:6px; background:#22C55E; color:white; font-size:11px; font-weight:700; cursor:pointer;">+ Nueva</button>
     </div>
   </div>
 
   <!-- Formulario Compacto -->
-  <div class="card" style="padding:16px 20px; margin-bottom:12px;">
-    <div class="form-header">
-      <div class="form-dot" [style.background]="isNewItem() ? '#22C55E' : '#C8A96E'"></div>
-      <h3 class="form-title">{{ isNewItem() ? 'Nueva Tarta' : 'Editar: ' + formItem.nombre }}</h3>
+  <div style="background:white; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.04); padding:14px 16px; margin-bottom:10px;">
+    <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+      <div style="width:6px; height:6px; border-radius:50%;" [style.background]="isNewItem() ? '#22C55E' : '#C8A96E'"></div>
+      <span style="font-size:12px; font-weight:700; color:#3E2723;">{{ isNewItem() ? 'Nueva Tarta' : 'Editar: ' + formItem.nombre }}</span>
     </div>
 
-    <!-- Fila 1: Identificacion + Nombre + Desc -->
-    <div class="form-row">
-      <div class="field field-sm"><label>SKU</label><input type="text" [(ngModel)]="formItem.sku" placeholder="TAR-001" class="input" /></div>
-      <div class="field field-lg"><label>Nombre *</label><input type="text" [(ngModel)]="formItem.nombre" placeholder="Tarta de Chocolate" class="input" /></div>
-      <div class="field field-md"><label>Descripcion</label><input type="text" [(ngModel)]="formItem.descripcion" placeholder="Descripcion..." class="input" /></div>
+    <!-- Fila 1: SKU + Nombre + Desc -->
+    <div style="display:flex; gap:6px; margin-bottom:4px;">
+      <div style="flex:0 0 100px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">SKU</label><input type="text" [(ngModel)]="formItem.sku" placeholder="TAR-001" style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:11px; box-sizing:border-box;" /></div>
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Nombre *</label><input type="text" [(ngModel)]="formItem.nombre" placeholder="Tarta de Chocolate" style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:11px; box-sizing:border-box;" /></div>
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Descripcion</label><input type="text" [(ngModel)]="formItem.descripcion" placeholder="Descripcion..." style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:11px; box-sizing:border-box;" /></div>
     </div>
 
-    <!-- Fila 2: Caracteristicas -->
-    <div class="form-row form-row-bg">
-      <div class="field field-xs"><label>Tamano</label><select [(ngModel)]="formItem.tamano" class="input">@for (t of tamanos; track t) { <option [value]="t">{{ t }}</option> }</select></div>
-      <div class="field field-xs"><label>Pisos</label><select [(ngModel)]="formItem.pisos" class="input"><option [value]="2">2</option><option [value]="3">3</option></select></div>
-      <div class="field field-sm"><label>Forma</label><select [(ngModel)]="formItem.forma" class="input">@for (f of formas; track f) { <option [value]="f">{{ f }}</option> }</select></div>
-      <div class="field field-sm"><label>Dimensiones</label><input type="text" [(ngModel)]="formItem.dimensiones" placeholder="30x30cm" class="input" /></div>
+    <!-- Fila 2: Tamano + Pisos + Forma + Dimensiones -->
+    <div style="display:flex; gap:6px; margin-bottom:4px; padding:6px 8px; background:#F9F6F1; border-radius:4px;">
+      <div style="flex:0 0 70px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Tamano</label><select [(ngModel)]="formItem.tamano" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;">@for (t of tamanos; track t) { <option [value]="t">{{ t }}</option> }</select></div>
+      <div style="flex:0 0 50px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Pisos</label><select [(ngModel)]="formItem.pisos" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;"><option [value]="2">2</option><option [value]="3">3</option></select></div>
+      <div style="flex:0 0 110px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Forma</label><select [(ngModel)]="formItem.forma" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;">@for (f of formas; track f) { <option [value]="f">{{ f }}</option> }</select></div>
+      <div style="flex:0 0 100px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Dimensiones</label><input type="text" [(ngModel)]="formItem.dimensiones" placeholder="30x30cm" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
     </div>
 
-    <!-- Fila 3: Sabores -->
-    <div class="form-row form-row-bg-green">
-      <div class="field field-sm"><label>Bizcocho</label><select [(ngModel)]="formItem.saborBizcocho" class="input"><option value="">-</option>@for (s of sabores; track s) { <option [value]="s">{{ s }}</option> }</select></div>
-      <div class="field field-sm"><label>Crema</label><select [(ngModel)]="formItem.tipoCrema" class="input"><option value="">-</option>@for (c of cremas; track c) { <option [value]="c">{{ c }}</option> }</select></div>
-      <div class="field field-md"><label>Frutas</label><input type="text" [(ngModel)]="formItem.frutas" placeholder="Fresa, Arandano" class="input" /></div>
-      <div class="field field-sm"><label>Personalizacion</label><select [(ngModel)]="formItem.tipoPersonalizacion" class="input">@for (p of personalizaciones; track p) { <option [value]="p">{{ p }}</option> }</select></div>
+    <!-- Fila 3: Bizcocho + Crema + Frutas + Personalizacion -->
+    <div style="display:flex; gap:6px; margin-bottom:4px; padding:6px 8px; background:#F0F7F4; border-radius:4px;">
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Bizcocho</label><select [(ngModel)]="formItem.saborBizcocho" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;"><option value="">-</option>@for (s of sabores; track s) { <option [value]="s">{{ s }}</option> }</select></div>
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Crema</label><select [(ngModel)]="formItem.tipoCrema" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;"><option value="">-</option>@for (c of cremas; track c) { <option [value]="c">{{ c }}</option> }</select></div>
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Frutas</label><input type="text" [(ngModel)]="formItem.frutas" placeholder="Fresa, Arandano" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+      <div style="flex:0.8;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Personalizacion</label><select [(ngModel)]="formItem.tipoPersonalizacion" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;">@for (p of personalizaciones; track p) { <option [value]="p">{{ p }}</option> }</select></div>
     </div>
 
-    <!-- Fila 4: Precios -->
-    <div class="form-row form-row-bg-orange">
-      <div class="field field-xs"><label>Precio EUR</label><input type="number" [(ngModel)]="formItem.precioPublico" step="0.01" class="input" /></div>
-      <div class="field field-xs"><label>Coste EUR</label><input type="number" [(ngModel)]="formItem.coste" step="0.01" class="input" /></div>
-      <div class="field field-xs" style="display:flex; align-items:flex-end;"><label class="check-label"><input type="checkbox" [(ngModel)]="formItem.disponible" class="check" /> Disponible</label></div>
-      <div class="field field-md"><label>Notas</label><input type="text" [(ngModel)]="formItem.notas" placeholder="Observaciones..." class="input" /></div>
+    <!-- Fila 4: Precios + Disp + Notas -->
+    <div style="display:flex; gap:6px; margin-bottom:6px; padding:6px 8px; background:#FDF6F0; border-radius:4px; align-items:flex-end;">
+      <div style="flex:0 0 90px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Precio EUR</label><input type="number" [(ngModel)]="formItem.precioPublico" step="0.01" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+      <div style="flex:0 0 90px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Coste EUR</label><input type="number" [(ngModel)]="formItem.coste" step="0.01" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+      <div style="flex:0 0 90px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Notas</label><input type="text" [(ngModel)]="formItem.notas" placeholder="Obs..." style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+      <div style="flex:0 0 80px; padding-bottom:4px;"><label style="display:flex; align-items:center; gap:3px; font-size:10px; color:#8B7355; cursor:pointer;"><input type="checkbox" [(ngModel)]="formItem.disponible" style="width:12px; height:12px;" /> Disp.</label></div>
     </div>
 
     <!-- Botones -->
-    <div class="form-actions">
-      <button (click)="saveItem()" class="btn-green">{{ isNewItem() ? 'Crear' : 'Guardar' }}</button>
-      @if (!isNewItem()) { <button (click)="deleteItem(formItem.id!)" class="btn-red">Eliminar</button> }
-      <button (click)="newItem()" class="btn-gray">Limpiar</button>
+    <div style="display:flex; gap:6px; padding-top:6px; border-top:1px solid #F0E6D6;">
+      <button (click)="saveItem()" style="padding:7px 18px; border:none; border-radius:4px; background:#22C55E; color:white; font-size:11px; font-weight:700; cursor:pointer;">{{ isNewItem() ? 'Crear' : 'Guardar' }}</button>
+      @if (!isNewItem()) { <button (click)="deleteItem(formItem.id!)" style="padding:7px 14px; border:1px solid #FECACA; border-radius:4px; background:white; color:#DC2626; font-size:11px; font-weight:700; cursor:pointer;">Eliminar</button> }
+      <button (click)="newItem()" style="padding:7px 14px; border:1px solid #E0D5C5; border-radius:4px; background:white; color:#8B7355; font-size:11px; font-weight:700; cursor:pointer;">Limpiar</button>
     </div>
   </div>
 
   <!-- Tabla -->
-  <div class="card" style="padding:16px 20px;">
+  <div style="background:white; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.04); padding:12px 16px;">
     <div style="overflow-x:auto;">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>SKU</th><th>Nombre</th><th>Tam.</th><th>Pisos</th><th>Forma</th><th>Bizcocho</th><th>Crema</th><th>Frutas</th><th style="text-align:right">Precio</th><th style="text-align:center">Disp.</th><th></th>
-          </tr>
-        </thead>
+      <table style="width:100%; border-collapse:collapse; font-size:10px;">
+        <thead><tr style="border-bottom:1px solid #E0D5C5;">
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">SKU</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Nombre</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Tam.</th>
+          <th style="text-align:center; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Pisos</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Forma</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Bizcocho</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Crema</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Frutas</th>
+          <th style="text-align:right; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Precio</th>
+          <th style="text-align:center; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Disp.</th>
+          <th style="padding:6px 4px;"></th>
+        </tr></thead>
         <tbody>
           @for (item of items(); track item.id) {
-            <tr [class.row-selected]="formItem.id === item.id" (click)="selectItem(item)">
-              <td class="cell-muted">{{ item.sku || '-' }}</td>
-              <td class="cell-bold">{{ item.nombre }}</td>
-              <td><span class="badge">{{ item.tamano }}</span></td>
-              <td class="cell-center">{{ item.pisos }}</td>
-              <td class="cell-muted">{{ item.forma }}</td>
-              <td class="cell-muted">{{ item.saborBizcocho || '-' }}</td>
-              <td class="cell-muted">{{ item.tipoCrema || '-' }}</td>
-              <td class="cell-muted" style="max-width:100px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ item.frutas || '-' }}</td>
-              <td class="cell-right cell-price">{{ item.precioPublico.toFixed(2) }} EUR</td>
-              <td class="cell-center"><span class="dot" [style.background]="item.disponible ? '#22C55E' : '#DC2626'"></span></td>
-              <td>
-                <button (click)="$event.stopPropagation(); selectItem(item)" class="btn-xs btn-blue">Editar</button>
-                <button (click)="$event.stopPropagation(); deleteItem(item.id!)" class="btn-xs btn-red-outline">Borrar</button>
+            <tr style="border-bottom:1px solid #F0E6D6; cursor:pointer; transition:background 0.15s;" [style.background]="formItem.id === item.id ? '#FEF3C7' : 'transparent'" (click)="selectItem(item)" onmouseover="if(this.style.backgroundColor!=='rgb(254, 243, 199)')this.style.background='#F5F0EB'" onmouseout="if(this.style.backgroundColor!=='rgb(254, 243, 199)')this.style.background='transparent'">
+              <td style="padding:5px 4px; color:#8B7355; font-size:9px;">{{ item.sku || '-' }}</td>
+              <td style="padding:5px 4px; font-weight:600; color:#3E2723;">{{ item.nombre }}</td>
+              <td style="padding:5px 4px;"><span style="padding:1px 6px; border-radius:8px; background:#F0E6D6; color:#3E2723; font-size:9px; font-weight:600;">{{ item.tamano }}</span></td>
+              <td style="padding:5px 4px; text-align:center; color:#8B7355;">{{ item.pisos }}</td>
+              <td style="padding:5px 4px; color:#8B7355; font-size:9px;">{{ item.forma }}</td>
+              <td style="padding:5px 4px; color:#8B7355; font-size:9px;">{{ item.saborBizcocho || '-' }}</td>
+              <td style="padding:5px 4px; color:#8B7355; font-size:9px;">{{ item.tipoCrema || '-' }}</td>
+              <td style="padding:5px 4px; color:#8B7355; font-size:9px; max-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ item.frutas || '-' }}</td>
+              <td style="padding:5px 4px; text-align:right; font-weight:600; color:#C8A96E; font-size:9px;">{{ item.precioPublico.toFixed(2) }}</td>
+              <td style="padding:5px 4px; text-align:center;"><span style="width:6px; height:6px; border-radius:50%; display:inline-block;" [style.background]="item.disponible ? '#22C55E' : '#DC2626'"></span></td>
+              <td style="padding:5px 4px;">
+                <button (click)="$event.stopPropagation(); selectItem(item)" style="padding:2px 6px; border:1px solid #E0D5C5; border-radius:3px; background:white; color:#2563EB; font-size:9px; font-weight:600; cursor:pointer;">Editar</button>
+                <button (click)="$event.stopPropagation(); deleteItem(item.id!)" style="padding:2px 6px; border:1px solid #FECACA; border-radius:3px; background:white; color:#DC2626; font-size:9px; font-weight:600; cursor:pointer;">Borrar</button>
               </td>
             </tr>
           }
         </tbody>
       </table>
     </div>
-    @if (items().length === 0 && !loading()) { <p class="empty-msg">No hay tartas registradas</p> }
+    @if (items().length === 0 && !loading()) { <p style="text-align:center; padding:20px; color:#8B7355; font-size:11px;">No hay tartas</p> }
   </div>
 </div>

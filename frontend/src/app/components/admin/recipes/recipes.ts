@@ -10,10 +10,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './recipes.css',
 })
 export class Recipes implements OnInit {
-  recipes = signal<Recipe[]>([]);
+  items = signal<Recipe[]>([]);
   loading = signal(true);
-  newRecipe: Recipe = { name: '', instructions: '' };
-  editingRecipe = signal<Recipe | null>(null);
+  isNewItem = signal(false);
+  formItem: Recipe = { name: '', instructions: '' };
 
   constructor(private apiService: ApiService) {}
 
@@ -24,34 +24,38 @@ export class Recipes implements OnInit {
   loadRecipes(): void {
     this.loading.set(true);
     this.apiService.getRecipes().subscribe({
-      next: (data) => { this.recipes.set(data); this.loading.set(false); },
-      error: () => { this.recipes.set([]); this.loading.set(false); }
+      next: (data) => { this.items.set(data); this.loading.set(false); },
+      error: () => { this.items.set([]); this.loading.set(false); }
     });
   }
 
-  addRecipe(): void {
-    if (!this.newRecipe.name) return;
-    this.apiService.createRecipe(this.newRecipe).subscribe({
-      next: (recipe) => {
-        this.recipes.update(list => [...list, recipe]);
-        this.newRecipe = { name: '', instructions: '' };
-      }
-    });
+  newItem(): void {
+    this.formItem = { name: '', instructions: '' };
+    this.isNewItem.set(true);
   }
 
-  updateRecipe(recipe: Recipe): void {
-    if (!recipe.id) return;
-    this.apiService.updateRecipe(recipe.id, recipe).subscribe({
-      next: () => {
-        this.editingRecipe.set(null);
-        this.loadRecipes();
-      }
-    });
+  selectItem(item: Recipe): void {
+    this.formItem = { ...item };
+    this.isNewItem.set(false);
   }
 
-  deleteRecipe(id: number): void {
+  saveItem(): void {
+    if (!this.formItem.name) return;
+    if (this.isNewItem()) {
+      this.apiService.createRecipe(this.formItem).subscribe({
+        next: () => { this.loadRecipes(); this.newItem(); }
+      });
+    } else {
+      if (!this.formItem.id) return;
+      this.apiService.updateRecipe(this.formItem.id, this.formItem).subscribe({
+        next: () => { this.loadRecipes(); this.newItem(); }
+      });
+    }
+  }
+
+  deleteItem(id: number): void {
     this.apiService.deleteRecipe(id).subscribe({
-      next: () => this.loadRecipes()
+      next: () => { this.loadRecipes(); this.newItem(); }
     });
   }
 }

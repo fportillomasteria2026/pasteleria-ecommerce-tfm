@@ -32,6 +32,7 @@ export interface Recipe {
 
 export interface MateriaPrima {
   id?: number;
+  codigoSku?: string;
   nombre: string;
   marca?: string;
   proveedor?: string;
