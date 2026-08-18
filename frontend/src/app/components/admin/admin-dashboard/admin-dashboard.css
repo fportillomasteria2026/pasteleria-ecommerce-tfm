@@ -1,3 +1,270 @@
-:host {
+:host { display: block; }
+
+/* Mobile Header */
+.admin-mobile-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: white;
+  border-bottom: 1px solid #E0D5C5;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+.admin-hamburger {
+  background: none;
+  border: none;
+  color: #3E2723;
+  cursor: pointer;
+  padding: 4px;
+}
+.admin-mobile-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #3E2723;
+}
+.admin-mobile-logout {
+  background: none;
+  border: 1px solid #FECACA;
+  color: #DC2626;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Sidebar Overlay */
+.admin-sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 95;
+}
+
+/* Layout */
+.admin-layout {
+  display: flex;
+  min-height: calc(100vh - 72px);
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 260px;
+  background: white;
+  border-right: 1px solid #E0D5C5;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: calc(100vh - 72px);
+  position: sticky;
+  top: 72px;
+  overflow-y: auto;
+}
+.admin-sidebar-header {
+  padding: 24px;
+  border-bottom: 1px solid #F0E6D6;
+}
+.admin-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.admin-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C8A96E, #B8954A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: white;
+  font-weight: 700;
+}
+.admin-user-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #3E2723;
+}
+.admin-user-role {
+  font-size: 11px;
+  color: #8B7355;
+}
+
+/* Nav */
+.admin-nav {
+  flex: 1;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #8B7355;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.admin-nav-item:hover {
+  background: #F0E6D6;
+  color: #3E2723;
+}
+.admin-nav-item.active-link {
+  background: #3E2723;
+  color: #FAF6F1 !important;
+  font-weight: 600;
+}
+.admin-nav-icon {
+  font-size: 16px;
+  width: 24px;
+  text-align: center;
+}
+
+/* Sidebar Footer */
+.admin-sidebar-footer {
+  padding: 16px 12px;
+  border-top: 1px solid #F0E6D6;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.admin-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #DC2626;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  width: 100%;
+}
+.admin-logout-btn:hover {
+  background: #FEF2F2;
+}
+
+/* Main Content */
+.admin-main {
+  flex: 1;
+  padding: 24px;
+  background: #FAF6F1;
+  min-width: 0;
+}
+
+/* Welcome */
+.admin-welcome {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  padding: 40px;
+  text-align: center;
+}
+.admin-welcome-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+.admin-welcome h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #3E2723;
+  margin-bottom: 8px;
+}
+.admin-welcome p {
+  font-size: 14px;
+  color: #8B7355;
+  max-width: 400px;
+  margin: 0 auto 32px;
+}
+.admin-welcome-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.admin-welcome-card {
+  padding: 20px 12px;
+  background: #FAF6F1;
+  border-radius: 12px;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s;
+}
+.admin-welcome-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+.admin-welcome-card-icon {
+  font-size: 28px;
   display: block;
+  margin-bottom: 8px;
+}
+.admin-welcome-card-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #3E2723;
+  display: block;
+}
+.admin-welcome-card-sub {
+  font-size: 10px;
+  color: #8B7355;
+  display: block;
+  margin-top: 2px;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 900px) {
+  .admin-welcome-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 768px) {
+  .admin-mobile-header {
+    display: flex;
+  }
+  .admin-sidebar-overlay {
+    display: block;
+  }
+  .admin-sidebar {
+    position: fixed;
+    left: -280px;
+    top: 0;
+    height: 100vh;
+    z-index: 100;
+    transition: left 0.3s ease;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+  }
+  .admin-sidebar.open {
+    left: 0;
+  }
+  .admin-layout {
+    min-height: calc(100vh - 50px);
+  }
+  .admin-main {
+    padding: 16px;
+  }
+  .admin-welcome {
+    padding: 24px;
+  }
+  .admin-welcome-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
