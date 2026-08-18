@@ -10,6 +10,9 @@ public class MateriaPrima {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "codigo_sku", length = 50)
+    private String codigoSku;
+
     @Column(nullable = false, length = 100)
     private String nombre;
 
@@ -35,6 +38,8 @@ public class MateriaPrima {
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+    public String getCodigoSku() { return codigoSku; }
+    public void setCodigoSku(String codigoSku) { this.codigoSku = codigoSku; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getMarca() { return marca; }

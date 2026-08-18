@@ -30,6 +30,7 @@ public class MateriaPrimaController {
     @PutMapping("/{id}")
     public ResponseEntity<MateriaPrima> update(@PathVariable Long id, @RequestBody MateriaPrima updated) {
         return repository.findById(id).map(item -> {
+            item.setCodigoSku(updated.getCodigoSku());
             item.setNombre(updated.getNombre());
             item.setMarca(updated.getMarca());
             item.setProveedor(updated.getProveedor());
