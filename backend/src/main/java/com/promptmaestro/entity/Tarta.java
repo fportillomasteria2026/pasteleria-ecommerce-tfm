@@ -52,10 +52,10 @@ public class Tarta {
     private String tipoPersonalizacion; // Papeleria, Papel de Azucar, Mezcla
 
     // Precios
-    @Column(name = "precio_publico", nullable = false, precision = 10, scale = 2)
+    @Column(name = "precio_publico", nullable = false)
     private Double precioPublico;
 
-    @Column(precision = 10, scale = 2)
+    @Column
     private Double coste;
 
     // Estado
