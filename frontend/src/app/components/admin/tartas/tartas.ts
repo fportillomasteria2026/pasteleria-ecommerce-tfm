@@ -1,6 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 interface Tarta {
   id?: number;
@@ -25,7 +26,7 @@ interface Tarta {
 
 @Component({
   selector: 'app-tartas',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './tartas.html',
   styleUrl: './tartas.css',
 })

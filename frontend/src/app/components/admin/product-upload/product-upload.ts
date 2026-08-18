@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../services/api';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-upload',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './product-upload.html',
   styleUrl: './product-upload.css',
 })

@@ -1,10 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService, MateriaPrima } from '../../../services/api';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-ingredients',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './ingredients.html',
   styleUrl: './ingredients.css',
 })

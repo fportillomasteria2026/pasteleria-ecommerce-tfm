@@ -2,10 +2,11 @@ import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { ApiService, Order } from '../../../services/api';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-orders',
-  imports: [FormsModule, DatePipe, CurrencyPipe],
+  imports: [FormsModule, DatePipe, CurrencyPipe, RouterLink],
   templateUrl: './orders.html',
   styleUrl: './orders.css',
 })
