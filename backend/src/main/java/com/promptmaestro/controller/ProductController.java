@@ -75,23 +75,15 @@ public class ProductController {
 
         String imageUrl = "/uploads/" + filename;
 
-        List<String> generatedHashtags = aiService.generateHashtags(image);
-
         ProductImage productImage = ProductImage.builder()
                 .imageUrl(imageUrl)
                 .title(title)
                 .description(description)
                 .build();
 
-        for (String tagName : generatedHashtags) {
-            Hashtag hashtag = hashtagRepository.findByName(tagName)
-                    .orElseGet(() -> hashtagRepository.save(Hashtag.builder().name(tagName).build()));
-            productImage.getHashtags().add(hashtag);
-        }
-
         productImageRepository.save(productImage);
 
-        return ResponseEntity.ok(new AiHashtagsResponse(imageUrl, generatedHashtags));
+        return ResponseEntity.ok(new AiHashtagsResponse(imageUrl, List.of()));
     }
 
     @DeleteMapping("/admin/products/{id}")
