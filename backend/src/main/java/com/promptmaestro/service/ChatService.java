@@ -33,7 +33,7 @@ public class ChatService {
     };
 
     private static final String BUSINESS_CONTEXT = """
-        Eres "Belieta", asistente virtual de una pasteleria artesanal en Sevilla.
+        Eres "Belieta", asistente virtual de una pasteleria artesanal en Malaga.
         Responde SOLO sobre el negocio. Maximo 3 lineas.
         Si no sabes, di: "Para esa consulta, llamame al 955 123 456"
         NUNCA inventes precios. Di que son personalizados.
@@ -77,7 +77,7 @@ public class ChatService {
         if (lower.contains("hola") || lower.contains("buenos")) return "Hola! Bienvenido a Belieta. En que puedo ayudarte?";
         if (lower.contains("gracias")) return "De nada! Si necesitas algo mas, aqui estamos.";
         if (lower.contains("horario") || lower.contains("hora")) return "Nuestro horario es Lunes a Sabado de 9:00 a 20:00.";
-        if (lower.contains("direccion") || lower.contains("donde")) return "Estamos en C/ del Chocolate, 15, Sevilla.";
+        if (lower.contains("direccion") || lower.contains("donde")) return "Estamos en C/ Marques de Larios, 1, 29005 Malaga.";
         if (lower.contains("telefono") || lower.contains("llamar")) return "Puedes llamarnos al 955 123 456.";
         if (lower.contains("whatsapp")) return "Escribenos por WhatsApp al 955 123 456.";
         if (lower.contains("tarta") || lower.contains("pastel")) return "Hacemos tartas personalizadas para toda ocasion. Llamanos para presupuesto!";
