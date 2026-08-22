@@ -39,7 +39,7 @@ public class ProductImage {
         this.imageUrl = imageUrl;
         this.title = title;
         this.description = description;
-        this.hashtags = hashtags;
+        this.hashtags = hashtags != null ? hashtags : new HashSet<>();
     }
 
     @PrePersist
