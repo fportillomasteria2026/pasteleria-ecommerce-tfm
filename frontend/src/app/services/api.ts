@@ -55,7 +55,7 @@ export interface Order {
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'https://dulce sabor-backend.onrender.com/api';
+  private baseUrl = 'https://belieta-backend.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 
