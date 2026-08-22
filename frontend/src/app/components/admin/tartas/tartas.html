@@ -94,7 +94,7 @@
               <td style="padding:5px 4px; color:#8B7355; font-size:9px;">{{ item.tipoCrema || '-' }}</td>
               <td style="padding:5px 4px; color:#8B7355; font-size:9px; max-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ item.frutas || '-' }}</td>
               <td style="padding:5px 4px; text-align:right; font-weight:600; color:#C8A96E; font-size:9px;">{{ item.precioPublico.toFixed(2) }}</td>
-              <td style="padding:5px 4px; color:#8B7355; font-size:8px; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ item.hashtags ? item.hashtags.join(', ') : '-' }}</td>
+              <td style="padding:5px 4px; color:#8B7355; font-size:8px; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ item.hashtags || '-' }}</td>
               <td style="padding:5px 4px; text-align:center;"><span style="width:6px; height:6px; border-radius:50%; display:inline-block;" [style.background]="item.disponible ? '#22C55E' : '#DC2626'"></span></td>
               <td style="padding:5px 4px;">
                 <button (click)="$event.stopPropagation(); selectItem(item)" style="padding:2px 6px; border:1px solid #E0D5C5; border-radius:3px; background:white; color:#2563EB; font-size:9px; font-weight:600; cursor:pointer;">Editar</button>

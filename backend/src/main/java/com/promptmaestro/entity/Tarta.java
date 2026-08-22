@@ -2,8 +2,6 @@ package com.promptmaestro.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "tarta")
@@ -25,13 +23,8 @@ public class Tarta {
     @Column(name = "imagen_url", length = 255)
     private String imagenUrl;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-        name = "tarta_hashtag",
-        joinColumns = @JoinColumn(name = "tarta_id"),
-        inverseJoinColumns = @JoinColumn(name = "hashtag_id")
-    )
-    private Set<Hashtag> hashtags = new HashSet<>();
+    @Column(columnDefinition = "TEXT")
+    private String hashtags;
 
     @Column(nullable = false, length = 10)
     private String tamano;
@@ -79,15 +72,10 @@ public class Tarta {
     private LocalDateTime updatedAt;
 
     @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
+    protected void onCreate() { createdAt = LocalDateTime.now(); updatedAt = LocalDateTime.now(); }
 
     @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    protected void onUpdate() { updatedAt = LocalDateTime.now(); }
 
     public Tarta() {}
 
@@ -101,8 +89,8 @@ public class Tarta {
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
     public String getImagenUrl() { return imagenUrl; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
-    public Set<Hashtag> getHashtags() { return hashtags; }
-    public void setHashtags(Set<Hashtag> hashtags) { this.hashtags = hashtags; }
+    public String getHashtags() { return hashtags; }
+    public void setHashtags(String hashtags) { this.hashtags = hashtags; }
     public String getTamano() { return tamano; }
     public void setTamano(String tamano) { this.tamano = tamano; }
     public Integer getPisos() { return pisos; }

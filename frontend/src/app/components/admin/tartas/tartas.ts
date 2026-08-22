@@ -9,7 +9,7 @@ interface Tarta {
   nombre: string;
   descripcion?: string;
   imagenUrl?: string;
-  hashtags: string[];
+  hashtags: string;
   tamano: string;
   pisos: number;
   forma: string;
@@ -65,7 +65,7 @@ export class Tartas implements OnInit {
     return {
       nombre: '',
       descripcion: '',
-      hashtags: [],
+      hashtags: '',
       tamano: 'M',
       pisos: 2,
       forma: 'Cilindrica',
@@ -88,13 +88,11 @@ export class Tartas implements OnInit {
 
   selectItem(item: Tarta): void {
     this.formItem = { ...item };
-    this.hashtagsInput = item.hashtags ? item.hashtags.join(', ') : '';
     this.isNewItem.set(false);
   }
 
   saveItem(): void {
     if (!this.formItem.nombre) return;
-    this.formItem.hashtags = this.hashtagsInput.split(',').map(h => h.trim()).filter(h => h.length > 0);
     if (this.isNewItem()) {
       this.http.post<Tarta>(this.apiUrl, this.formItem).subscribe({
         next: () => { this.loadItems(); this.newItem(); }
