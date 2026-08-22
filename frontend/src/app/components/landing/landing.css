@@ -42,6 +42,7 @@
 /* === HERO === */
 .hero { position: relative; height: 80vh; min-height: 420px; display: flex; align-items: flex-end; overflow: hidden; font-family: 'Lato', Arial, sans-serif; }
 .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #3E2723 0%, #5D4037 40%, #8D6E63 70%, #A1887F 100%); }
+.hero-img { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1600&q=80') center/cover no-repeat; opacity: 0.25; mix-blend-mode: overlay; }
 .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1)); }
 .hero-content { position: relative; z-index: 2; padding: 0 48px 80px; max-width: 750px; }
 .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
