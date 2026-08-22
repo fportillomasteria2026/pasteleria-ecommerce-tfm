@@ -109,3 +109,40 @@
     @if (items().length === 0 && !loading()) { <p style="text-align:center; padding:20px; color:#8B7355; font-size:11px;">No hay tartas</p> }
   </div>
 </div>
+
+<!-- Dialogo de seleccion de imagen -->
+@if (showImageDialog()) {
+  <div style="position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; display:flex; align-items:center; justify-content:center;" (click)="closeImageDialog()">
+    <div style="background:white; border-radius:12px; padding:20px; width:400px; max-width:90vw;" (click)="$event.stopPropagation()">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-size:14px; font-weight:700; color:#3E2723;">Seleccionar Imagen</h3>
+        <button (click)="closeImageDialog()" style="background:none; border:none; font-size:18px; cursor:pointer; color:#8B7355;">&times;</button>
+      </div>
+      <div style="display:flex; gap:12px; margin-bottom:16px;">
+        <button (click)="fileInput.click(); closeImageDialog()" style="flex:1; padding:16px; border:2px dashed #E0D5C5; border-radius:8px; background:#F9F6F1; cursor:pointer; text-align:center; transition:border-color 0.3s;" onmouseover="this.style.borderColor='#C8A96E'" onmouseout="this.style.borderColor='#E0D5C5'">
+          <div style="font-size:24px; margin-bottom:4px;">&#128193;</div>
+          <div style="font-size:11px; font-weight:600; color:#3E2723;">LOCAL</div>
+          <div style="font-size:9px; color:#8B7355;">Escritorio</div>
+        </button>
+        <button (click)="loadServerImages()" style="flex:1; padding:16px; border:2px dashed #E0D5C5; border-radius:8px; background:#F9F6F1; cursor:pointer; text-align:center; transition:border-color 0.3s;" onmouseover="this.style.borderColor='#C8A96E'" onmouseout="this.style.borderColor='#E0D5C5'">
+          <div style="font-size:24px; margin-bottom:4px;">&#127760;</div>
+          <div style="font-size:11px; font-weight:600; color:#3E2723;">SERVER</div>
+          <div style="font-size:9px; color:#8B7355;">Del servidor</div>
+        </button>
+      </div>
+      @if (serverImages().length > 0) {
+        <div style="border-top:1px solid #E0D5C5; padding-top:12px;">
+          <div style="font-size:10px; font-weight:600; color:#8B7355; margin-bottom:8px;">Imagenes del servidor:</div>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px;">
+            @for (img of serverImages(); track img) {
+              <div (click)="selectServerImage(img)" style="padding:8px; border:1px solid #E0D5C5; border-radius:6px; cursor:pointer; text-align:center; transition:all 0.2s; font-size:9px; color:#8B7355; word-break:break-all;" onmouseover="this.style.borderColor='#C8A96E'; this.style.background='#F9F6F1'" onmouseout="this.style.borderColor='#E0D5C5'; this.style.background='white'">
+                &#127856; {{ img.split('/').pop() }}
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}
+<input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" style="display:none;" />

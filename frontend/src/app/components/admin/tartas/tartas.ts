@@ -38,6 +38,8 @@ export class Tartas implements OnInit {
   formItem: Tarta = this.getEmptyItem();
   searchQuery = '';
   hashtagsInput = '';
+  showImageDialog = signal(false);
+  serverImages = signal<string[]>([]);
 
   tamanos = ['XS', 'S', 'M', 'L', 'XL'];
   formas = ['Cilindrica', 'Cuadrada', 'Rectangular'];
@@ -97,6 +99,29 @@ export class Tartas implements OnInit {
       const file = input.files[0];
       this.formItem.imagenUrl = 'images/tartas/' + file.name;
     }
+  }
+
+  openImageDialog(): void {
+    this.loadServerImages();
+    this.showImageDialog.set(true);
+  }
+
+  closeImageDialog(): void {
+    this.showImageDialog.set(false);
+  }
+
+  loadServerImages(): void {
+    const images = [
+      'images/tartas/tarta_chocolate.jpg',
+      'images/tartas/tarta_vainilla.jpg',
+      'images/tartas/red_velvet.jpg'
+    ];
+    this.serverImages.set(images);
+  }
+
+  selectServerImage(img: string): void {
+    this.formItem.imagenUrl = img;
+    this.showImageDialog.set(false);
   }
 
   saveItem(): void {
