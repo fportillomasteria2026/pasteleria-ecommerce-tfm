@@ -41,6 +41,10 @@ export class Tartas implements OnInit {
   showImageDialog = signal(false);
   serverImages = signal<string[]>([]);
   generatingHashtags = signal(false);
+  showAiModal = signal(false);
+  aiProcessing = signal(false);
+  aiSelectedFile: File | null = null;
+  aiPreviewUrl = signal('');
 
   tamanos = ['XS', 'S', 'M', 'L', 'XL'];
   formas = ['Cilindrica', 'Cuadrada', 'Rectangular'];
@@ -178,6 +182,59 @@ export class Tartas implements OnInit {
     this.http.get<Tarta[]>(`${this.apiUrl}/search?q=${this.searchQuery}`).subscribe({
       next: (data) => { this.items.set(data); this.loading.set(false); },
       error: () => { this.loading.set(false); }
+    });
+  }
+
+  openAiModal(): void {
+    this.showAiModal.set(true);
+    this.aiSelectedFile = null;
+    this.aiPreviewUrl.set('');
+  }
+
+  closeAiModal(): void {
+    this.showAiModal.set(false);
+    this.aiSelectedFile = null;
+    this.aiPreviewUrl.set('');
+  }
+
+  onAiFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.aiSelectedFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => this.aiPreviewUrl.set(reader.result as string);
+      reader.readAsDataURL(this.aiSelectedFile);
+    }
+  }
+
+  processAiTarta(): void {
+    if (!this.aiSelectedFile) return;
+    this.aiProcessing.set(true);
+    const formData = new FormData();
+    formData.append('image', this.aiSelectedFile);
+    this.http.post<{ nombre: string; descripcion: string; sabor: string; crema: string; frutas: string; forma: string; tamano: string; hashtags: string; precio: number }>(
+      'https://belieta-backend.onrender.com/api/admin/products/upload', formData
+    ).subscribe({
+      next: (res) => {
+        this.formItem.nombre = res.nombre || '';
+        this.formItem.descripcion = res.descripcion || '';
+        this.formItem.saborBizcocho = res.sabor || '';
+        this.formItem.tipoCrema = res.crema || '';
+        this.formItem.frutas = res.frutas || '';
+        this.formItem.forma = res.forma || 'Cilindrica';
+        this.formItem.tamano = res.tamano || 'M';
+        this.formItem.hashtags = res.hashtags || '';
+        this.formItem.precioPublico = res.precio || 0;
+        this.formItem.pisos = 2;
+        this.formItem.imagenUrl = 'images/tartas/' + (this.aiSelectedFile?.name || 'tarta.jpg');
+        this.isNewItem.set(true);
+        this.aiProcessing.set(false);
+        this.showAiModal.set(false);
+      },
+      error: () => {
+        this.aiProcessing.set(false);
+        alert('Error al procesar la imagen con IA. Intentalo de nuevo.');
+      }
     });
   }
 }
