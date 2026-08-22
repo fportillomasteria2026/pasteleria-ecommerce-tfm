@@ -52,7 +52,7 @@
 .hero-title em { font-style: italic; font-weight: 400; color: #C8A96E; }
 .hero-sub { font-size: clamp(15px, 1.8vw, 20px); color: rgba(255,255,255,0.7); max-width: 500px; line-height: 1.8; margin-bottom: 40px; }
 .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
-.hero-curve { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; line-height: 0; }
+.hero-curve { position: absolute; bottom: 0; left: 0; right: 0; z-index: 1; line-height: 0; pointer-events: none; }
 
 /* === BUTTONS === */
 .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px; border-radius: 60px; background: #C8A96E; color: #3E2723; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; text-decoration: none; font-family: 'Lato', Arial, sans-serif; border: none; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
