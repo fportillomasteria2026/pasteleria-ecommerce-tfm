@@ -1,35 +1,38 @@
 package com.promptmaestro.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class AiService {
 
-    @Autowired(required = false)
-    private VertexAiGeminiChatModel chatModel;
-
     private final ObjectMapper objectMapper;
+    private final RestTemplate restTemplate;
 
-    @Value("${spring.autoconfigure.exclude:}")
-    private String excludeConfig;
+    @Value("${gemini.api-key:}")
+    private String apiKey;
+
+    @Value("${gemini.url:https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent}")
+    private String geminiUrl;
 
     public AiService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+        this.restTemplate = new RestTemplate();
     }
 
     public List<String> generateHashtags(MultipartFile image) throws IOException {
-        if (chatModel == null || (excludeConfig != null && excludeConfig.contains("VertexAiGeminiAutoConfiguration"))) {
+        if (apiKey == null || apiKey.isEmpty()) {
             return List.of("#tarta", "#chocolate", "#pasteleria", "#local", "#testing");
         }
 
@@ -44,14 +47,42 @@ public class AiService {
             Ejemplo de formato: ["#tarta","#chocolate","#boda","#fondant","#fresas"]
             """;
 
-        String response = chatModel.call(prompt);
-        return parseHashtags(response);
+        Map<String, Object> requestBody = Map.of(
+            "contents", List.of(Map.of(
+                "parts", List.of(
+                    Map.of("text", prompt),
+                    Map.of("inline_data", Map.of(
+                        "mime_type", mimeType,
+                        "data", base64Image
+                    ))
+                )
+            ))
+        );
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        String url = geminiUrl + "?key=" + apiKey;
+        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+
+        try {
+            JsonNode root = objectMapper.readTree(response.getBody());
+            String text = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText();
+            String cleaned = text.trim().replaceAll("```json", "").replaceAll("```", "").trim();
+            return objectMapper.readValue(cleaned, List.class);
+        } catch (Exception e) {
+            return List.of("#tarta", "#chocolate", "#pasteleria");
+        }
     }
 
     public Map<String, Object> analyzeTartaImage(MultipartFile image) throws IOException {
-        if (chatModel == null || (excludeConfig != null && excludeConfig.contains("VertexAiGeminiAutoConfiguration"))) {
+        if (apiKey == null || apiKey.isEmpty()) {
             return getMockTartaAnalysis();
         }
+
+        String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
+        String mimeType = image.getContentType() != null ? image.getContentType() : "image/jpeg";
 
         String prompt = """
             Analiza esta imagen de una tarta de pasteleria. Devuelve un JSON con estos campos:
@@ -59,9 +90,30 @@ public class AiService {
             Solo devuelve el JSON, sin texto adicional.
             """;
 
+        Map<String, Object> requestBody = Map.of(
+            "contents", List.of(Map.of(
+                "parts", List.of(
+                    Map.of("text", prompt),
+                    Map.of("inline_data", Map.of(
+                        "mime_type", mimeType,
+                        "data", base64Image
+                    ))
+                )
+            ))
+        );
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        String url = geminiUrl + "?key=" + apiKey;
+
         try {
-            String response = chatModel.call(prompt);
-            return objectMapper.readValue(response, new TypeReference<Map<String, Object>>() {});
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+            JsonNode root = objectMapper.readTree(response.getBody());
+            String text = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText();
+            String cleaned = text.trim().replaceAll("```json", "").replaceAll("```", "").trim();
+            return objectMapper.readValue(cleaned, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {});
         } catch (Exception e) {
             return getMockTartaAnalysis();
         }
@@ -82,27 +134,5 @@ public class AiService {
         result.put("hashtags", "chocolate,fresa,ganache,pasteleria,artesanal");
         result.put("precio", 45);
         return result;
-    }
-
-    private List<String> parseHashtags(String aiResponse) {
-        try {
-            String cleaned = aiResponse.trim();
-            if (cleaned.startsWith("```")) {
-                cleaned = cleaned.replaceAll("```json", "").replaceAll("```", "").trim();
-            }
-            return objectMapper.readValue(cleaned, new TypeReference<List<String>>() {});
-        } catch (Exception e) {
-            try {
-                Map<String, Object> map = objectMapper.readValue(
-                        aiResponse.replaceAll("```json", "").replaceAll("```", "").trim(),
-                        new TypeReference<Map<String, Object>>() {});
-                @SuppressWarnings("unchecked")
-                List<String> tags = (List<String>) map.getOrDefault("hashtags",
-                        map.getOrDefault("tags", List.of()));
-                return tags;
-            } catch (Exception ex) {
-                throw new RuntimeException("Failed to parse AI response: " + aiResponse, ex);
-            }
-        }
     }
 }
