@@ -114,7 +114,10 @@ export class Tartas implements OnInit {
     const images = [
       'images/tartas/tarta_chocolate.jpg',
       'images/tartas/tarta_vainilla.jpg',
-      'images/tartas/red_velvet.jpg'
+      'images/tartas/red_velvet.jpg',
+      'images/tartas/limon_merengada.jpg',
+      'images/tartas/nuez_caramelo.jpg',
+      'images/tartas/Tarta_fresas.jpg'
     ];
     this.serverImages.set(images);
   }
