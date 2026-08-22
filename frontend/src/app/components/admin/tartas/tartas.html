@@ -52,9 +52,10 @@
       <div style="flex:0 0 80px; padding-bottom:4px;"><label style="display:flex; align-items:center; gap:3px; font-size:10px; color:#8B7355; cursor:pointer;"><input type="checkbox" [(ngModel)]="formItem.disponible" style="width:12px; height:12px;" /> Disp.</label></div>
     </div>
 
-    <!-- Fila 5: Hashtags -->
+    <!-- Fila 5: Hashtags con IA -->
     <div style="display:flex; gap:6px; margin-bottom:6px; padding:6px 8px; background:#F0F0F0; border-radius:4px; align-items:flex-end;">
       <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Hashtags (separados por coma)</label><input type="text" [(ngModel)]="formItem.hashtags" placeholder="chocolate, boda, fondant, fresa" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+      <div (click)="generateHashtags()" style="padding:4px 10px; border:1px solid #7C3AED; border-radius:3px; font-size:10px; cursor:pointer; background:#F3F0FF; color:#7C3AED; white-space:nowrap; font-weight:600; transition:all 0.2s;" onmouseover="this.style.background='#7C3AED'; this.style.color='white'" onmouseout="this.style.background='#F3F0FF'; this.style.color='#7C3AED'" [style.opacity]="generatingHashtags() ? '0.5' : '1'"> IA &#9889;</div>
     </div>
 
     <!-- Botones -->

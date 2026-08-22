@@ -40,6 +40,7 @@ export class Tartas implements OnInit {
   hashtagsInput = '';
   showImageDialog = signal(false);
   serverImages = signal<string[]>([]);
+  generatingHashtags = signal(false);
 
   tamanos = ['XS', 'S', 'M', 'L', 'XL'];
   formas = ['Cilindrica', 'Cuadrada', 'Rectangular'];
@@ -125,6 +126,28 @@ export class Tartas implements OnInit {
   selectServerImage(img: string): void {
     this.formItem.imagenUrl = img;
     this.showImageDialog.set(false);
+  }
+
+  generateHashtags(): void {
+    this.generatingHashtags.set(true);
+    const body = {
+      nombre: this.formItem.nombre || '',
+      descripcion: this.formItem.descripcion || '',
+      saborBizcocho: this.formItem.saborBizcocho || '',
+      tipoCrema: this.formItem.tipoCrema || '',
+      frutas: this.formItem.frutas || '',
+      forma: this.formItem.forma || '',
+      tamano: this.formItem.tamano || ''
+    };
+    this.http.post<{ hashtags: string }>('https://belieta-backend.onrender.com/api/admin/ai/hashtags', body).subscribe({
+      next: (res) => {
+        this.formItem.hashtags = res.hashtags;
+        this.generatingHashtags.set(false);
+      },
+      error: () => {
+        this.generatingHashtags.set(false);
+      }
+    });
   }
 
   saveItem(): void {
