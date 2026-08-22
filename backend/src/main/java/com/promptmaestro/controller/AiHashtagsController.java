@@ -34,9 +34,10 @@ public class AiHashtagsController {
         String frutas = request.getOrDefault("frutas", "");
 
         String prompt = String.format(
-            "Genera entre 3 y 10 hashtags descriptivos para esta tarta. " +
+            "Eres un experto en marketing de pasteleria. Analiza esta tarta y genera entre 10 y 20 hashtags descriptivos. " +
             "Nombre: %s. Bizcocho: %s. Crema: %s. Frutas: %s. " +
-            "Los hashtags deben ir con # delante, en minusculas. Ejemplo: #chocolate, #fresa, #boda. Separalos con coma.",
+            "Cada hashtag debe ir con #, en minusculas, sin espacios. Ejemplo: #chocolate, #fresa, #boda, #fondant, #cumpleanos. " +
+            "Separa cada hashtag con coma. Minimo 10, maximo 20.",
             nombre, sabor, crema, frutas
         );
 
