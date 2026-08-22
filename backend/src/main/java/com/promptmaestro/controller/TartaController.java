@@ -22,6 +22,13 @@ public class TartaController {
     @GetMapping("/tartas")
     public List<Tarta> getAllTartas() { return tartaRepository.findByActivoTrue(); }
 
+    @GetMapping("/tartas/{id}")
+    public ResponseEntity<Tarta> getTartaById(@PathVariable Long id) {
+        return tartaRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @GetMapping("/tartas/search")
     public List<Tarta> searchTartas(@RequestParam String q) {
         return tartaRepository.findByNombreContainingIgnoreCaseAndActivoTrue(q);
