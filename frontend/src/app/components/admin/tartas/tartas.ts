@@ -9,6 +9,7 @@ interface Tarta {
   nombre: string;
   descripcion?: string;
   imagenUrl?: string;
+  hashtags: string[];
   tamano: string;
   pisos: number;
   forma: string;
@@ -36,6 +37,7 @@ export class Tartas implements OnInit {
   isNewItem = signal(false);
   formItem: Tarta = this.getEmptyItem();
   searchQuery = '';
+  hashtagsInput = '';
 
   tamanos = ['XS', 'S', 'M', 'L', 'XL'];
   formas = ['Cilindrica', 'Cuadrada', 'Rectangular'];
@@ -43,7 +45,7 @@ export class Tartas implements OnInit {
   cremas = ['Buttercream', 'Ganache', 'Crema Chantilly', 'Mousse', 'Glaceau', 'Relleno de Fruta', 'Otro'];
   personalizaciones = ['Papeleria', 'Papel de Azucar', 'Mezcla', 'Sin Personalizacion'];
 
-  private apiUrl = 'https://dulce sabor-backend.onrender.com/api/admin/tartas';
+  private apiUrl = 'https://belieta-backend.onrender.com/api/admin/tartas';
 
   constructor(private http: HttpClient) {}
 
@@ -63,6 +65,7 @@ export class Tartas implements OnInit {
     return {
       nombre: '',
       descripcion: '',
+      hashtags: [],
       tamano: 'M',
       pisos: 2,
       forma: 'Cilindrica',
@@ -85,11 +88,13 @@ export class Tartas implements OnInit {
 
   selectItem(item: Tarta): void {
     this.formItem = { ...item };
+    this.hashtagsInput = item.hashtags ? item.hashtags.join(', ') : '';
     this.isNewItem.set(false);
   }
 
   saveItem(): void {
     if (!this.formItem.nombre) return;
+    this.formItem.hashtags = this.hashtagsInput.split(',').map(h => h.trim()).filter(h => h.length > 0);
     if (this.isNewItem()) {
       this.http.post<Tarta>(this.apiUrl, this.formItem).subscribe({
         next: () => { this.loadItems(); this.newItem(); }

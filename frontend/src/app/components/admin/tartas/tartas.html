@@ -44,11 +44,16 @@
     </div>
 
     <!-- Fila 4: Precios + Disp + Notas -->
-    <div style="display:flex; gap:6px; margin-bottom:6px; padding:6px 8px; background:#FDF6F0; border-radius:4px; align-items:flex-end;">
+    <div style="display:flex; gap:6px; margin-bottom:4px; padding:6px 8px; background:#FDF6F0; border-radius:4px; align-items:flex-end;">
       <div style="flex:0 0 90px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Precio EUR</label><input type="number" [(ngModel)]="formItem.precioPublico" step="0.01" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
       <div style="flex:0 0 90px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Coste EUR</label><input type="number" [(ngModel)]="formItem.coste" step="0.01" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
       <div style="flex:0 0 90px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Notas</label><input type="text" [(ngModel)]="formItem.notas" placeholder="Obs..." style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
       <div style="flex:0 0 80px; padding-bottom:4px;"><label style="display:flex; align-items:center; gap:3px; font-size:10px; color:#8B7355; cursor:pointer;"><input type="checkbox" [(ngModel)]="formItem.disponible" style="width:12px; height:12px;" /> Disp.</label></div>
+    </div>
+
+    <!-- Fila 5: Hashtags -->
+    <div style="display:flex; gap:6px; margin-bottom:6px; padding:6px 8px; background:#F0F0F0; border-radius:4px; align-items:flex-end;">
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Hashtags (separados por coma)</label><input type="text" [(ngModel)]="hashtagsInput" placeholder="chocolate, boda, fondant, fresa" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
     </div>
 
     <!-- Botones -->
@@ -73,6 +78,7 @@
           <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Crema</th>
           <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Frutas</th>
           <th style="text-align:right; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Precio</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Hashtags</th>
           <th style="text-align:center; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Disp.</th>
           <th style="padding:6px 4px;"></th>
         </tr></thead>
@@ -88,6 +94,7 @@
               <td style="padding:5px 4px; color:#8B7355; font-size:9px;">{{ item.tipoCrema || '-' }}</td>
               <td style="padding:5px 4px; color:#8B7355; font-size:9px; max-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ item.frutas || '-' }}</td>
               <td style="padding:5px 4px; text-align:right; font-weight:600; color:#C8A96E; font-size:9px;">{{ item.precioPublico.toFixed(2) }}</td>
+              <td style="padding:5px 4px; color:#8B7355; font-size:8px; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ item.hashtags ? item.hashtags.join(', ') : '-' }}</td>
               <td style="padding:5px 4px; text-align:center;"><span style="width:6px; height:6px; border-radius:50%; display:inline-block;" [style.background]="item.disponible ? '#22C55E' : '#DC2626'"></span></td>
               <td style="padding:5px 4px;">
                 <button (click)="$event.stopPropagation(); selectItem(item)" style="padding:2px 6px; border:1px solid #E0D5C5; border-radius:3px; background:white; color:#2563EB; font-size:9px; font-weight:600; cursor:pointer;">Editar</button>
