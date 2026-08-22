@@ -1,65 +1,74 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ApiService, ProductImage } from '../../services/api';
-import { WhatsAppWidget } from '../whatsapp-widget/whatsapp-widget';
-import { ChatWidget } from '../chat-widget/chat-widget';
+import { HttpClient } from '@angular/common/http';
+
+interface Tarta {
+  id: number;
+  sku?: string;
+  nombre: string;
+  descripcion?: string;
+  imagenUrl?: string;
+  hashtags: string[];
+  tamano: string;
+  pisos: number;
+  forma: string;
+  dimensiones?: string;
+  saborBizcocho?: string;
+  frutas?: string;
+  tipoCrema?: string;
+  tipoPersonalizacion?: string;
+  precioPublico: number;
+  disponible: boolean;
+}
 
 @Component({
   selector: 'app-gallery',
-  imports: [FormsModule, WhatsAppWidget, ChatWidget],
+  imports: [FormsModule],
   templateUrl: './gallery.html',
   styleUrl: './gallery.css',
 })
 export class Gallery implements OnInit {
-  products = signal<ProductImage[]>([]);
+  items = signal<Tarta[]>([]);
   loading = signal(true);
   searchQuery = '';
-  searchFocused = false;
+  private apiUrl = 'https://belieta-backend.onrender.com/api/tartas';
 
-  constructor(private apiService: ApiService) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.loadItems();
   }
 
-  loadProducts(): void {
+  loadItems(): void {
     this.loading.set(true);
-    this.apiService.getProducts().subscribe({
-      next: (data) => {
-        this.products.set(data);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.products.set([]);
-        this.loading.set(false);
-      }
+    this.http.get<Tarta[]>(this.apiUrl).subscribe({
+      next: (data) => { this.items.set(data); this.loading.set(false); },
+      error: () => { this.items.set([]); this.loading.set(false); }
     });
   }
 
   search(): void {
     if (!this.searchQuery.trim()) {
-      this.loadProducts();
+      this.loadItems();
       return;
     }
-
     const tagMatch = this.searchQuery.match(/#\w+/g);
     if (tagMatch && tagMatch.length > 0) {
-      this.loading.set(true);
-      this.apiService.searchByHashtags(tagMatch).subscribe({
-        next: (data) => { this.products.set(data); this.loading.set(false); },
+      const params = tagMatch.map(t => 'tags=' + encodeURIComponent(t)).join('&');
+      this.http.get<Tarta[]>(`${this.apiUrl}/by-hashtags?${params}`).subscribe({
+        next: (data) => { this.items.set(data); this.loading.set(false); },
         error: () => { this.loading.set(false); }
       });
     } else {
-      this.loading.set(true);
-      this.apiService.searchProducts(this.searchQuery).subscribe({
-        next: (data) => { this.products.set(data); this.loading.set(false); },
+      this.http.get<Tarta[]>(`${this.apiUrl}/search?q=${this.searchQuery}`).subscribe({
+        next: (data) => { this.items.set(data); this.loading.set(false); },
         error: () => { this.loading.set(false); }
       });
     }
   }
 
   filterByTag(tag: string): void {
-    this.searchQuery = tag;
+    this.searchQuery = '#' + tag;
     this.search();
   }
 }

@@ -2,6 +2,8 @@ package com.promptmaestro.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tarta")
@@ -11,7 +13,6 @@ public class Tarta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Identificacion
     @Column(length = 50)
     private String sku;
 
@@ -24,41 +25,44 @@ public class Tarta {
     @Column(name = "imagen_url", length = 255)
     private String imagenUrl;
 
-    // Caracteristicas de la tarta
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+        name = "tarta_hashtag",
+        joinColumns = @JoinColumn(name = "tarta_id"),
+        inverseJoinColumns = @JoinColumn(name = "hashtag_id")
+    )
+    private Set<Hashtag> hashtags = new HashSet<>();
+
     @Column(nullable = false, length = 10)
-    private String tamano; // XS, S, M, L, XL
+    private String tamano;
 
     @Column(nullable = false)
-    private Integer pisos; // 2 o 3
+    private Integer pisos;
 
     @Column(nullable = false, length = 20)
-    private String forma; // Cilindrica, Cuadrada, Rectangular
+    private String forma;
 
     @Column(length = 50)
-    private String dimensiones; // Ej: "30x30cm", "25cm diametro"
+    private String dimensiones;
 
-    // Sabores y rellenos
     @Column(name = "sabor_bizcocho", length = 50)
-    private String saborBizcocho; // Chocolate, Vainilla, Red Velvet, etc.
+    private String saborBizcocho;
 
     @Column(length = 200)
-    private String frutas; // Fresa, Arandano, etc. separadas por coma
+    private String frutas;
 
     @Column(name = "tipo_crema", length = 50)
-    private String tipoCrema; // Buttercream, Ganache, Crema Chantilly, etc.
+    private String tipoCrema;
 
-    // Personalizacion
     @Column(name = "tipo_personalizacion", length = 50)
-    private String tipoPersonalizacion; // Papeleria, Papel de Azucar, Mezcla
+    private String tipoPersonalizacion;
 
-    // Precios
     @Column(name = "precio_publico", nullable = false)
     private Double precioPublico;
 
     @Column
     private Double coste;
 
-    // Estado
     @Column(nullable = false)
     private Boolean disponible = true;
 
@@ -68,7 +72,6 @@ public class Tarta {
     @Column(columnDefinition = "TEXT")
     private String notas;
 
-    // Auditoria
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -88,7 +91,6 @@ public class Tarta {
 
     public Tarta() {}
 
-    // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getSku() { return sku; }
@@ -99,6 +101,8 @@ public class Tarta {
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
     public String getImagenUrl() { return imagenUrl; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
+    public Set<Hashtag> getHashtags() { return hashtags; }
+    public void setHashtags(Set<Hashtag> hashtags) { this.hashtags = hashtags; }
     public String getTamano() { return tamano; }
     public void setTamano(String tamano) { this.tamano = tamano; }
     public Integer getPisos() { return pisos; }
