@@ -43,29 +43,29 @@ public class TartaController {
 
     // Admin endpoints
     @GetMapping("/admin/tartas")
-    public List<Tarta> getAll() { return tartaRepository.findByActivoTrue(); }
+    public List<Map<String, Object>> getAll() { return tartaRepository.findByActivoTrue().stream().map(this::toMap).collect(Collectors.toList()); }
 
     @GetMapping("/admin/tartas/search")
-    public List<Tarta> search(@RequestParam String q) {
-        return tartaRepository.findByNombreContainingIgnoreCaseAndActivoTrue(q);
+    public List<Map<String, Object>> search(@RequestParam String q) {
+        return tartaRepository.findByNombreContainingIgnoreCaseAndActivoTrue(q).stream().map(this::toMap).collect(Collectors.toList());
     }
 
     @PostMapping("/admin/tartas")
-    public Tarta create(@RequestBody Map<String, Object> body) {
+    public Map<String, Object> create(@RequestBody Map<String, Object> body) {
         Tarta tarta = mapToEntity(body);
         addHashtags(tarta, body);
-        return tartaRepository.save(tarta);
+        return toMap(tartaRepository.save(tarta));
     }
 
     @PutMapping("/admin/tartas/{id}")
-    public ResponseEntity<Tarta> update(@PathVariable Long id, @RequestBody Map<String, Object> body) {
+    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @RequestBody Map<String, Object> body) {
         return tartaRepository.findById(id).map(tarta -> {
             updateEntity(tarta, body);
             if (body.containsKey("hashtags")) {
                 tarta.getHashtags().clear();
                 addHashtags(tarta, body);
             }
-            return ResponseEntity.ok(tartaRepository.save(tarta));
+            return ResponseEntity.ok(toMap(tartaRepository.save(tarta)));
         }).orElse(ResponseEntity.notFound().build());
     }
 
