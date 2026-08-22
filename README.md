@@ -191,3 +191,4 @@ TFM_Workspace/
 ## Licencia
 
 Este proyecto forma parte de un Trabajo de Fin de Master en Inteligencia Artificial.
+# sáb 22 ago 2026 17:07:40 CEST
