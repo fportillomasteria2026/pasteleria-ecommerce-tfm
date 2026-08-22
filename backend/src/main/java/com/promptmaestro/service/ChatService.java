@@ -32,14 +32,14 @@ public class ChatService {
     };
 
     private static final String BUSINESS_CONTEXT = """
-        Eres "Belieta", asistente virtual de una pasteleria artesanal en Alhaurin de la Torre, Malaga.
+        Eres "Dulce Sabor", asistente virtual de una pasteleria artesanal en Sevilla, Malaga.
 
         DATOS DEL NEGOCIO:
-        - Nombre: Belieta Pasteleria Artesanal
-        - Direccion: C/ La Torre, 31, CP 29130 Alhaurin de la Torre, Malaga
-        - Telefono: 744 60 18 61
+        - Nombre: Dulce Sabor Pasteleria Artesanal
+        - Direccion: C/ del Chocolate, 15, CP 41001 Sevilla, Malaga
+        - Telefono: 955 123 456
         - Horario: Lunes a Sabado, 9:00 - 20:00
-        - WhatsApp: 744 60 18 61
+        - WhatsApp: 955 123 456
 
         PRODUCTOS:
         - Tartas personalizadas (bodas, cumpleanos, comuniones)
@@ -51,8 +51,8 @@ public class ChatService {
         REGLAS ESTRICTAS:
         1. Responde SOLO en espanol, maximo 3 lineas
         2. Usa tono cercano y profesional
-        3. NUNCA inventes precios - di "Llamanos al 744 60 18 61 para presupuesto"
-        4. Para pedidos, recomienda WhatsApp: 744 60 18 61
+        3. NUNCA inventes precios - di "Llamanos al 955 123 456 para presupuesto"
+        4. Para pedidos, recomienda WhatsApp: 955 123 456
         5. Si la pregunta no es del negocio, di: "Solo puedo ayudarte con consultas de la pasteleria"
         6. No hagas preguntas al usuario, solo responde
         """;
@@ -112,7 +112,7 @@ public class ChatService {
         String lower = message.toLowerCase();
 
         if (lower.contains("hola") || lower.contains("buenos") || lower.contains("buenas")) {
-            return "Hola! Bienvenido a Belieta. En que puedo ayudarte?";
+            return "Hola! Bienvenido a Dulce Sabor. En que puedo ayudarte?";
         }
         if (lower.contains("gracias")) {
             return "De nada! Si necesitas algo mas, aqui estamos.";
@@ -121,22 +121,22 @@ public class ChatService {
             return "Nuestro horario es de Lunes a Sabado de 9:00 a 20:00. Te esperamos!";
         }
         if (lower.contains("direccion") || lower.contains("donde") || lower.contains("ubicacion")) {
-            return "Estamos en C/ La Torre, 31, 29130 Alhaurin de la Torre, Malaga.";
+            return "Estamos en C/ del Chocolate, 15, 41001 Sevilla, Malaga.";
         }
         if (lower.contains("telefono") || lower.contains("llamar")) {
-            return "Puedes llamarnos al 744 60 18 61.";
+            return "Puedes llamarnos al 955 123 456.";
         }
         if (lower.contains("whatsapp")) {
-            return "Escribenos por WhatsApp al 744 60 18 61 y te atendemos!";
+            return "Escribenos por WhatsApp al 955 123 456 y te atendemos!";
         }
         if (lower.contains("tarta") || lower.contains("pastel") || lower.contains("cumplea")) {
             return "Hacemos tartas personalizadas para toda ocasion. Llamanos para presupuesto sin compromiso!";
         }
         if (lower.contains("precio") || lower.contains("coste") || lower.contains("cuanto")) {
-            return "Cada producto es unico! Llamanos al 744 60 18 61 para presupuesto personalizado.";
+            return "Cada producto es unico! Llamanos al 955 123 456 para presupuesto personalizado.";
         }
         if (lower.contains("pedido") || lower.contains("pedir") || lower.contains("encargar")) {
-            return "Haz tu pedido por WhatsApp al 744 60 18 61 o llamanos directamente.";
+            return "Haz tu pedido por WhatsApp al 955 123 456 o llamanos directamente.";
         }
         if (lower.contains("galleta") || lower.contains("cookie")) {
             return "Tenemos galletas artesanales de mantequilla, chocolate y frutas. Pregunta por nuestras cookies especiales!";
@@ -145,6 +145,6 @@ public class ChatService {
             return "Tenemos cajas de regalo y bandejas surtidas perfectas para cualquier occasion. Llamanos para informacion!";
         }
 
-        return "Para esa consulta, llamame al 744 60 18 61 o escribeme por WhatsApp. En que mas puedo ayudarte?";
+        return "Para esa consulta, llamame al 955 123 456 o escribeme por WhatsApp. En que mas puedo ayudarte?";
     }
 }

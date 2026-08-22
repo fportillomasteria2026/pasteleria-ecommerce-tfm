@@ -18,7 +18,7 @@ export class ChatWidget {
   isOpen = signal(false);
   userInput = '';
   messages = signal<ChatMessage[]>([
-    { text: 'Hola! Soy el asistente de Belieta. En que puedo ayudarte?', isUser: false, time: this.getTime() }
+    { text: 'Hola! Soy el asistente de Dulce Sabor. En que puedo ayudarte?', isUser: false, time: this.getTime() }
   ]);
   isLoading = signal(false);
 
@@ -36,7 +36,7 @@ export class ChatWidget {
     this.userInput = '';
     this.isLoading.set(true);
 
-    this.http.post<{ reply: string }>('https://belieta-backend.onrender.com/api/chat', { message: msg }).subscribe({
+    this.http.post<{ reply: string }>('https://dulce sabor-backend.onrender.com/api/chat', { message: msg }).subscribe({
       next: (res) => {
         this.messages.update(m => [...m, { text: res.reply, isUser: false, time: this.getTime() }]);
         this.isLoading.set(false);

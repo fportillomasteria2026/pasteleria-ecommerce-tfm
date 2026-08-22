@@ -43,7 +43,7 @@ export class Tartas implements OnInit {
   cremas = ['Buttercream', 'Ganache', 'Crema Chantilly', 'Mousse', 'Glaceau', 'Relleno de Fruta', 'Otro'];
   personalizaciones = ['Papeleria', 'Papel de Azucar', 'Mezcla', 'Sin Personalizacion'];
 
-  private apiUrl = 'https://belieta-backend.onrender.com/api/admin/tartas';
+  private apiUrl = 'https://dulce sabor-backend.onrender.com/api/admin/tartas';
 
   constructor(private http: HttpClient) {}
 
