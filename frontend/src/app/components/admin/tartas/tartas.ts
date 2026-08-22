@@ -45,6 +45,7 @@ export class Tartas implements OnInit {
   aiProcessing = signal(false);
   aiSelectedFile: File | null = null;
   aiPreviewUrl = signal('');
+  aiResult: Tarta | null = null;
 
   tamanos = ['XS', 'S', 'M', 'L', 'XL'];
   formas = ['Cilindrica', 'Cuadrada', 'Rectangular'];
@@ -189,12 +190,14 @@ export class Tartas implements OnInit {
     this.showAiModal.set(true);
     this.aiSelectedFile = null;
     this.aiPreviewUrl.set('');
+    this.aiResult = null;
   }
 
   closeAiModal(): void {
     this.showAiModal.set(false);
     this.aiSelectedFile = null;
     this.aiPreviewUrl.set('');
+    this.aiResult = null;
   }
 
   onAiFileSelected(event: Event): void {
@@ -212,29 +215,40 @@ export class Tartas implements OnInit {
     this.aiProcessing.set(true);
     const formData = new FormData();
     formData.append('image', this.aiSelectedFile);
-    this.http.post<{ nombre: string; descripcion: string; sabor: string; crema: string; frutas: string; forma: string; tamano: string; hashtags: string; precio: number }>(
-      'https://belieta-backend.onrender.com/api/admin/products/upload', formData
+    this.http.post<any>(
+      'https://belieta-backend.onrender.com/api/admin/ai/analyze-tarta', formData
     ).subscribe({
       next: (res) => {
-        this.formItem.nombre = res.nombre || '';
-        this.formItem.descripcion = res.descripcion || '';
-        this.formItem.saborBizcocho = res.sabor || '';
-        this.formItem.tipoCrema = res.crema || '';
-        this.formItem.frutas = res.frutas || '';
-        this.formItem.forma = res.forma || 'Cilindrica';
-        this.formItem.tamano = res.tamano || 'M';
-        this.formItem.hashtags = res.hashtags || '';
-        this.formItem.precioPublico = res.precio || 0;
-        this.formItem.pisos = 2;
-        this.formItem.imagenUrl = 'images/tartas/' + (this.aiSelectedFile?.name || 'tarta.jpg');
-        this.isNewItem.set(true);
+        this.aiResult = {
+          nombre: res.nombre || '',
+          descripcion: res.descripcion || '',
+          saborBizcocho: res.sabor || '',
+          tipoCrema: res.crema || '',
+          frutas: res.frutas || '',
+          forma: res.forma || 'Cilindrica',
+          tamano: res.tamano || 'M',
+          hashtags: res.hashtags || '',
+          precioPublico: res.precio || 0,
+          pisos: res.pisos || 2,
+          dimensiones: res.dimensiones || '',
+          tipoPersonalizacion: res.personalizacion || 'Sin Personalizacion',
+          disponible: true,
+          imagenUrl: 'images/tartas/' + (this.aiSelectedFile?.name || 'tarta.jpg')
+        };
         this.aiProcessing.set(false);
-        this.showAiModal.set(false);
       },
       error: () => {
         this.aiProcessing.set(false);
         alert('Error al procesar la imagen con IA. Intentalo de nuevo.');
       }
     });
+  }
+
+  saveAiTarta(): void {
+    if (!this.aiResult) return;
+    this.formItem = { ...this.aiResult };
+    this.isNewItem.set(true);
+    this.showAiModal.set(false);
+    this.aiResult = null;
   }
 }

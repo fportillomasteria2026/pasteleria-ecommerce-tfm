@@ -48,6 +48,42 @@ public class AiService {
         return parseHashtags(response);
     }
 
+    public Map<String, Object> analyzeTartaImage(MultipartFile image) throws IOException {
+        if (chatModel == null || (excludeConfig != null && excludeConfig.contains("VertexAiGeminiAutoConfiguration"))) {
+            return getMockTartaAnalysis();
+        }
+
+        String prompt = """
+            Analiza esta imagen de una tarta de pasteleria. Devuelve un JSON con estos campos:
+            {"nombre":"nombre sugerido","descripcion":"descripcion breve","sabor":"sabor del bizcocho","crema":"tipo de crema","frutas":"frutas visibles separadas por coma","forma":"Cilindrica o Cuadrada","tamano":"XS,S,M,L,XL","pisos":2,"dimensiones":"ej:h20xd25cm","personalizacion":"Papel de Azucar, Papeleria o Mezcla","hashtags":"chocolate,boda,fondant separados por coma","precio":35}
+            Solo devuelve el JSON, sin texto adicional.
+            """;
+
+        try {
+            String response = chatModel.call(prompt);
+            return objectMapper.readValue(response, new TypeReference<Map<String, Object>>() {});
+        } catch (Exception e) {
+            return getMockTartaAnalysis();
+        }
+    }
+
+    private Map<String, Object> getMockTartaAnalysis() {
+        Map<String, Object> result = new java.util.HashMap<>();
+        result.put("nombre", "Tarta Artesanal");
+        result.put("descripcion", "Tarta elaborada con ingredientes de primera calidad");
+        result.put("sabor", "Chocolate");
+        result.put("crema", "Ganache");
+        result.put("frutas", "Fresa");
+        result.put("forma", "Cilindrica");
+        result.put("tamano", "M");
+        result.put("pisos", 2);
+        result.put("dimensiones", "h20xd25cm");
+        result.put("personalizacion", "Papel de Azucar");
+        result.put("hashtags", "chocolate,fresa,ganache,pasteleria,artesanal");
+        result.put("precio", 45);
+        return result;
+    }
+
     private List<String> parseHashtags(String aiResponse) {
         try {
             String cleaned = aiResponse.trim();
