@@ -34,16 +34,14 @@ public class AiHashtagsController {
         String frutas = request.getOrDefault("frutas", "");
 
         String prompt = String.format(
-            "Eres un experto en marketing digital y reposteria. Analiza esta tarta y genera EXACTAMENTE entre 10 y 20 hashtags diferentes. " +
-            "Nombre: %s. Bizcocho: %s. Crema: %s. Frutas: %s. " +
-            "REGLAS ESTRICTAS: " +
-            "1. Cada hashtag DEBE ir con # al principio " +
-            "2. Minimo 10 hashtags, maximo 20 " +
-            "3. Todos deben ser diferentes (sin repetir) " +
-            "4. En minusculas, sin espacios " +
-            "5. Incluye hashtags de: producto, ocasion, colores, ingredientes, estilo, decoracion, estacion del ano " +
-            "Ejemplo: #chocolate,#fresa,#boda,#fondant,#cumpleanos,#decoracion,#dulce,#crema,#hojaldre,#reposteria,#elegante,#personalizado " +
-            "Separa cada hashtag con coma. NO repitas ninguno.",
+            "Eres un experto en marketing digital y reposteria. " +
+            "Analiza esta tarta: Nombre=%s, Bizcocho=%s, Crema=%s, Frutas=%s. " +
+            "DEVUELVE EXACTAMENTE 15 hashtags separados por coma. " +
+            "Cada hashtag DEBE empezar con # y estar en minusculas. " +
+            "Ninguno puede repetirse. " +
+            "Incluye: tipo de producto, ocasion, colores, ingredientes, estilo, decoracion, estacion, textura, forma. " +
+            "Ejemplo de respuesta: #chocolate,#tarta,#boda,#fondant,#fresa,#cumpleanos,#decoracion,#dulce,#crema,#hojaldre,#reposteria,#elegante,#personalizado,#bonito,#exquisito " +
+            "DEVUELVE SOLO LA LISTA DE 15 HASHTAGS SEPARADOS POR COMA, NADA MAS.",
             nombre, sabor, crema, frutas
         );
 
