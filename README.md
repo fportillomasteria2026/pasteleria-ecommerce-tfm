@@ -376,6 +376,8 @@ Presentacion interactiva con 14 diapositivas que incluye:
 - Datos de ejemplo y demo de acceso
 - Codigo fuente en GitHub
 
+**Video explicativo:** [Ver en YouTube](https://www.youtube.com/watch?v=FaOkPwjHyRA)
+
 ---
 
 ## 10. Licencia
