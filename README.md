@@ -362,6 +362,22 @@ Contraseña: admin
 
 ---
 
-## 9. Licencia
+## 9. Presentacion
+
+**URL de acceso a la presentacion:** `https://pasteleria-ecommerce-tfm.vercel.app/presentacion/`
+
+Presentacion interactiva con 14 diapositivas que incluye:
+- Descripcion del proyecto y objetivos
+- Stack tecnologico y arquitectura
+- Funcionalidades publicas y de administracion
+- Inteligencia artificial (5 funcionalidades con Gemini)
+- Datos de ejemplo y demo de acceso
+- Codigo fuente en GitHub
+
+Tambien disponible en: `presentacion/index.html` (abrir en navegador local)
+
+---
+
+## 10. Licencia
 
 Proyecto realizado como Trabajo de Fin de Máster (TFM).

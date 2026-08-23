@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dulce Sabor - TFM</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+  <style>
+    :root {
+      --r-background-color: #FAF6F1;
+      --r-main-font: 'Georgia', serif;
+      --r-heading-font: 'Georgia', serif;
+      --r-main-color: #3E2723;
+      --r-heading-color: #3E2723;
+      --r-link-color: #C8A96E;
+    }
+    .reveal { font-size: 28px; }
+    .reveal h1 { font-size: 2.2em; color: #3E2723; font-weight: 700; }
+    .reveal h2 { font-size: 1.6em; color: #3E2723; font-weight: 700; border-bottom: 3px solid #C8A96E; padding-bottom: 8px; display: inline-block; }
+    .reveal h3 { font-size: 1.2em; color: #8B7355; font-weight: 600; }
+    .reveal p { color: #5D4037; line-height: 1.6; }
+    .reveal li { color: #5D4037; margin-bottom: 6px; }
+    .reveal .accent { color: #C8A96E; font-weight: 700; }
+    .reveal .dark { color: #3E2723; font-weight: 700; }
+    .reveal .subtitle { color: #8B7355; font-size: 0.8em; margin-top: -10px; }
+    .reveal .gold-bg { background: linear-gradient(135deg, #C8A96E, #B8954A); color: white; padding: 20px 30px; border-radius: 12px; }
+    .reveal .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: left; }
+    .reveal .card h3 { margin-top: 0; }
+    .reveal .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; }
+    .reveal .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; text-align: left; }
+    .reveal .tech-badge { display: inline-block; background: #F0E6D6; color: #3E2723; padding: 4px 12px; border-radius: 20px; font-size: 0.7em; margin: 3px; font-weight: 600; }
+    .reveal .url { font-family: monospace; background: #F0E6D6; padding: 4px 12px; border-radius: 6px; font-size: 0.75em; color: #8B7355; }
+    .reveal .stat { font-size: 2em; font-weight: 700; color: #C8A96E; }
+    .reveal .stat-label { font-size: 0.7em; color: #8B7355; text-transform: uppercase; }
+    .reveal img { max-height: 400px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+    .reveal .fragment.fade-up { transition: all 0.3s; }
+    .reveal .icon { font-size: 2em; margin-bottom: 10px; }
+    .reveal table { font-size: 0.75em; margin: 0 auto; }
+    .reveal th { background: #3E2723; color: white; padding: 8px 12px; }
+    .reveal td { padding: 6px 12px; border-bottom: 1px solid #E0D5C5; }
+    .reveal .small { font-size: 0.65em; color: #8B7355; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: Portada -->
+      <section data-background-color="#3E2723">
+        <div style="color: white;">
+          <div style="font-size: 3em; margin-bottom: 20px;">&#127856;</div>
+          <h1 style="color: white; border: none; font-size: 2.5em;">Dulce Sabor</h1>
+          <p style="color: #C8A96E; font-size: 1.1em; font-style: italic;">Pasteleria Artesanal</p>
+          <div style="margin-top: 30px;">
+            <p style="color: rgba(255,255,255,0.7); font-size: 0.8em;">E-commerce y ERP con Inteligencia Artificial</p>
+            <p style="color: rgba(255,255,255,0.5); font-size: 0.7em; margin-top: 20px;">Trabajo de Fin de Master</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: Que es Dulce Sabor -->
+      <section>
+        <h2>&#10024; Que es Dulce Sabor?</h2>
+        <br>
+        <div class="two-col">
+          <div class="card">
+            <h3>&#128188; Descripcion</h3>
+            <p>Plataforma web completa de gestion para una pasteleria artesanal ficticia en Malaga.</p>
+            <p>Integra un <span class="accent">comercio electronico publico</span> con un <span class="accent">panel de administracion (ERP)</span> y herramientas de <span class="accent">inteligencia artificial</span>.</p>
+          </div>
+          <div class="card">
+            <h3>&#127919; Objetivo</h3>
+            <p>Digitalizar la gestion de una pasteleria artesanal con tecnologias modernas e IA.</p>
+            <ul>
+              <li>Catalogo online de tartas</li>
+              <li>Gestion completa de pedidos</li>
+              <li>Control de inventario con IA</li>
+              <li>Asistente virtual inteligente</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: Stack Tecnologico -->
+      <section>
+        <h2>&#128187; Stack Tecnologico</h2>
+        <br>
+        <div class="three-col">
+          <div class="card" style="text-align:center;">
+            <div class="icon">&#127760;</div>
+            <h3>Frontend</h3>
+            <br>
+            <span class="tech-badge">Angular 22</span>
+            <span class="tech-badge">TypeScript</span>
+            <span class="tech-badge">TailwindCSS</span>
+            <span class="tech-badge">Signals</span>
+          </div>
+          <div class="card" style="text-align:center;">
+            <div class="icon">&#9881;</div>
+            <h3>Backend</h3>
+            <br>
+            <span class="tech-badge">Java 21</span>
+            <span class="tech-badge">Spring Boot 3.4</span>
+            <span class="tech-badge">Spring Security</span>
+            <span class="tech-badge">JPA</span>
+          </div>
+          <div class="card" style="text-align:center;">
+            <div class="icon">&#129302;</div>
+            <h3>IA + Datos</h3>
+            <br>
+            <span class="tech-badge">Google Gemini 2.5</span>
+            <span class="tech-badge">PostgreSQL</span>
+            <span class="tech-badge">Supabase</span>
+            <span class="tech-badge">JWT</span>
+          </div>
+        </div>
+        <br>
+        <div style="text-align:center;">
+          <span class="tech-badge" style="background:#3E2723; color:white;">Vercel</span>
+          <span class="tech-badge" style="background:#3E2723; color:white;">Render</span>
+          <span class="tech-badge" style="background:#3E2723; color:white;">GitHub</span>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: Arquitectura -->
+      <section>
+        <h2>&#128736; Arquitectura del Sistema</h2>
+        <br>
+        <div class="two-col">
+          <div class="card">
+            <h3>&#127760; Area Publica</h3>
+            <ul>
+              <li><strong>Landing</strong> - Pagina principal</li>
+              <li><strong>Galeria</strong> - Catalogo visual de tartas</li>
+              <li><strong>Quienes Somos</strong> - Informacion del negocio</li>
+              <li><strong>Chat Virtual</strong> - Asistente con IA</li>
+              <li><strong>WhatsApp</strong> - Contacto directo</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>&#128736; Panel de Administracion</h3>
+            <ul>
+              <li><strong>Tartas</strong> - CRUD + IA (hashtags, fotos, descripciones)</li>
+              <li><strong>Pedidos</strong> - Gestion con estados</li>
+              <li><strong>Materia Prima</strong> - Stock del obrador</li>
+              <li><strong>Recetas</strong> - Base de datos de recetas</li>
+              <li><strong>IA Inventario</strong> - Optimizacion con Gemini</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Area Publica -->
+      <section>
+        <h2>&#127968; Area Publica</h2>
+        <p class="subtitle">Experiencia del cliente</p>
+        <br>
+        <div class="two-col">
+          <div>
+            <div class="fragment fade-up">
+              <h3>&#127856; Galeria de Productos</h3>
+              <p>Catalogo visual con tarjetas de tartas, precios, tamano y busqueda.</p>
+            </div>
+            <br>
+            <div class="fragment fade-up">
+              <h3>&#128172; Chat Virtual con IA</h3>
+              <p>Asistente que responde preguntas, muestra precios y guia pedidos.</p>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <img src="https://raw.githubusercontent.com/fportillomasteria2026/pasteleria-ecommerce-tfm/main/presentacion/img-gallery.png" alt="Galeria" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: Inteligencia Artificial -->
+      <section>
+        <h2>&#129302; Inteligencia Artificial</h2>
+        <p class="subtitle">Google Gemini 2.5 Flash - Modo Hibrido</p>
+        <br>
+        <table style="width:100%;">
+          <thead>
+            <tr><th>Funcionalidad</th><th>Endpoint</th><th>Descripcion</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>&#128172; Chat virtual</td><td class="small">POST /api/chat</td><td>Asistente conversacional con contexto de productos</td></tr>
+            <tr><td>&#127991; Generar hashtags</td><td class="small">POST /api/admin/ai/hashtags</td><td>15 hashtags relevantes automaticamente</td></tr>
+            <tr><td>&#128221; Generar descripcion</td><td class="small">POST /api/admin/ai/generate-description</td><td>Descripcion de marketing con IA</td></tr>
+            <tr><td>&#128247; Analizar foto</td><td class="small">POST /api/admin/ai/analyze-tarta</td><td>Crea tarta desde imagen (vision)</td></tr>
+            <tr><td>&#128200; Optimizar inventario</td><td class="small">POST /api/admin/ai/inventory-optimize</td><td>Sugiere reposiciones segun stock</td></tr>
+          </tbody>
+        </table>
+        <br>
+        <div class="gold-bg" style="text-align:center;">
+          <p style="color:white; margin:0;"><strong>Modo Hibrido:</strong> Si Gemini falla, devuelve respuestas mock coherentes automaticamente.</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: Panel Admin - Tartas -->
+      <section>
+        <h2>&#127856; Gestion de Tartas</h2>
+        <p class="subtitle">CRUD completo con funcionalidades de IA</p>
+        <br>
+        <div class="two-col">
+          <div>
+            <div class="fragment fade-up">
+              <h3>&#128221; Campos del formulario</h3>
+              <p>SKU, nombre, descripcion, imagen, hashtags, tamano, pisos, forma, dimensiones, bizcocho, crema, frutas, personalizacion, precio, coste, notas.</p>
+            </div>
+            <br>
+            <div class="fragment fade-up">
+              <h3>&#129302; Funcionalidades IA</h3>
+              <ul>
+                <li><strong>Generar hashtags</strong> - 15 hashtags relevantes</li>
+                <li><strong>Generar descripcion</strong> - Copywriting automatico</li>
+                <li><strong>Crear desde foto</strong> - Gemini Vision analiza la imagen</li>
+              </ul>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <img src="https://raw.githubusercontent.com/fportillomasteria2026/pasteleria-ecommerce-tfm/main/presentacion/img-tartas.png" alt="Tartas" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: Panel Admin - Pedidos -->
+      <section>
+        <h2>&#128196; Gestion de Pedidos</h2>
+        <p class="subtitle">CRUD con flujo de estados</p>
+        <br>
+        <div class="two-col">
+          <div>
+            <div class="fragment fade-up">
+              <h3>&#128203; Funcionalidades</h3>
+              <ul>
+                <li>Crear, editar, eliminar pedidos</li>
+                <li>Cambio rapido de estado con un clic</li>
+                <li>Filtros por estado</li>
+                <li>Busqueda por cliente o tarta</li>
+              </ul>
+            </div>
+            <br>
+            <div class="fragment fade-up">
+              <h3>&#128994; Flujo de Estados</h3>
+              <p><span class="tech-badge" style="background:#FEF3C7; color:#92400E;">Pendiente</span> &#8594; <span class="tech-badge" style="background:#DBEAFE; color:#1E40AF;">En Proceso</span> &#8594; <span class="tech-badge" style="background:#DCFCE7; color:#166534;">Completado</span></p>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <img src="https://raw.githubusercontent.com/fportillomasteria2026/pasteleria-ecommerce-tfm/main/presentacion/img-pedidos.png" alt="Pedidos" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 9: Materia Prima y Recetas -->
+      <section>
+        <h2>&#128230; Materia Prima y Recetas</h2>
+        <br>
+        <div class="two-col">
+          <div class="card">
+            <h3>&#128230; Materia Prima del Obrador</h3>
+            <ul>
+              <li>SKU, nombre, marca, proveedor</li>
+              <li>Coste, formato, peso, unidad</li>
+              <li>Cantidad en stock</li>
+              <li>CRUD completo</li>
+            </ul>
+            <br>
+            <p class="small">Ejemplo: Chocolate Negro 70% Cacao, Mantequilla 82% M.G., Harina de Fuerza</p>
+          </div>
+          <div class="card">
+            <h3>&#128221; Recetas de Pasteleria</h3>
+            <ul>
+              <li>Nombre, tarta asociada, categoria</li>
+              <li>Porciones, tiempo prep/coccion</li>
+              <li>Dificultad (Facil/Media/Dificil)</li>
+              <li>Ingredientes e instrucciones</li>
+            </ul>
+            <br>
+            <p class="small">Categorias: Bizcocho, Crema, Cobertura, Relleno, Decoracion</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: IA Inventario -->
+      <section>
+        <h2>&#128200; IA - Optimizacion de Inventario</h2>
+        <br>
+        <div class="two-col">
+          <div>
+            <div class="fragment fade-up">
+              <h3>&#129302; Como funciona</h3>
+              <ol>
+                <li>Gemini analiza todo el stock de materia prima</li>
+                <li>Identifica productos con stock bajo</li>
+                <li>Sugiere cantidades a reponer</li>
+                <li>Estima costes de reposicion</li>
+                <li>Asigna prioridad (alta/media/baja)</li>
+              </ol>
+            </div>
+          </div>
+          <div class="card" style="text-align:center;">
+            <h3>Ejemplo de analisis</h3>
+            <br>
+            <div style="display:flex; gap:10px; justify-content:center;">
+              <div style="background:#FEE2E2; padding:10px; border-radius:8px; flex:1;">
+                <div style="font-size:1.5em; font-weight:700; color:#DC2626;">2</div>
+                <div style="font-size:0.6em; color:#991B1B;">ALTA</div>
+              </div>
+              <div style="background:#FEF3C7; padding:10px; border-radius:8px; flex:1;">
+                <div style="font-size:1.5em; font-weight:700; color:#92400E;">3</div>
+                <div style="font-size:0.6em; color:#92400E;">MEDIA</div>
+              </div>
+              <div style="background:#DCFCE7; padding:10px; border-radius:8px; flex:1;">
+                <div style="font-size:1.5em; font-weight:700; color:#166534;">5</div>
+                <div style="font-size:0.6em; color:#166534;">BAJA</div>
+              </div>
+            </div>
+            <br>
+            <p class="small">Coste total estimado: 245.50 EUR</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: Datos de Ejemplo -->
+      <section>
+        <h2>&#128202; Datos de Ejemplo</h2>
+        <br>
+        <div class="two-col">
+          <div class="card">
+            <h3>&#128196; 8 Pedidos</h3>
+            <table style="font-size:0.65em; width:100%;">
+              <tr><td>Maria Garcia</td><td>Chocolate L</td><td><span class="accent">Completado</span></td></tr>
+              <tr><td>Juan Lopez</td><td>Fresa Natural M</td><td><span class="accent">En Proceso</span></td></tr>
+              <tr><td>Ana Martinez</td><td>Limon Merengada S</td><td><span class="accent">Pendiente</span></td></tr>
+              <tr><td>Pedro Sanchez</td><td>Red Velvet XL</td><td><span class="accent">Pendiente</span></td></tr>
+              <tr><td>Laura Fernandez</td><td>Nuez y Caramelo M</td><td><span class="accent">Completado</span></td></tr>
+              <tr><td>Carlos Ruiz</td><td>Vainilla Clasica L</td><td><span class="accent">En Proceso</span></td></tr>
+              <tr><td>Elena Diaz</td><td>Chocolate S</td><td><span class="accent">Cancelado</span></td></tr>
+              <tr><td>Roberto Moreno</td><td>Fresa Natural XL</td><td><span class="accent">Pendiente</span></td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <h3>&#128221; 8 Recetas</h3>
+            <table style="font-size:0.65em; width:100%;">
+              <tr><td>Bizcocho de Chocolate</td><td>Bizcocho</td><td>Media</td></tr>
+              <tr><td>Crema Chantilly</td><td>Crema</td><td>Facil</td></tr>
+              <tr><td>Ganache de Chocolate</td><td>Cobertura</td><td>Facil</td></tr>
+              <tr><td>Buttercream Americano</td><td>Cobertura</td><td>Facil</td></tr>
+              <tr><td>Mousse de Fresa</td><td>Relleno</td><td>Media</td></tr>
+              <tr><td>Merengue Italiano</td><td>Cobertura</td><td>Dificil</td></tr>
+              <tr><td>Pasta de Azucar</td><td>Decoracion</td><td>Dificil</td></tr>
+              <tr><td>Frangipan</td><td>Relleno</td><td>Facil</td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: Demo y Acceso -->
+      <section>
+        <h2>&#128640; Demo y Acceso</h2>
+        <br>
+        <div class="two-col">
+          <div class="card" style="text-align:center;">
+            <h3>&#127760; Frontend</h3>
+            <br>
+            <p class="url">https://pasteleria-ecommerce-tfm.vercel.app</p>
+            <br>
+            <p>Area publica: Galeria, Quienes Somos, Chat IA</p>
+          </div>
+          <div class="card" style="text-align:center;">
+            <h3>&#128736; Administracion</h3>
+            <br>
+            <p class="url">https://pasteleria-ecommerce-tfm.vercel.app/admin/login</p>
+            <br>
+            <div class="gold-bg" style="display:inline-block;">
+              <p style="color:white; margin:0; font-size:0.9em;"><strong>Usuario:</strong> admin<br><strong>Contrasena:</strong> admin</p>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div style="text-align:center;">
+          <p class="url">https://belieta-backend.onrender.com</p>
+          <p class="small">Backend API - Spring Boot</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 13: GitHub -->
+      <section>
+        <h2>&#128187; Codigo Fuente</h2>
+        <br>
+        <div class="card" style="text-align:center; max-width:600px; margin:0 auto;">
+          <div style="font-size:3em; margin-bottom:15px;">&#128187;</div>
+          <h3>GitHub</h3>
+          <br>
+          <p class="url" style="font-size:0.8em;">https://github.com/fportillomasteria2026/pasteleria-ecommerce-tfm</p>
+          <br>
+          <div style="display:flex; gap:10px; justify-content:center;">
+            <span class="tech-badge">17 archivos backend</span>
+            <span class="tech-badge">13 componentes frontend</span>
+            <span class="tech-badge">5 funcionalidades IA</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 14: Resumen -->
+      <section data-background-color="#3E2723">
+        <div style="color: white; text-align:center;">
+          <div style="font-size: 3em; margin-bottom: 20px;">&#127856;</div>
+          <h1 style="color: white; border: none;">Dulce Sabor</h1>
+          <br>
+          <div style="display:flex; gap:30px; justify-content:center; margin-top:30px;">
+            <div>
+              <div class="stat" style="color: #C8A96E;">6</div>
+              <div class="stat-label" style="color: rgba(255,255,255,0.7);">Secciones</div>
+            </div>
+            <div>
+              <div class="stat" style="color: #C8A96E;">5</div>
+              <div class="stat-label" style="color: rgba(255,255,255,0.7);">Funcionalidades IA</div>
+            </div>
+            <div>
+              <div class="stat" style="color: #C8A96E;">16</div>
+              <div class="stat-label" style="color: rgba(255,255,255,0.7);">Endpoints API</div>
+            </div>
+          </div>
+          <br><br>
+          <p style="color: rgba(255,255,255,0.5); font-size: 0.7em;">Trabajo de Fin de Master</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      controls: true,
+      progress: true,
+      center: true,
+      transition: 'slide',
+      width: 1200,
+      height: 700
+    });
+  </script>
+</body>
+</html>
