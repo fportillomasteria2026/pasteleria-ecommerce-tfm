@@ -36,59 +36,41 @@ public class AiService {
         String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
         String mimeType = image.getContentType() != null ? image.getContentType() : "image/jpeg";
 
-        String prompt = """
-            Eres un experto en pasteleria. Analiza esta imagen de una tarta y devuelve un JSON con estos campos exactos:
-            {
-              "nombre": "nombre inventado para la tarta",
-              "descripcion": "descripcion corta de lo que ves",
-              "sabor": "sabor del bizcocho que ves",
-              "crema": "tipo de crema que ves",
-              "frutas": "frutas visibles separadas por coma",
-              "forma": "Cilindrica o Cuadrada",
-              "tamano": "XS, S, M, L o XL",
-              "pisos": 2,
-              "dimensiones": "dimensiones estimadas ej: h20xd25cm",
-              "personalizacion": "Papel de Azucar, Papeleria o Mezcla",
-              "hashtags": "hashtags separados por coma",
-              "precio": 45
-            }
-            Analiza bien la imagen. Devuelve SOLO el JSON, sin texto adicional.
-            """;
+        String prompt = "Eres un experto en pasteleria. Analiza esta imagen de una tarta y devuelve un JSON con estos campos: nombre, descripcion, sabor, crema, frutas, forma, tamano, pisos, dimensiones, personalizacion, hashtags, precio. Devuelve SOLO el JSON.";
 
         Map<String, Object> requestBody = Map.of(
             "contents", java.util.List.of(Map.of(
                 "parts", java.util.List.of(
                     Map.of("text", prompt),
-                    Map.of("inline_data", Map.of(
-                        "mime_type", mimeType,
-                        "data", base64Image
-                    ))
-                )
-            ))
+                    Map.of("inline_data", Map.of("mime_type", mimeType, "data", base64Image))
+                ))
+            )
         );
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
-
         String url = geminiUrl + "?key=" + apiKey;
-        log.info("Llamando a Gemini API para analizar tarta...");
 
-        try {
-            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
-            log.info("Respuesta Gemini: {}", response.getBody());
+        log.info("Llamando a Gemini API...");
+        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+        log.info("Gemini HTTP status: {}", response.getStatusCode());
 
-            JsonNode root = objectMapper.readTree(response.getBody());
-            String text = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText();
-            String cleaned = text.trim().replaceAll("```json", "").replaceAll("```", "").trim();
-            return objectMapper.readValue(cleaned, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {});
-        } catch (Exception e) {
-            log.error("Error llamando a Gemini: {}", e.getMessage(), e);
-            throw new RuntimeException("Error al procesar imagen con IA: " + e.getMessage(), e);
+        if (response.getStatusCode().is4xxClientError() || response.getStatusCode().is5xxServerError()) {
+            throw new RuntimeException("Gemini HTTP " + response.getStatusCodeValue() + ": " + response.getBody());
         }
+
+        JsonNode root = objectMapper.readTree(response.getBody());
+        if (root.has("error")) {
+            throw new RuntimeException("Gemini: " + root.get("error").get("message").asText());
+        }
+
+        String text = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText();
+        String cleaned = text.trim().replaceAll("```json", "").replaceAll("```", "").trim();
+        return objectMapper.readValue(cleaned, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {});
     }
 
-    private Map<String, Object> getMockTartaAnalysis() {
+    public Map<String, Object> getMockTartaAnalysis() {
         Map<String, Object> result = new java.util.HashMap<>();
         result.put("nombre", "Tarta Artesanal");
         result.put("descripcion", "Tarta elaborada con ingredientes de primera calidad");
