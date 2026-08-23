@@ -1,3 +1,8 @@
 {
-  "rewrites": []
+  "outputDirectory": "frontend/dist/frontend",
+  "buildCommand": "cd frontend && npm install && npx ng build",
+  "installCommand": "cd frontend && npm install",
+  "rewrites": [
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
 }
