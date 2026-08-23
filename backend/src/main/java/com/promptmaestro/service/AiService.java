@@ -28,6 +28,11 @@ public class AiService {
     private String geminiUrl;
 
     public Map<String, Object> analyzeTartaImage(MultipartFile image) throws IOException {
+        if (apiKey == null || apiKey.isEmpty()) {
+            log.warn("GEMINI_API_KEY no configurada, usando mock");
+            return getMockTartaAnalysis();
+        }
+
         String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
         String mimeType = image.getContentType() != null ? image.getContentType() : "image/jpeg";
 
@@ -67,13 +72,36 @@ public class AiService {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
         String url = geminiUrl + "?key=" + apiKey;
-        log.info("Llamando a Gemini API: {}", url);
-        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
-        log.info("Respuesta Gemini: {}", response.getBody());
+        log.info("Llamando a Gemini API para analizar tarta...");
 
-        JsonNode root = objectMapper.readTree(response.getBody());
-        String text = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText();
-        String cleaned = text.trim().replaceAll("```json", "").replaceAll("```", "").trim();
-        return objectMapper.readValue(cleaned, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {});
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+            log.info("Respuesta Gemini: {}", response.getBody());
+
+            JsonNode root = objectMapper.readTree(response.getBody());
+            String text = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText();
+            String cleaned = text.trim().replaceAll("```json", "").replaceAll("```", "").trim();
+            return objectMapper.readValue(cleaned, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {});
+        } catch (Exception e) {
+            log.error("Error llamando a Gemini: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al procesar imagen con IA: " + e.getMessage(), e);
+        }
+    }
+
+    private Map<String, Object> getMockTartaAnalysis() {
+        Map<String, Object> result = new java.util.HashMap<>();
+        result.put("nombre", "Tarta Artesanal");
+        result.put("descripcion", "Tarta elaborada con ingredientes de primera calidad");
+        result.put("sabor", "Chocolate");
+        result.put("crema", "Ganache");
+        result.put("frutas", "Fresa");
+        result.put("forma", "Cilindrica");
+        result.put("tamano", "M");
+        result.put("pisos", 2);
+        result.put("dimensiones", "h20xd25cm");
+        result.put("personalizacion", "Papel de Azucar");
+        result.put("hashtags", "chocolate,fresa,ganache,pasteleria,artesanal");
+        result.put("precio", 45);
+        return result;
     }
 }
