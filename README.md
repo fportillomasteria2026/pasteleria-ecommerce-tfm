@@ -6,10 +6,6 @@
 
 El sistema permite a los clientes explorar el catálogo de tartas, buscar por hashtags, contactar por WhatsApp y utilizar un asistente virtual con IA. El administrador puede gestionar tartas, recetas, materia prima, pedidos, y aprovechar funcionalidades de IA como generación de descripciones, análisis de fotos, hashtags automáticos y optimización de inventario.
 
-**Dirección:** C/ Marqués de Larios, 1, 29005 Málaga  
-**Teléfono:** 955 123 456  
-**Horario:** Lunes a Sábado, 9:00 - 20:00
-
 ---
 
 ## 2. Stack Tecnológico
