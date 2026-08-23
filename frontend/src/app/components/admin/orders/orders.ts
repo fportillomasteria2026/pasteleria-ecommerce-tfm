@@ -174,4 +174,17 @@ export class Orders implements OnInit {
       totalRevenue: all.filter(o => o.status === 'COMPLETADO').reduce((sum, o) => sum + (o.totalAmount || 0), 0)
     };
   }
+
+  isStepDone(currentStatus: string, step: string): boolean {
+    const order = { currentStatus };
+    const steps = ['PENDIENTE', 'EN_PROCESO', 'COMPLETADO'];
+    const currentIdx = steps.indexOf(order.currentStatus);
+    const stepIdx = steps.indexOf(step);
+    if (order.currentStatus === 'CANCELADO') return false;
+    return currentIdx > stepIdx;
+  }
+
+  isStepActive(currentStatus: string, step: string): boolean {
+    return currentStatus === step;
+  }
 }

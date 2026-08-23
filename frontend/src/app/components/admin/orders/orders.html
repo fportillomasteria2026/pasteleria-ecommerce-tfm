@@ -13,123 +13,175 @@
     </div>
   </div>
 
-  <!-- Stats Cards -->
-  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:10px;">
-    <div class="stat-card stat-pending">
-      <div class="stat-number">{{ getStats().pendientes }}</div>
-      <div class="stat-label">Pendientes</div>
+  <!-- Stats Cards Visuales -->
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px;">
+    <div class="stat-card" style="border-left:4px solid #F59E0B;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:36px; height:36px; border-radius:8px; background:#FEF3C7; display:flex; align-items:center; justify-content:center; font-size:18px;">&#9203;</div>
+        <div>
+          <div class="stat-number" style="color:#92400E;">{{ getStats().pendientes }}</div>
+          <div class="stat-label">Pendientes</div>
+        </div>
+      </div>
     </div>
-    <div class="stat-card stat-process">
-      <div class="stat-number">{{ getStats().enProceso }}</div>
-      <div class="stat-label">En Proceso</div>
+    <div class="stat-card" style="border-left:4px solid #3B82F6;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:36px; height:36px; border-radius:8px; background:#DBEAFE; display:flex; align-items:center; justify-content:center; font-size:18px;">&#128296;</div>
+        <div>
+          <div class="stat-number" style="color:#1E40AF;">{{ getStats().enProceso }}</div>
+          <div class="stat-label">En Proceso</div>
+        </div>
+      </div>
     </div>
-    <div class="stat-card stat-done">
-      <div class="stat-number">{{ getStats().completados }}</div>
-      <div class="stat-label">Completados</div>
+    <div class="stat-card" style="border-left:4px solid #22C55E;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:36px; height:36px; border-radius:8px; background:#DCFCE7; display:flex; align-items:center; justify-content:center; font-size:18px;">&#9989;</div>
+        <div>
+          <div class="stat-number" style="color:#166534;">{{ getStats().completados }}</div>
+          <div class="stat-label">Completados</div>
+        </div>
+      </div>
     </div>
-    <div class="stat-card stat-revenue">
-      <div class="stat-number">{{ getStats().totalRevenue.toFixed(0) }} EUR</div>
-      <div class="stat-label">Ingresos</div>
+    <div class="stat-card" style="border-left:4px solid #C8A96E;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:36px; height:36px; border-radius:8px; background:#FEF3C7; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; color:#C8A96E;">EUR</div>
+        <div>
+          <div class="stat-number" style="color:#C8A96E;">{{ getStats().totalRevenue.toFixed(0) }}</div>
+          <div class="stat-label">Ingresos</div>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Filtros -->
-  <div style="display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;">
-    <button (click)="statusFilter.set(''); loadOrders()" class="filter-btn" [class.filter-active]="!statusFilter()">Todos ({{ getStats().total }})</button>
+  <div style="display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap;">
+    <button (click)="statusFilter.set(''); loadOrders()" class="filter-btn" [class.filter-active]="!statusFilter()">Todos</button>
     <button (click)="statusFilter.set('PENDIENTE'); loadOrders()" class="filter-btn" [class.filter-yellow]="statusFilter() === 'PENDIENTE'">&#9203; Pendientes</button>
     <button (click)="statusFilter.set('EN_PROCESO'); loadOrders()" class="filter-btn" [class.filter-blue]="statusFilter() === 'EN_PROCESO'">&#128296; En Proceso</button>
     <button (click)="statusFilter.set('COMPLETADO'); loadOrders()" class="filter-btn" [class.filter-green]="statusFilter() === 'COMPLETADO'">&#9989; Completados</button>
     <button (click)="statusFilter.set('CANCELADO'); loadOrders()" class="filter-btn" [class.filter-red]="statusFilter() === 'CANCELADO'">&#10060; Cancelados</button>
   </div>
 
-  <!-- Formulario -->
-  <div class="card" style="padding:14px 16px; margin-bottom:10px;">
-    <div class="form-header">
-      <div class="form-dot" [style.background]="isNewItem() ? '#22C55E' : '#C8A96E'"></div>
-      <h3 class="form-title">{{ isNewItem() ? 'Nuevo Pedido' : 'Editar Pedido #' + formItem.id }}</h3>
-    </div>
+  <!-- Formulario Colapsable -->
+  @if (isNewItem() || formItem.id) {
+    <div class="card" style="padding:14px 16px; margin-bottom:12px; border:1px solid #E0D5C5;">
+      <div class="form-header" style="cursor:pointer;" (click)="!isNewItem() && formItem.id ? selectItem(getEmptyOrder()) : null">
+        <div class="form-dot" [style.background]="isNewItem() ? '#22C55E' : '#C8A96E'"></div>
+        <h3 class="form-title">{{ isNewItem() ? 'Nuevo Pedido' : 'Editar Pedido #' + formItem.id }}</h3>
+      </div>
 
-    <!-- Row 1: Cliente + Telefono + Tarta + Tamano -->
-    <div class="form-row">
-      <div class="field field-lg"><label>Cliente *</label><input type="text" [(ngModel)]="formItem.customerName" placeholder="Nombre del cliente" class="input" /></div>
-      <div class="field field-sm"><label>Telefono</label><input type="text" [(ngModel)]="formItem.customerPhone" placeholder="955 123 456" class="input" /></div>
-      <div class="field field-md"><label>Tarta</label><input type="text" [(ngModel)]="formItem.tartaName" placeholder="Nombre de la tarta" class="input" /></div>
-      <div class="field field-xs"><label>Tamano</label><select [(ngModel)]="formItem.tartaSize" class="input"><option value="">-</option>@for (t of tamanos; track t) { <option [value]="t">{{ t }}</option> }</select></div>
-    </div>
+      <div class="form-row">
+        <div class="field field-lg"><label>Cliente *</label><input type="text" [(ngModel)]="formItem.customerName" placeholder="Nombre del cliente" class="input" /></div>
+        <div class="field field-sm"><label>Telefono</label><input type="text" [(ngModel)]="formItem.customerPhone" placeholder="955 123 456" class="input" /></div>
+        <div class="field field-md"><label>Tarta</label><input type="text" [(ngModel)]="formItem.tartaName" placeholder="Nombre de la tarta" class="input" /></div>
+        <div class="field field-xs"><label>Tamano</label><select [(ngModel)]="formItem.tartaSize" class="input"><option value="">-</option>@for (t of tamanos; track t) { <option [value]="t">{{ t }}</option> }</select></div>
+      </div>
 
-    <!-- Row 2: Personalizacion + Total + Notas -->
-    <div class="form-row form-row-bg">
-      <div class="field field-md"><label>Personalizacion</label><select [(ngModel)]="formItem.personalization" class="input"><option value="">-</option>@for (p of personalizaciones; track p) { <option [value]="p">{{ p }}</option> }</select></div>
-      <div class="field field-xs"><label>Total EUR</label><input type="number" [(ngModel)]="formItem.totalAmount" step="0.01" class="input" /></div>
-      <div class="field" style="flex:2;"><label>Notas</label><input type="text" [(ngModel)]="formItem.notes" placeholder="Notas del pedido..." class="input" /></div>
-    </div>
+      <div class="form-row" style="padding:6px 8px; background:#F9F6F1; border-radius:4px;">
+        <div class="field field-md"><label>Personalizacion</label><select [(ngModel)]="formItem.personalization" class="input"><option value="">-</option>@for (p of personalizaciones; track p) { <option [value]="p">{{ p }}</option> }</select></div>
+        <div class="field field-xs"><label>Total EUR</label><input type="number" [(ngModel)]="formItem.totalAmount" step="0.01" class="input" /></div>
+        <div class="field" style="flex:2;"><label>Notas</label><input type="text" [(ngModel)]="formItem.notes" placeholder="Notas del pedido..." class="input" /></div>
+      </div>
 
-    <!-- Row 3: Status -->
-    <div class="form-row">
-      <div class="field field-sm"><label>Estado</label>
-        <select [(ngModel)]="formItem.status" class="input">
-          @for (s of statuses; track s.value) { <option [value]="s.value">{{ s.label }}</option> }
-        </select>
+      <div class="form-row">
+        <div class="field field-sm"><label>Estado</label>
+          <select [(ngModel)]="formItem.status" class="input">
+            @for (s of statuses; track s.value) { <option [value]="s.value">{{ s.label }}</option> }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button (click)="saveItem()" class="btn-green">{{ isNewItem() ? 'Crear Pedido' : 'Guardar' }}</button>
+        @if (!isNewItem()) { <button (click)="confirmDelete(formItem.id!)" class="btn-red">Eliminar</button> }
+        <button (click)="newItem()" class="btn-gray">Limpiar</button>
       </div>
     </div>
+  }
 
-    <div class="form-actions">
-      <button (click)="saveItem()" class="btn-green">{{ isNewItem() ? 'Crear Pedido' : 'Guardar Cambios' }}</button>
-      @if (!isNewItem()) { <button (click)="confirmDelete(formItem.id!)" class="btn-red">Eliminar</button> }
-      <button (click)="newItem()" class="btn-gray">Limpiar</button>
-    </div>
-  </div>
+  <!-- Tarjetas de Pedidos -->
+  <div class="orders-grid">
+    @for (order of items(); track order.id) {
+      <div class="order-card" [class.order-selected]="formItem.id === order.id" (click)="selectItem(order)">
+        <!-- Header de tarjeta -->
+        <div class="order-card-header">
+          <div class="order-id">#{{ order.id }}</div>
+          <span class="badge" [style.background]="getStatusBg(order.status)" [style.color]="getStatusColor(order.status)">{{ getStatusLabel(order.status) }}</span>
+        </div>
 
-  <!-- Tabla -->
-  <div class="card" style="padding:12px 16px;">
-    <div style="overflow-x:auto;">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Cliente</th>
-            <th>Tarta</th>
-            <th>Tam.</th>
-            <th>Estado</th>
-            <th style="text-align:right">Total</th>
-            <th>Fecha</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (order of items(); track order.id) {
-            <tr [class.row-selected]="formItem.id === order.id" (click)="selectItem(order)">
-              <td class="cell-muted">{{ order.id }}</td>
-              <td>
-                <div class="cell-bold">{{ order.customerName }}</div>
-                @if (order.customerPhone) { <div class="cell-muted" style="font-size:9px;">{{ order.customerPhone }}</div> }
-              </td>
-              <td style="font-size:10px; color:#3E2723;">{{ order.tartaName || '-' }}</td>
-              <td><span class="badge" style="background:#F0E6D6;">{{ order.tartaSize || '-' }}</span></td>
-              <td>
-                <span class="badge" [style.background]="getStatusBg(order.status)" [style.color]="getStatusColor(order.status)">{{ getStatusLabel(order.status) }}</span>
-              </td>
-              <td class="cell-right cell-price">{{ (order.totalAmount || 0).toFixed(2) }} EUR</td>
-              <td class="cell-muted" style="font-size:9px;">{{ getShortDate(order.createdAt) }}</td>
-              <td>
-                <div style="display:flex; gap:3px; flex-wrap:wrap;">
-                  @if (order.status === 'PENDIENTE') {
-                    <button (click)="$event.stopPropagation(); quickStatus(order, 'EN_PROCESO')" class="btn-xs" style="background:#DBEAFE; color:#1E40AF; border:none; border-radius:4px; cursor:pointer; font-size:9px; font-weight:600; padding:2px 6px;">Procesar</button>
-                  }
-                  @if (order.status === 'EN_PROCESO') {
-                    <button (click)="$event.stopPropagation(); quickStatus(order, 'COMPLETADO')" class="btn-xs" style="background:#DCFCE7; color:#166534; border:none; border-radius:4px; cursor:pointer; font-size:9px; font-weight:600; padding:2px 6px;">Completar</button>
-                  }
-                  <button (click)="$event.stopPropagation(); selectItem(order)" class="btn-xs btn-blue">Editar</button>
-                  <button (click)="$event.stopPropagation(); confirmDelete(order.id!)" class="btn-xs btn-red-outline">Borrar</button>
-                </div>
-              </td>
-            </tr>
+        <!-- Progreso visual -->
+        <div class="order-progress">
+          <div class="progress-step" [class.step-done]="isStepDone(order.status, 'PENDIENTE')" [class.step-active]="order.status === 'PENDIENTE'">
+            <div class="step-dot"></div>
+            <div class="step-label">Recibido</div>
+          </div>
+          <div class="progress-line" [class.line-done]="isStepDone(order.status, 'EN_PROCESO')"></div>
+          <div class="progress-step" [class.step-done]="isStepDone(order.status, 'EN_PROCESO')" [class.step-active]="order.status === 'EN_PROCESO'">
+            <div class="step-dot"></div>
+            <div class="step-label">Proceso</div>
+          </div>
+          <div class="progress-line" [class.line-done]="isStepDone(order.status, 'COMPLETADO')"></div>
+          <div class="progress-step" [class.step-done]="order.status === 'COMPLETADO'" [class.step-active]="order.status === 'COMPLETADO'">
+            <div class="step-dot"></div>
+            <div class="step-label">Listo</div>
+          </div>
+        </div>
+
+        <!-- Info del pedido -->
+        <div class="order-card-body">
+          <div class="order-client">
+            <span class="client-icon">&#128100;</span>
+            <span class="client-name">{{ order.customerName }}</span>
+          </div>
+          @if (order.customerPhone) {
+            <div class="order-phone">&#128222; {{ order.customerPhone }}</div>
           }
-        </tbody>
-      </table>
-    </div>
-    @if (items().length === 0 && !loading()) { <p class="empty-msg">No hay pedidos registrados</p> }
+          @if (order.tartaName) {
+            <div class="order-tarta">
+              <span class="tarta-icon">&#127856;</span>
+              <span>{{ order.tartaName }}</span>
+              @if (order.tartaSize) { <span class="size-badge">{{ order.tartaSize }}</span> }
+            </div>
+          }
+          @if (order.personalization && order.personalization !== 'Sin personalizacion') {
+            <div class="order-detail">&#127912; {{ order.personalization }}</div>
+          }
+          @if (order.notes) {
+            <div class="order-notes">&#128221; {{ order.notes }}</div>
+          }
+        </div>
+
+        <!-- Footer de tarjeta -->
+        <div class="order-card-footer">
+          <div class="order-price">{{ (order.totalAmount || 0).toFixed(2) }} EUR</div>
+          <div class="order-date">{{ getShortDate(order.createdAt) }}</div>
+        </div>
+
+        <!-- Acciones rapidas -->
+        <div class="order-card-actions">
+          @if (order.status === 'PENDIENTE') {
+            <button (click)="$event.stopPropagation(); quickStatus(order, 'EN_PROCESO')" class="action-btn action-process">&#128296; Procesar</button>
+          }
+          @if (order.status === 'EN_PROCESO') {
+            <button (click)="$event.stopPropagation(); quickStatus(order, 'COMPLETADO')" class="action-btn action-complete">&#9989; Completar</button>
+          }
+          @if (order.status !== 'CANCELADO' && order.status !== 'COMPLETADO') {
+            <button (click)="$event.stopPropagation(); quickStatus(order, 'CANCELADO')" class="action-btn action-cancel">&#10060;</button>
+          }
+          <button (click)="$event.stopPropagation(); selectItem(order)" class="action-btn action-edit">&#9998;</button>
+          <button (click)="$event.stopPropagation(); confirmDelete(order.id!)" class="action-btn action-delete">&#128465;</button>
+        </div>
+      </div>
+    }
   </div>
+
+  @if (items().length === 0 && !loading()) {
+    <div class="empty-state">
+      <div class="empty-icon">&#128196;</div>
+      <p>No hay pedidos registrados</p>
+      <button (click)="newItem()" class="btn-green" style="margin-top:8px;">Crear primer pedido</button>
+    </div>
+  }
 </div>
 
 <!-- Modal Confirmar Eliminar -->
@@ -141,7 +193,7 @@
       <p style="font-size:12px; color:#8B7355; margin-bottom:20px;">Seguro que quieres eliminar este pedido? Esta accion no se puede deshacer.</p>
       <div style="display:flex; gap:8px; justify-content:center;">
         <button (click)="cancelDelete()" class="btn-gray">Cancelar</button>
-        <button (click)="executeDelete()" class="btn-red" style="background:#DC2626; color:white; border:none;">Eliminar</button>
+        <button (click)="executeDelete()" style="padding:8px 16px; border:none; border-radius:6px; background:#DC2626; color:white; font-size:11px; font-weight:700; cursor:pointer;">Eliminar</button>
       </div>
     </div>
   </div>
