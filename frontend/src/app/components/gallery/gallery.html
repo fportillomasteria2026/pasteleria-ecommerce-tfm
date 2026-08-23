@@ -53,13 +53,6 @@
               <span class="g-badge">{{ item.tamano }}</span>
               <span class="g-price">{{ item.precioPublico.toFixed(2) }} EUR</span>
             </div>
-            @if (item.hashtags && item.hashtags.length > 0) {
-              <div class="g-tags">
-                @for (tag of item.hashtags; track tag) {
-                  <button (click)="filterByTag(tag)" class="g-tag">{{ tag }}</button>
-                }
-              </div>
-            }
           </div>
         </div>
       }
