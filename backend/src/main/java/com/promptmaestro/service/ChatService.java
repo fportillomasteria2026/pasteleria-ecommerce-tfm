@@ -34,6 +34,7 @@ public class ChatService {
     }
 
     public String chat(String userMessage) {
+        log.info("Chat recibido: {}", userMessage);
         if (apiKey == null || apiKey.isEmpty()) {
             return getMockResponse(userMessage);
         }
