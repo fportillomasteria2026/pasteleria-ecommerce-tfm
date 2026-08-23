@@ -1,50 +1,118 @@
-<div style="font-family:'Lato',Arial,sans-serif;">
-  <a routerLink="/admin/dashboard" class="btn-back">&larr; Volver al Dashboard</a>
+<div style="font-family:'Lato',Arial,sans-serif; padding:16px;">
+  <a routerLink="/admin/dashboard" style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border:1px solid #E0D5C5; border-radius:50px; color:#8B7355; font-size:11px; font-weight:600; text-decoration:none; margin-bottom:10px;">&larr; Volver al Dashboard</a>
 
   <!-- Header -->
-  <div class="card" style="padding:16px 20px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+  <div style="background:white; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.04); padding:12px 16px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between;">
     <div style="display:flex; align-items:center; gap:10px;">
-      <div class="icon-box">&#128221;</div>
-      <h2 class="card-title">Gestion de Recetas</h2>
+      <div style="width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,#C8A96E,#B8954A); display:flex; align-items:center; justify-content:center; font-size:14px;">&#128221;</div>
+      <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:16px; font-weight:700; color:#3E2723;">Gestion de Recetas</h2>
     </div>
-    <button (click)="newItem()" class="btn-green">+ Nueva</button>
+    <div style="display:flex; gap:6px; align-items:center;">
+      <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="search()" placeholder="Buscar..." style="padding:6px 10px; border:1px solid #E0D5C5; border-radius:6px; font-size:11px; width:160px;" />
+      <button (click)="newItem()" style="padding:7px 14px; border:none; border-radius:6px; background:#22C55E; color:white; font-size:11px; font-weight:700; cursor:pointer;">+ Nueva</button>
+    </div>
   </div>
 
   <!-- Formulario -->
-  <div class="card" style="padding:16px 20px; margin-bottom:12px;">
-    <div class="form-header">
-      <div class="form-dot" [style.background]="isNewItem() ? '#22C55E' : '#C8A96E'"></div>
-      <h3 class="form-title">{{ isNewItem() ? 'Nueva Receta' : 'Editar: ' + formItem.name }}</h3>
+  <div style="background:white; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.04); padding:14px 16px; margin-bottom:10px;">
+    <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+      <div style="width:6px; height:6px; border-radius:50%;" [style.background]="isNewItem() ? '#22C55E' : '#C8A96E'"></div>
+      <span style="font-size:12px; font-weight:700; color:#3E2723;">{{ isNewItem() ? 'Nueva Receta' : 'Editar: ' + formItem.name }}</span>
     </div>
 
-    <div class="form-row">
-      <div class="field field-lg"><label>Nombre *</label><input type="text" [(ngModel)]="formItem.name" placeholder="Nombre de la receta" class="input" /></div>
-    </div>
-    <div class="form-row">
-      <div class="field" style="flex:1;"><label>Instrucciones</label><textarea [(ngModel)]="formItem.instructions" rows="2" placeholder="Instrucciones de preparacion..." class="input" style="resize:vertical;"></textarea></div>
+    <!-- Fila 1: Nombre + Tarta + Categoria -->
+    <div style="display:flex; gap:6px; margin-bottom:4px;">
+      <div style="flex:1.5;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Nombre *</label><input type="text" [(ngModel)]="formItem.name" placeholder="Nombre de la receta" style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:11px; box-sizing:border-box;" /></div>
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Tarta asociada</label><input type="text" [(ngModel)]="formItem.tartaName" placeholder="Tarta de Chocolate" style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:11px; box-sizing:border-box;" /></div>
+      <div style="flex:0 0 120px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Categoria</label><select [(ngModel)]="formItem.category" style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;">@for (c of categorias; track c) { <option [value]="c">{{ c }}</option> }</select></div>
     </div>
 
-    <div class="form-actions">
-      <button (click)="saveItem()" class="btn-green">{{ isNewItem() ? 'Crear' : 'Guardar' }}</button>
-      @if (!isNewItem()) { <button (click)="deleteItem(formItem.id!)" class="btn-red">Eliminar</button> }
-      <button (click)="newItem()" class="btn-gray">Limpiar</button>
+    <!-- Fila 2: Porciones + Tiempo prep + Tiempo coccion + Dificultad -->
+    <div style="display:flex; gap:6px; margin-bottom:4px; padding:6px 8px; background:#F9F6F1; border-radius:4px;">
+      <div style="flex:0 0 70px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Porciones</label><input type="number" [(ngModel)]="formItem.portions" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+      <div style="flex:0 0 100px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Prep. (min)</label><input type="number" [(ngModel)]="formItem.prepTimeMinutes" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+      <div style="flex:0 0 100px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Coccion (min)</label><input type="number" [(ngModel)]="formItem.cookTimeMinutes" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+      <div style="flex:0 0 100px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Dificultad</label><select [(ngModel)]="formItem.difficulty" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;">@for (d of dificultades; track d) { <option [value]="d">{{ d }}</option> }</select></div>
+    </div>
+
+    <!-- Fila 3: Ingredientes -->
+    <div style="display:flex; gap:6px; margin-bottom:4px; padding:6px 8px; background:#F0F7F4; border-radius:4px;">
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Ingredientes (separados por coma)</label><input type="text" [(ngModel)]="formItem.ingredients" placeholder="200g harina, 150g azucar, 3 huevos, 100g mantequilla..." style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+    </div>
+
+    <!-- Fila 4: Instrucciones -->
+    <div style="display:flex; gap:6px; margin-bottom:4px;">
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Instrucciones</label><textarea [(ngModel)]="formItem.instructions" rows="3" placeholder="Pasos de preparacion..." style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px; box-sizing:border-box; resize:vertical; font-family:'Lato',Arial,sans-serif;"></textarea></div>
+    </div>
+
+    <!-- Fila 5: Notas -->
+    <div style="display:flex; gap:6px; margin-bottom:6px; padding:6px 8px; background:#FDF6F0; border-radius:4px;">
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Notas</label><input type="text" [(ngModel)]="formItem.notes" placeholder="Consejos, variaciones..." style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+    </div>
+
+    <!-- Botones -->
+    <div style="display:flex; gap:6px; padding-top:6px; border-top:1px solid #F0E6D6;">
+      <button (click)="saveItem()" style="padding:7px 18px; border:none; border-radius:4px; background:#22C55E; color:white; font-size:11px; font-weight:700; cursor:pointer;">{{ isNewItem() ? 'Crear' : 'Guardar' }}</button>
+      @if (!isNewItem()) { <button (click)="confirmDelete(formItem.id!)" style="padding:7px 14px; border:1px solid #FECACA; border-radius:4px; background:white; color:#DC2626; font-size:11px; font-weight:700; cursor:pointer;">Eliminar</button> }
+      <button (click)="newItem()" style="padding:7px 14px; border:1px solid #E0D5C5; border-radius:4px; background:white; color:#8B7355; font-size:11px; font-weight:700; cursor:pointer;">Limpiar</button>
     </div>
   </div>
 
-  <!-- Lista -->
-  <div class="card" style="padding:16px 20px;">
+  <!-- Lista de recetas -->
+  <div style="background:white; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.04); padding:12px 16px;">
     @for (recipe of items(); track recipe.id) {
       <div style="border:1px solid #E0D5C5; border-radius:8px; padding:12px; margin-bottom:8px; cursor:pointer; transition:all 0.2s;" [style.background]="formItem.id === recipe.id ? '#FEF3C7' : 'white'" (click)="selectItem(recipe)" onmouseover="if(!this.style.background.includes('254'))this.style.background='#F5F0EB'" onmouseout="if(!this.style.background.includes('254'))this.style.background='white'">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h3 style="font-family:'Playfair Display',Georgia,serif; font-size:14px; font-weight:700; color:#3E2723;">{{ recipe.name }}</h3>
-          <div>
-            <button (click)="$event.stopPropagation(); selectItem(recipe)" class="btn-xs btn-blue">Editar</button>
-            <button (click)="$event.stopPropagation(); deleteItem(recipe.id!)" class="btn-xs btn-red-outline">Borrar</button>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="flex:1;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <h3 style="font-family:'Playfair Display',Georgia,serif; font-size:14px; font-weight:700; color:#3E2723; margin:0;">{{ recipe.name }}</h3>
+              @if (recipe.tartaName) {
+                <span style="padding:1px 8px; border-radius:8px; background:#F0E6D6; color:#3E2723; font-size:9px; font-weight:600;">&#127856; {{ recipe.tartaName }}</span>
+              }
+              @if (recipe.category) {
+                <span style="padding:1px 8px; border-radius:8px; background:#F0F7F4; color:#166534; font-size:9px; font-weight:600;">{{ recipe.category }}</span>
+              }
+              @if (recipe.difficulty) {
+                <span style="padding:1px 8px; border-radius:8px; font-size:9px; font-weight:600;" [style.background]="getDifficultyBg(recipe.difficulty)" [style.color]="getDifficultyColor(recipe.difficulty)">{{ recipe.difficulty }}</span>
+              }
+            </div>
+            <div style="display:flex; gap:12px; font-size:9px; color:#8B7355; margin-bottom:6px;">
+              @if (recipe.portions) { <span>&#127860; {{ recipe.portions }} porciones</span> }
+              @if (recipe.prepTimeMinutes) { <span>&#9201; Prep: {{ recipe.prepTimeMinutes }}min</span> }
+              @if (recipe.cookTimeMinutes) { <span>&#128293; Coccion: {{ recipe.cookTimeMinutes }}min</span> }
+            </div>
+            @if (recipe.ingredients) {
+              <p style="font-size:10px; color:#8B7355; margin:0 0 4px 0; line-height:1.4;"><strong style="color:#3E2723;">Ingredientes:</strong> {{ recipe.ingredients }}</p>
+            }
+            @if (recipe.instructions) {
+              <p style="font-size:10px; color:#8B7355; margin:0; line-height:1.5; white-space:pre-line;">{{ recipe.instructions }}</p>
+            }
+            @if (recipe.notes) {
+              <p style="font-size:9px; color:#C8A96E; margin:4px 0 0 0; font-style:italic;">&#128221; {{ recipe.notes }}</p>
+            }
+          </div>
+          <div style="display:flex; gap:4px; margin-left:8px;">
+            <button (click)="$event.stopPropagation(); selectItem(recipe)" style="padding:2px 6px; border:1px solid #E0D5C5; border-radius:3px; background:white; color:#2563EB; font-size:9px; font-weight:600; cursor:pointer;">Editar</button>
+            <button (click)="$event.stopPropagation(); confirmDelete(recipe.id!)" style="padding:2px 6px; border:1px solid #FECACA; border-radius:3px; background:white; color:#DC2626; font-size:9px; font-weight:600; cursor:pointer;">Borrar</button>
           </div>
         </div>
-        <p style="font-size:11px; color:#8B7355; margin-top:4px; line-height:1.5; white-space:pre-line;">{{ recipe.instructions }}</p>
       </div>
     }
-    @if (items().length === 0 && !loading()) { <p class="empty-msg">No hay recetas registradas</p> }
+    @if (items().length === 0 && !loading()) { <p style="text-align:center; padding:20px; color:#8B7355; font-size:11px;">No hay recetas registradas</p> }
   </div>
 </div>
+
+<!-- Modal Confirmar Eliminar -->
+@if (showDeleteConfirm()) {
+  <div style="position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; display:flex; align-items:center; justify-content:center;" (click)="cancelDelete()">
+    <div style="background:white; border-radius:12px; padding:24px; width:360px; max-width:90vw; text-align:center;" (click)="$event.stopPropagation()">
+      <div style="font-size:36px; margin-bottom:12px;">&#128465;</div>
+      <h3 style="font-size:16px; font-weight:700; color:#3E2723; margin-bottom:8px;">Eliminar Receta</h3>
+      <p style="font-size:12px; color:#8B7355; margin-bottom:20px;">Seguro que quieres eliminar esta receta?</p>
+      <div style="display:flex; gap:8px; justify-content:center;">
+        <button (click)="cancelDelete()" style="padding:7px 14px; border:1px solid #E0D5C5; border-radius:4px; background:white; color:#8B7355; font-size:11px; font-weight:700; cursor:pointer;">Cancelar</button>
+        <button (click)="executeDelete()" style="padding:7px 14px; border:1px solid #FECACA; border-radius:4px; background:white; color:#DC2626; font-size:11px; font-weight:700; cursor:pointer;">Eliminar</button>
+      </div>
+    </div>
+  </div>
+}

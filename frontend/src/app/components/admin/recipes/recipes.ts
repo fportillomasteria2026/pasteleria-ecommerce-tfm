@@ -13,12 +13,34 @@ export class Recipes implements OnInit {
   items = signal<Recipe[]>([]);
   loading = signal(true);
   isNewItem = signal(false);
-  formItem: Recipe = { name: '', instructions: '' };
+  showDeleteConfirm = signal(false);
+  deleteTargetId: number | null = null;
+  searchQuery = '';
+  formItem: Recipe = this.getEmptyItem();
+
+  categorias = ['Bizcocho', 'Crema', 'Cobertura', 'Relleno', 'Decoracion', 'General'];
+  dificultades = ['Facil', 'Media', 'Dificil'];
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.loadRecipes();
+  }
+
+  getEmptyItem(): Recipe {
+    return {
+      name: '',
+      instructions: '',
+      tartaName: '',
+      category: 'General',
+      portions: 12,
+      prepTimeMinutes: 30,
+      cookTimeMinutes: 45,
+      difficulty: 'Media',
+      ingredients: '',
+      notes: '',
+      active: true
+    };
   }
 
   loadRecipes(): void {
@@ -29,8 +51,28 @@ export class Recipes implements OnInit {
     });
   }
 
+  search(): void {
+    if (!this.searchQuery.trim()) {
+      this.loadRecipes();
+      return;
+    }
+    this.loading.set(true);
+    this.apiService.getRecipes().subscribe({
+      next: (data) => {
+        const q = this.searchQuery.toLowerCase();
+        this.items.set(data.filter(r =>
+          r.name?.toLowerCase().includes(q) ||
+          r.tartaName?.toLowerCase().includes(q) ||
+          r.category?.toLowerCase().includes(q)
+        ));
+        this.loading.set(false);
+      },
+      error: () => { this.items.set([]); this.loading.set(false); }
+    });
+  }
+
   newItem(): void {
-    this.formItem = { name: '', instructions: '' };
+    this.formItem = this.getEmptyItem();
     this.isNewItem.set(true);
   }
 
@@ -40,7 +82,7 @@ export class Recipes implements OnInit {
   }
 
   saveItem(): void {
-    if (!this.formItem.name) return;
+    if (!this.formItem.name?.trim()) return;
     if (this.isNewItem()) {
       this.apiService.createRecipe(this.formItem).subscribe({
         next: () => { this.loadRecipes(); this.newItem(); }
@@ -53,9 +95,42 @@ export class Recipes implements OnInit {
     }
   }
 
-  deleteItem(id: number): void {
-    this.apiService.deleteRecipe(id).subscribe({
-      next: () => { this.loadRecipes(); this.newItem(); }
+  confirmDelete(id: number): void {
+    this.deleteTargetId = id;
+    this.showDeleteConfirm.set(true);
+  }
+
+  cancelDelete(): void {
+    this.showDeleteConfirm.set(false);
+    this.deleteTargetId = null;
+  }
+
+  executeDelete(): void {
+    if (this.deleteTargetId === null) return;
+    this.apiService.deleteRecipe(this.deleteTargetId).subscribe({
+      next: () => {
+        this.loadRecipes();
+        this.showDeleteConfirm.set(false);
+        this.deleteTargetId = null;
+      }
     });
+  }
+
+  getDifficultyColor(d: string): string {
+    switch (d) {
+      case 'Facil': return '#22C55E';
+      case 'Media': return '#F59E0B';
+      case 'Dificil': return '#DC2626';
+      default: return '#8B7355';
+    }
+  }
+
+  getDifficultyBg(d: string): string {
+    switch (d) {
+      case 'Facil': return '#DCFCE7';
+      case 'Media': return '#FEF3C7';
+      case 'Dificil': return '#FEE2E2';
+      default: return '#F0E6D6';
+    }
   }
 }

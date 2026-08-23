@@ -1,8 +1,10 @@
 package com.promptmaestro.controller;
 
 import com.promptmaestro.entity.Order;
+import com.promptmaestro.entity.Recipe;
 import com.promptmaestro.entity.User;
 import com.promptmaestro.repository.OrderRepository;
+import com.promptmaestro.repository.RecipeRepository;
 import com.promptmaestro.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +18,13 @@ public class SetupController {
 
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final RecipeRepository recipeRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public SetupController(UserRepository userRepository, OrderRepository orderRepository, PasswordEncoder passwordEncoder) {
+    public SetupController(UserRepository userRepository, OrderRepository orderRepository, RecipeRepository recipeRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
+        this.recipeRepository = recipeRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -79,5 +83,51 @@ public class SetupController {
         o.setStatus(status);
         o.setTotalAmount(total);
         return o;
+    }
+
+    @PostMapping("/seed-recipes")
+    public Map<String, Object> seedRecipes() {
+        long existing = recipeRepository.count();
+        if (existing > 0) {
+            return Map.of("status", "skipped", "message", "Ya hay " + existing + " recetas en la BD");
+        }
+
+        List<Recipe> samples = List.of(
+            createRecipe("Bizcocho de Chocolate", "Tarta de Chocolate", "Bizcocho", "200g harina, 200g azucar, 80g cacao en polvo, 3 huevos, 150ml leche, 100g mantequilla, 1 cucharadita levadura, 1 pizca sal",
+                "1. Precalentar horno a 180C. 2. Batir mantequilla con azucar. 3. Anadir huevos uno a uno. 4. Mezclar harina, cacao y levadura. 5. Alternar mezcla seca con leche. 6. Verter en molde engrasado. 7. Hornear 30-35 min.", 12, 20, 35, "Media", "Usar cacao puro sin azucar para mejor sabor"),
+            createRecipe("Crema Chantilly", "", "Crema", "500ml nata liquida, 50g azucar glas, 1 vainilla",
+                "1. Enfriar la nata y el bol. 2. Batir a velocidad media. 3. Anadir azucar glas. 4. Batir hasta picos suaves. 5. No sobrebater o se cortara.", 20, 10, 0, "Facil", "Mantener bien fria hasta su uso"),
+            createRecipe("Ganache de Chocolate", "", "Cobertura", "200g chocolate negro, 200ml nata liquida, 20g mantequilla",
+                "1. Picar el chocolate fino. 2. Calentar la nata hasta que hierva. 3. Verter sobre el chocolate. 4. Mezclar en circulos desde el centro. 5. Anadir mantequilla. 6. Dejar enfriar a temperatura ambiente.", 16, 10, 0, "Facil", "Proporcion 1:1 para cobertura firme"),
+            createRecipe("Buttercream Americano", "", "Cobertura", "250g mantequilla pomada, 500g azucar glas, 2 cucharadas leche, 1 vainilla",
+                "1. Batir mantequilla 5 min hasta que este blanca. 2. Anadir azucar glas poco a poco. 3. Batir 3 min. 4. Anadir leche y vainilla. 5. Batir 2 min mas.", 15, 15, 0, "Facil", "Usar mantequilla a temperatura ambiente"),
+            createRecipe("Mousse de Fresa", "", "Relleno", "300g fresas, 200ml nata liquida, 3 claras de huevo, 50g azucar, 1 sobre gelatina",
+                "1. Triturar fresas. 2. Batir nata y reservar. 3. Batir claras con azucar. 4. Hidratar gelatina y disolver. 5. Mezclar todo suavemente. 6. Refrigerar 4 horas.", 10, 15, 0, "Media", "Usar fresas maduras para mejor sabor"),
+            createRecipe("Merengue Italiano", "", "Cobertura", "200g azucar, 50ml agua, 2 claras de huevo",
+                "1. Cocinar azucar con agua a 121C. 2. Batir claras a punto de nieve. 3. Verter el almibar en hilo sobre las claras. 4. Seguir batiendo 10 min hasta enfriar.", 10, 15, 0, "Dificil", "Usar termometro para controlar la temperatura del almibar"),
+            createRecipe("Pasta de Azucar", "", "Decoracion", "500g azucar glas, 1 claras de huevo, 1 cucharada glicerina, 1 cucharadita extracto de limon",
+                "1. Tamizar azucar glas. 2. Mezclar claras con glicerina. 3. Anadir al azucar poco a poco. 4. Amasar 10 min. 5. Envolver en film plastico. 6. Dejar reposar 24h.", 30, 0, 0, "Dificil", "Manipular con manos engrasadas para que no se pegue"),
+            createRecipe("Frangipan", "", "Relleno", "150g mantequilla pomada, 150g azucar, 150g almendra molida, 2 huevos, 1 cucharada harina",
+                "1. Batir mantequilla con azucar. 2. Anadir almendra molida. 3. Batir huevos uno a uno. 4. Anadir harina cernida. 5. Mezclar hasta obtain homogeneous.", 15, 5, 0, "Facil", "Se puede congelar hasta 3 meses")
+        );
+
+        recipeRepository.saveAll(samples);
+        return Map.of("status", "created", "message", samples.size() + " recetas de ejemplo creadas", "count", samples.size());
+    }
+
+    private Recipe createRecipe(String name, String tarta, String category, String ingredients, String instructions, int portions, int prep, int cook, String difficulty, String notes) {
+        Recipe r = new Recipe();
+        r.setName(name);
+        r.setTartaName(tarta);
+        r.setCategory(category);
+        r.setIngredients(ingredients);
+        r.setInstructions(instructions);
+        r.setPortions(portions);
+        r.setPrepTimeMinutes(prep);
+        r.setCookTimeMinutes(cook);
+        r.setDifficulty(difficulty);
+        r.setNotes(notes);
+        r.setActive(true);
+        return r;
     }
 }

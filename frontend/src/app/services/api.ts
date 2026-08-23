@@ -28,6 +28,17 @@ export interface Recipe {
   id?: number;
   name: string;
   instructions: string;
+  tartaName?: string;
+  category?: string;
+  portions?: number;
+  prepTimeMinutes?: number;
+  cookTimeMinutes?: number;
+  difficulty?: string;
+  ingredients?: string;
+  notes?: string;
+  active?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface MateriaPrima {
