@@ -20,7 +20,7 @@ public class AiHashtagsController {
     @Value("${gemini.api-key:}")
     private String apiKey;
 
-    @Value("${gemini.url:https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent}")
+    @Value("${gemini.url:https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent}")
     private String geminiUrl;
 
     private final RestTemplate restTemplate = new RestTemplate();
