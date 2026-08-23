@@ -1,21 +1,21 @@
-# Dulce Sabor - E-commerce y ERP para Pasteleria Artesanal
+# Dulce Sabor - E-commerce y ERP para Pastelería Artesanal
 
-## 1. Descripcion General
+## 1. Descripción General
 
-**Dulce Sabor** es una plataforma web completa de gestion para una pasteleria artesanal ficticia ubicada en Malaga, Espana. El proyecto integra un comercio electronico publico con un panel de administracion completo (ERP) y herramientas de inteligencia artificial basadas en Google Gemini.
+**Dulce Sabor** es una plataforma web completa de gestión para una pastelería artesanal ficticia ubicada en Málaga, España. El proyecto integra un comercio electrónico público con un panel de administración completo (ERP) y herramientas de inteligencia artificial basadas en Google Gemini.
 
-El sistema permite a los clientes explorar el catalogo de tartas, buscar por hashtags, contactar por WhatsApp y utilizar un asistente virtual con IA. El administrador puede gestionar tartas, recetas, materia prima, pedidos, y aprovechar funcionalidades de IA como generacion de descripciones, analisis de fotos, hashtags automaticos y optimizacion de inventario.
+El sistema permite a los clientes explorar el catálogo de tartas, buscar por hashtags, contactar por WhatsApp y utilizar un asistente virtual con IA. El administrador puede gestionar tartas, recetas, materia prima, pedidos, y aprovechar funcionalidades de IA como generación de descripciones, análisis de fotos, hashtags automáticos y optimización de inventario.
 
-**Direccion:** C/ Marques de Larios, 1, 29005 Malaga  
-**Telefono:** 955 123 456  
-**Horario:** Lunes a Sabado, 9:00 - 20:00
+**Dirección:** C/ Marqués de Larios, 1, 29005 Málaga  
+**Teléfono:** 955 123 456  
+**Horario:** Lunes a Sábado, 9:00 - 20:00
 
 ---
 
-## 2. Stack Tecnologico
+## 2. Stack Tecnológico
 
 ### Frontend
-| Tecnologia | Version | Uso |
+| Tecnología | Versión | Uso |
 |---|---|---|
 | Angular | 22.1.0 | Framework SPA |
 | TypeScript | - | Lenguaje tipado |
@@ -24,38 +24,38 @@ El sistema permite a los clientes explorar el catalogo de tartas, buscar por has
 | Angular Signals | - | Estado reactivo |
 
 ### Backend
-| Tecnologia | Version | Uso |
+| Tecnología | Versión | Uso |
 |---|---|---|
-| Java | 21 | Lenguaje de programacion |
+| Java | 21 | Lenguaje de programación |
 | Spring Boot | 3.4.1 | Framework REST API |
-| Spring Security | - | Autenticacion JWT |
+| Spring Security | - | Autenticación JWT |
 | JPA / Hibernate | - | ORM para base de datos |
 | Maven | 3.9.9 | Build tool |
 
 ### Base de Datos
-| Tecnologia | Uso |
+| Tecnología | Uso |
 |---|---|
 | PostgreSQL (Supabase) | Base de datos relacional en la nube |
 | Supabase REST API | Consultas alternativas |
 
 ### IA
-| Tecnologia | Uso |
+| Tecnología | Uso |
 |---|---|
-| Google Gemini 2.5 Flash | Chat virtual, hashtags, descripciones, analisis de fotos, optimizacion inventario |
-| API REST directa (RestTemplate) | Comunicacion con Gemini sin dependencias adicionales |
+| Google Gemini 2.5 Flash | Chat virtual, hashtags, descripciones, análisis de fotos, optimización de inventario |
+| API REST directa (RestTemplate) | Comunicación con Gemini sin dependencias adicionales |
 
 ### Despliegue
 | Servicio | Uso |
 |---|---|
-| Vercel | Hosting del frontend Angular (despliegue automatico) |
+| Vercel | Hosting del frontend Angular (despliegue automático) |
 | Render | Hosting del backend Spring Boot |
-| GitHub | Repositorio de codigo fuente |
+| GitHub | Repositorio de código fuente |
 
 ---
 
-## 3. Instalacion y Ejecucion
+## 3. Instalación y Ejecución
 
-### Prerequisitos
+### Prerrequisitos
 - Java 21 (JDK)
 - Node.js 18+ y npm
 - Maven 3.9+ (o usar el wrapper `./mvnw`)
@@ -69,7 +69,7 @@ El sistema permite a los clientes explorar el catalogo de tartas, buscar por has
 git clone https://github.com/fportillomasteria2026/pasteleria-ecommerce-tfm.git
 cd pasteleria-ecommerce-tfm/backend
 
-# 2. Configurar variables de entorno (crear archivo .env en la raiz del proyecto)
+# 2. Configurar variables de entorno (crear archivo .env en la raíz del proyecto)
 # GEMINI_API_KEY=tu_api_key_de_gemini
 # SUPABASE_DB_URL=jdbc:postgresql://db.tu-proyecto.supabase.co:6543/postgres
 # SUPABASE_DB_USERNAME=postgres
@@ -97,7 +97,7 @@ npm install
 # Ejecutar en desarrollo
 ng serve
 
-# Compilar para produccion
+# Compilar para producción
 ng build
 ```
 
@@ -105,13 +105,13 @@ El frontend arranca en `http://localhost:4200`.
 
 ### Variables de Entorno
 
-| Variable | Descripcion | Ejemplo |
+| Variable | Descripción | Ejemplo |
 |---|---|---|
 | `GEMINI_API_KEY` | Clave API de Google Gemini | `AIzaSy...` |
-| `SUPABASE_DB_URL` | URL de conexion JDBC a Supabase | `jdbc:postgresql://...` |
+| `SUPABASE_DB_URL` | URL de conexión JDBC a Supabase | `jdbc:postgresql://...` |
 | `SUPABASE_DB_USERNAME` | Usuario de la BD | `postgres` |
-| `SUPABASE_DB_PASSWORD` | Password de la BD | `tu_password` |
-| `JWT_SECRET` | Clave secreta para tokens JWT (min 32 bytes) | `tu_clave_segura_aqui_32b` |
+| `SUPABASE_DB_PASSWORD` | Contraseña de la BD | `tu_password` |
+| `JWT_SECRET` | Clave secreta para tokens JWT (mín. 32 bytes) | `tu_clave_segura_aquí_32b` |
 
 ---
 
@@ -130,57 +130,57 @@ pasteleria-ecommerce-tfm/
 │   │   │   ├── OrderController.java    # CRUD pedidos
 │   │   │   ├── MateriaPrimaController.java  # CRUD materia prima
 │   │   │   ├── InventoryController.java     # Ingredientes y recetas
-│   │   │   ├── ProductController.java  # Galeria de imagenes
+│   │   │   ├── ProductController.java  # Galería de imágenes
 │   │   │   ├── ChatController.java     # Chat virtual + pedidos
 │   │   │   ├── AiHashtagsController.java    # IA: hashtags + descripciones + inventario
-│   │   │   ├── AiTartaController.java  # IA: analisis de fotos
+│   │   │   ├── AiTartaController.java  # IA: análisis de fotos
 │   │   │   └── SetupController.java    # Setup inicial + seed datos
 │   │   ├── entity/
 │   │   │   ├── Tarta.java              # Entidad principal (productos)
 │   │   │   ├── Order.java              # Pedidos
 │   │   │   ├── MateriaPrima.java       # Materia prima del obrador
-│   │   │   ├── Recipe.java             # Recetas de pasteleria
+│   │   │   ├── Recipe.java             # Recetas de pastelería
 │   │   │   ├── Ingredient.java         # Ingredientes
-│   │   │   ├── ProductImage.java       # Imagenes galeria
+│   │   │   ├── ProductImage.java       # Imágenes galería
 │   │   │   ├── User.java               # Usuarios
-│   │   │   └── Hashtag.java            # Hashtags galeria
+│   │   │   └── Hashtag.java            # Hashtags galería
 │   │   ├── repository/                 # Repositorios JPA
 │   │   ├── service/
-│   │   │   ├── ChatService.java        # Logica chat Gemini
-│   │   │   ├── AiService.java          # Logica analisis fotos
+│   │   │   ├── ChatService.java        # Lógica chat Gemini
+│   │   │   ├── AiService.java          # Lógica análisis fotos
 │   │   │   └── SupabaseService.java    # Storage Supabase
 │   │   └── security/                   # Filtros JWT
 │   ├── src/main/resources/
-│   │   ├── application.properties      # Configuracion principal
+│   │   ├── application.properties      # Configuración principal
 │   │   └── application-local.properties # Config local (H2)
 │   └── Dockerfile                      # Para Render
 │
 ├── frontend/                           # SPA - Angular
 │   ├── src/app/
 │   │   ├── components/
-│   │   │   ├── landing/                # Pagina principal publica
-│   │   │   ├── gallery/                # Galeria de tartas
-│   │   │   ├── quienes-somos/          # Pagina "Quienes Somos"
+│   │   │   ├── landing/                # Página principal pública
+│   │   │   ├── gallery/                # Galería de tartas
+│   │   │   ├── quienes-somos/          # Página "Quiénes Somos"
 │   │   │   ├── chat-widget/            # Widget chat virtual IA
-│   │   │   ├── whatsapp-widget/        # Boton WhatsApp
+│   │   │   ├── whatsapp-widget/        # Botón WhatsApp
 │   │   │   └── admin/
 │   │   │       ├── admin-dashboard/    # Dashboard con sidebar
-│   │   │       ├── tartas/             # Gestion tartas + IA foto + hashtags
-│   │   │       ├── orders/             # Gestion pedidos
-│   │   │       ├── ingredients/        # Gestion materia prima
-│   │   │       ├── recipes/            # Gestion recetas
-│   │   │       ├── inventory-ai/       # IA optimizacion inventario
-│   │   │       ├── product-upload/     # Subida imagenes galeria
+│   │   │       ├── tartas/             # Gestión tartas + IA foto + hashtags
+│   │   │       ├── orders/             # Gestión pedidos
+│   │   │       ├── ingredients/        # Gestión materia prima
+│   │   │       ├── recipes/            # Gestión recetas
+│   │   │       ├── inventory-ai/       # IA optimización inventario
+│   │   │       ├── product-upload/     # Subida imágenes galería
 │   │   │       └── login/              # Login administrador
 │   │   ├── services/
 │   │   │   └── api.ts                  # Servicio HTTP centralizado
 │   │   ├── guards/
-│   │   │   └── admin-guard.ts          # Guard de autenticacion
+│   │   │   └── admin-guard.ts          # Guard de autenticación
 │   │   └── interceptors/               # Interceptor JWT
 │   └── angular.json
 │
 ├── .env                                # Variables de entorno
-├── vercel.json                         # Configuracion Vercel (SPA routing)
+├── vercel.json                         # Configuración Vercel (SPA routing)
 └── README.md                           # Este fichero
 ```
 
@@ -188,111 +188,111 @@ pasteleria-ecommerce-tfm/
 
 ## 5. Funcionalidades Principales
 
-### 5.1 Area Publica
+### 5.1 Área Pública
 
-#### Pagina Principal (Landing)
+#### Página Principal (Landing)
 - Banner principal con imagen y texto de bienvenida
-- Seccion de tartas destacadas
+- Sección de tartas destacadas
 - Widget de WhatsApp flotante para contacto directo
 - Widget de chat virtual con asistente IA
-- Diseno responsive para movil
+- Diseño responsive para móvil
 
-#### Galeria de Tartas
-- Catalogo visual de todas las tartas disponibles
-- Tarjetas con imagen, nombre, descripcion, tamano y precio
-- Busqueda por titulo
-- Diseno responsive con grid adaptativo
+#### Galería de Tartas
+- Catálogo visual de todas las tartas disponibles
+- Tarjetas con imagen, nombre, descripción, tamaño y precio
+- Búsqueda por título
+- Diseño responsive con grid adaptativo
 
-#### Quienes Somos
-- Informacion sobre la pasteleria
-- Valores y filosofia del negocio
-- Diseno visual coherente con la marca
+#### Quiénes Somos
+- Información sobre la pastelería
+- Valores y filosofía del negocio
+- Diseño visual coherente con la marca
 
 ### 5.2 Chat Virtual con IA
 
-El asistente virtual utiliza **Google Gemini 2.5 Flash** con un sistema hibrido:
+El asistente virtual utiliza **Google Gemini 2.5 Flash** con un sistema híbrido:
 
-- **Modo Real:** Si la API key de Gemini esta configurada, envia el prompt a Gemini con contexto de productos de la base de datos y devuelve respuesta generada por IA
-- **Modo Mock (Fallback):** Si Gemini no esta disponible o falla, devuelve respuestas predefinidas coherentes
+- **Modo Real:** Si la API key de Gemini está configurada, envía el prompt a Gemini con contexto de productos de la base de datos y devuelve respuesta generada por IA
+- **Modo Mock (Fallback):** Si Gemini no está disponible o falla, devuelve respuestas predefinidas coherentes
 
 **Funcionalidades:**
-- Responde preguntas sobre productos, precios, horarios y direccion
-- Contexto automatico con todas las tartas activas de la BD
-- Botones de accion rapida: "Ver tartas", "Hacer pedido", "Horarios"
-- Flujo de pedidos: formulario inline para seleccionar tarta, tamano, personalizacion
+- Responde preguntas sobre productos, precios, horarios y dirección
+- Contexto automático con todas las tartas activas de la BD
+- Botones de acción rápida: "Ver tartas", "Hacer pedido", "Horarios"
+- Flujo de pedidos: formulario inline para seleccionar tarta, tamaño, personalización
 - Genera resumen de pedido formateado para WhatsApp
-- Boton "Enviar por WhatsApp" que abre wa.me con el mensaje
+- Botón "Enviar por WhatsApp" que abre wa.me con el mensaje
 
-### 5.3 Panel de Administracion
+### 5.3 Panel de Administración
 
 #### Login
-- Autenticacion JWT segura
-- Proteccion de rutas con guard de Angular
+- Autenticación JWT segura
+- Protección de rutas con guard de Angular
 
 #### Dashboard
-- Panel lateral (sidebar) con navegacion
-- Tarjetas de acceso rapido a cada seccion
-- Responsive con hamburger menu en movil
+- Panel lateral (sidebar) con navegación
+- Tarjetas de acceso rápido a cada sección
+- Responsive con hamburger menu en móvil
 
-#### Gestion de Tartas (CRUD + IA)
+#### Gestión de Tartas (CRUD + IA)
 - Crear, editar, eliminar tartas
-- Campos: SKU, nombre, descripcion, imagen, hashtags, tamano, pisos, forma, dimensiones, bizcocho, crema, frutas, personalizacion, precio, coste, notas
-- **IA - Generar hashtags:** Boton que envia campos a Gemini y genera 15 hashtags relevantes automaticamente
-- **IA - Generar descripcion:** Boton que genera descripcion de marketing con Gemini
-- **IA - Crear tarta desde foto:** Sube una imagen y Gemini analiza para crear la tarta automaticamente
-- Selector de imagenes (local o servidor)
+- Campos: SKU, nombre, descripción, imagen, hashtags, tamaño, pisos, forma, dimensiones, bizcocho, crema, frutas, personalización, precio, coste, notas
+- **IA - Generar hashtags:** Botón que envía campos a Gemini y genera 15 hashtags relevantes automáticamente
+- **IA - Generar descripción:** Botón que genera descripción de marketing con Gemini
+- **IA - Crear tarta desde foto:** Sube una imagen y Gemini analiza para crear la tarta automáticamente
+- Selector de imágenes (local o servidor)
 
-#### Gestion de Pedidos (CRUD)
+#### Gestión de Pedidos (CRUD)
 - Crear, editar, eliminar pedidos
-- Cambio rapido de estado: Pendiente -> En Proceso -> Completado
+- Cambio rápido de estado: Pendiente → En Proceso → Completado
 - Estados: PENDIENTE, EN_PROCESO, COMPLETADO, CANCELADO
 - Filtros por estado
-- Busqueda por cliente o tarta
-- Campos: cliente, telefono, tarta, tamano, personalizacion, total, notas, estado
+- Búsqueda por cliente o tarta
+- Campos: cliente, teléfono, tarta, tamaño, personalización, total, notas, estado
 
-#### Gestion de Materia Prima (CRUD)
+#### Gestión de Materia Prima (CRUD)
 - Crear, editar, eliminar ingredientes del obrador
 - Campos: SKU, nombre, marca, proveedor, coste, formato, peso, unidad, cantidad
 
-#### Gestion de Recetas (CRUD)
+#### Gestión de Recetas (CRUD)
 - Crear, editar, eliminar recetas
-- Campos: nombre, tarta asociada, categoria, porciones, tiempo prep/coccion, dificultad, ingredientes, instrucciones, notas
-- Categorias: Bizcocho, Crema, Cobertura, Relleno, Decoracion, General
-- Dificultad: Facil, Media, Dificil
+- Campos: nombre, tarta asociada, categoría, porciones, tiempo prep./cocción, dificultad, ingredientes, instrucciones, notas
+- Categorías: Bizcocho, Crema, Cobertura, Relleno, Decoración, General
+- Dificultad: Fácil, Media, Difícil
 
-#### IA - Optimizacion de Inventario
+#### IA - Optimización de Inventario
 - Analiza todo el stock de materia prima con Gemini
-- Devuelve sugerencias de reposicion con prioridad (alta/media/baja)
+- Devuelve sugerencias de reposición con prioridad (alta/media/baja)
 - Cantidad sugerida y coste estimado
-- Mock fallback si Gemini no esta disponible
+- Mock fallback si Gemini no está disponible
 
-#### Galeria de Imagenes (CRUD)
-- Subida de imagenes de productos
-- Asignacion de hashtags por imagen
-- Busqueda por hashtags
+#### Galería de Imágenes (CRUD)
+- Subida de imágenes de productos
+- Asignación de hashtags por imagen
+- Búsqueda por hashtags
 
 ### 5.4 Inteligencia Artificial (Google Gemini)
 
-Todas las funcionalidades de IA siguen el patron **Modo Hibrido**:
+Todas las funcionalidades de IA siguen el patrón **Modo Híbrido**:
 
-| Funcionalidad | Endpoint | Descripcion |
+| Funcionalidad | Endpoint | Descripción |
 |---|---|---|
 | Chat virtual | `POST /api/chat` | Asistente conversacional con contexto de productos |
 | Generar hashtags | `POST /api/admin/ai/hashtags` | 15 hashtags relevantes para una tarta |
-| Generar descripcion | `POST /api/admin/ai/generate-description` | Descripcion de marketing automatica |
-| Analizar foto tarta | `POST /api/admin/ai/analyze-tarta` | Crea tarta desde imagen (vision) |
-| Optimizar inventario | `POST /api/admin/ai/inventory-optimize` | Sugiere reposiciones segun stock |
+| Generar descripción | `POST /api/admin/ai/generate-description` | Descripción de marketing automática |
+| Analizar foto tarta | `POST /api/admin/ai/analyze-tarta` | Crea tarta desde imagen (visión) |
+| Optimizar inventario | `POST /api/admin/ai/inventory-optimize` | Sugiere reposiciones según stock |
 
-**Patron de fallback:** Si `GEMINI_API_KEY` no esta configurada o la llamada falla, todas las funcionalidades devuelven respuestas mock coherentes para que la aplicacion nunca se caiga.
+**Patrón de fallback:** Si `GEMINI_API_KEY` no está configurada o la llamada falla, todas las funcionalidades devuelven respuestas mock coherentes para que la aplicación nunca se caiga.
 
 ---
 
-## 6. Usuario y Contrasena de Prueba
+## 6. Usuario y Contraseña de Prueba
 
 ### Administrador
 ```
 Usuario:  admin
-Contrasena: admin
+Contraseña: admin
 ```
 
 **URL de acceso:** `https://pasteleria-ecommerce-tfm.vercel.app/admin/login`
@@ -302,52 +302,52 @@ Contrasena: admin
 #### Pedidos (8 registros)
 | Cliente | Tarta | Estado | Total |
 |---|---|---|---|
-| Maria Garcia | Chocolate L | Completado | 65 EUR |
-| Juan Lopez | Fresa Natural M | En Proceso | 38 EUR |
-| Ana Martinez | Limon Merengada S | Pendiente | 42 EUR |
-| Pedro Sanchez | Red Velvet XL | Pendiente | 95 EUR |
-| Laura Fernandez | Nuez y Caramelo M | Completado | 78 EUR |
-| Carlos Ruiz | Vainilla Clasica L | En Proceso | 52 EUR |
-| Elena Diaz | Chocolate S | Cancelado | 35 EUR |
+| María García | Chocolate L | Completado | 65 EUR |
+| Juan López | Fresa Natural M | En Proceso | 38 EUR |
+| Ana Martínez | Limón Merengada S | Pendiente | 42 EUR |
+| Pedro Sánchez | Red Velvet XL | Pendiente | 95 EUR |
+| Laura Fernández | Nuez y Caramelo M | Completado | 78 EUR |
+| Carlos Ruiz | Vainilla Clásica L | En Proceso | 52 EUR |
+| Elena Díaz | Chocolate S | Cancelado | 35 EUR |
 | Roberto Moreno | Fresa Natural XL | Pendiente | 120 EUR |
 
 #### Recetas (8 registros)
-| Receta | Categoria | Dificultad |
+| Receta | Categoría | Dificultad |
 |---|---|---|
 | Bizcocho de Chocolate | Bizcocho | Media |
-| Crema Chantilly | Crema | Facil |
-| Ganache de Chocolate | Cobertura | Facil |
-| Buttercream Americano | Cobertura | Facil |
+| Crema Chantilly | Crema | Fácil |
+| Ganache de Chocolate | Cobertura | Fácil |
+| Buttercream Americano | Cobertura | Fácil |
 | Mousse de Fresa | Relleno | Media |
-| Merengue Italiano | Cobertura | Dificil |
-| Pasta de Azucar | Decoracion | Dificil |
-| Frangipan | Relleno | Facil |
+| Merengüe Italiano | Cobertura | Difícil |
+| Pasta de Azúcar | Decoración | Difícil |
+| Frangipan | Relleno | Fácil |
 
 ---
 
 ## 7. Endpoints API Principales
 
-### Publicos (sin autenticacion)
-| Metodo | Endpoint | Descripcion |
+### Públicos (sin autenticación)
+| Método | Endpoint | Descripción |
 |---|---|---|
 | GET | `/api/tartas` | Listar tartas activas |
 | GET | `/api/tartas/{id}` | Detalle de tarta |
 | GET | `/api/tartas/search?q=` | Buscar tartas |
-| GET | `/api/products` | Galeria de imagenes |
+| GET | `/api/products` | Galería de imágenes |
 | POST | `/api/chat` | Chat virtual con IA |
 | POST | `/api/chat/order` | Generar resumen de pedido |
 
 ### Protegidos (requieren JWT ADMIN)
-| Metodo | Endpoint | Descripcion |
+| Método | Endpoint | Descripción |
 |---|---|---|
 | POST | `/api/auth/login` | Login y obtener token |
-| CRUD | `/api/admin/tartas` | Gestion de tartas |
-| CRUD | `/api/admin/orders` | Gestion de pedidos |
-| CRUD | `/api/admin/materia-prima` | Gestion materia prima |
-| CRUD | `/api/admin/ingredients` | Gestion ingredientes |
-| CRUD | `/api/admin/recipes` | Gestion recetas |
+| CRUD | `/api/admin/tartas` | Gestión de tartas |
+| CRUD | `/api/admin/orders` | Gestión de pedidos |
+| CRUD | `/api/admin/materia-prima` | Gestión materia prima |
+| CRUD | `/api/admin/ingredients` | Gestión ingredientes |
+| CRUD | `/api/admin/recipes` | Gestión recetas |
 | POST | `/api/admin/ai/hashtags` | Generar hashtags con IA |
-| POST | `/api/admin/ai/generate-description` | Generar descripcion con IA |
+| POST | `/api/admin/ai/generate-description` | Generar descripción con IA |
 | POST | `/api/admin/ai/analyze-tarta` | Analizar foto con IA |
 | POST | `/api/admin/ai/inventory-optimize` | Optimizar inventario con IA |
 | POST | `/api/setup/seed-orders` | Crear pedidos de ejemplo |
@@ -359,7 +359,7 @@ Contrasena: admin
 
 | Recurso | URL |
 |---|---|
-| Frontend (Produccion) | https://pasteleria-ecommerce-tfm.vercel.app |
+| Frontend (Producción) | https://pasteleria-ecommerce-tfm.vercel.app |
 | Backend API | https://belieta-backend.onrender.com |
 | GitHub | https://github.com/fportillomasteria2026/pasteleria-ecommerce-tfm |
 | Admin Login | https://pasteleria-ecommerce-tfm.vercel.app/admin/login |
@@ -368,4 +368,4 @@ Contrasena: admin
 
 ## 9. Licencia
 
-Proyecto realizado como Trabajo de Fin de Master (TFM).
+Proyecto realizado como Trabajo de Fin de Máster (TFM).
