@@ -364,7 +364,9 @@ Contraseña: admin
 
 ## 9. Presentacion
 
-**URL de acceso a la presentacion:** `https://pasteleria-ecommerce-tfm.vercel.app/presentacion.html`
+El fichero de presentacion se encuentra en: `slides/presentacion.html`
+
+Es un archivo HTML autocontenido (usa reveal.js via CDN) que se puede abrir directamente en cualquier navegador. Navega con las flechas del teclado.
 
 Presentacion interactiva con 14 diapositivas que incluye:
 - Descripcion del proyecto y objetivos
@@ -373,8 +375,6 @@ Presentacion interactiva con 14 diapositivas que incluye:
 - Inteligencia artificial (5 funcionalidades con Gemini)
 - Datos de ejemplo y demo de acceso
 - Codigo fuente en GitHub
-
-Tambien disponible en: `presentacion/index.html` (abrir en navegador local)
 
 ---
 
