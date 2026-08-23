@@ -193,3 +193,4 @@ TFM_Workspace/
 Este proyecto forma parte de un Trabajo de Fin de Master en Inteligencia Artificial.
 # sáb 22 ago 2026 17:07:40 CEST
 # sáb 22 ago 2026 18:29:34 CEST
+# dom 23 ago 2026 10:08:35 CEST
