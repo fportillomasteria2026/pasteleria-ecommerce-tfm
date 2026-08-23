@@ -5,7 +5,7 @@
   <div style="background:white; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.04); padding:12px 16px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between;">
     <div style="display:flex; align-items:center; gap:10px;">
       <div style="width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,#C8A96E,#B8954A); display:flex; align-items:center; justify-content:center; font-size:14px;">&#128221;</div>
-      <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:16px; font-weight:700; color:#3E2723;">Gestion de Recetas</h2>
+      <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:16px; font-weight:700; color:#3E2723;">Gestión de Recetas</h2>
     </div>
     <div style="display:flex; gap:6px; align-items:center;">
       <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="search()" placeholder="Buscar..." style="padding:6px 10px; border:1px solid #E0D5C5; border-radius:6px; font-size:11px; width:160px;" />
@@ -31,7 +31,7 @@
     <div style="display:flex; gap:6px; margin-bottom:4px; padding:6px 8px; background:#F9F6F1; border-radius:4px;">
       <div style="flex:0 0 70px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Porciones</label><input type="number" [(ngModel)]="formItem.portions" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
       <div style="flex:0 0 100px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Prep. (min)</label><input type="number" [(ngModel)]="formItem.prepTimeMinutes" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
-      <div style="flex:0 0 100px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Coccion (min)</label><input type="number" [(ngModel)]="formItem.cookTimeMinutes" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+      <div style="flex:0 0 100px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Cocción (min)</label><input type="number" [(ngModel)]="formItem.cookTimeMinutes" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
       <div style="flex:0 0 100px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Dificultad</label><select [(ngModel)]="formItem.difficulty" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;">@for (d of dificultades; track d) { <option [value]="d">{{ d }}</option> }</select></div>
     </div>
 
@@ -42,7 +42,7 @@
 
     <!-- Fila 4: Instrucciones -->
     <div style="display:flex; gap:6px; margin-bottom:4px;">
-      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Instrucciones</label><textarea [(ngModel)]="formItem.instructions" rows="3" placeholder="Pasos de preparacion..." style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px; box-sizing:border-box; resize:vertical; font-family:'Lato',Arial,sans-serif;"></textarea></div>
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Instrucciones</label><textarea [(ngModel)]="formItem.instructions" rows="3" placeholder="Pasos de preparación..." style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px; box-sizing:border-box; resize:vertical; font-family:'Lato',Arial,sans-serif;"></textarea></div>
     </div>
 
     <!-- Fila 5: Notas -->
@@ -79,7 +79,7 @@
             <div style="display:flex; gap:12px; font-size:9px; color:#8B7355; margin-bottom:6px;">
               @if (recipe.portions) { <span>&#127860; {{ recipe.portions }} porciones</span> }
               @if (recipe.prepTimeMinutes) { <span>&#9201; Prep: {{ recipe.prepTimeMinutes }}min</span> }
-              @if (recipe.cookTimeMinutes) { <span>&#128293; Coccion: {{ recipe.cookTimeMinutes }}min</span> }
+              @if (recipe.cookTimeMinutes) { <span>&#128293; Cocción: {{ recipe.cookTimeMinutes }}min</span> }
             </div>
             @if (recipe.ingredients) {
               <p style="font-size:10px; color:#8B7355; margin:0 0 4px 0; line-height:1.4;"><strong style="color:#3E2723;">Ingredientes:</strong> {{ recipe.ingredients }}</p>

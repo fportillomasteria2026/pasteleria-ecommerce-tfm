@@ -49,10 +49,10 @@ export class Tartas implements OnInit {
   aiResult: Tarta | null = null;
 
   tamanos = ['XS', 'S', 'M', 'L', 'XL'];
-  formas = ['Cilindrica', 'Cuadrada', 'Rectangular'];
+  formas = ['Cilíndrica', 'Cuadrada', 'Rectangular'];
   sabores = ['Chocolate', 'Vainilla', 'Red Velvet', 'Fresa', 'Zanahoria', 'Limón', 'Nuez', 'Coco', 'Otro'];
   cremas = ['Buttercream', 'Ganache', 'Crema Chantilly', 'Mousse', 'Glaceau', 'Relleno de Fruta', 'Otro'];
-  personalizaciones = ['Papeleria', 'Papel de Azucar', 'Mezcla', 'Sin Personalizacion'];
+  personalizaciones = ['Papelería', 'Papel de Azúcar', 'Mezcla', 'Sin Personalización'];
 
   private apiUrl = 'https://belieta-backend.onrender.com/api/admin/tartas';
 
@@ -77,12 +77,12 @@ export class Tartas implements OnInit {
       hashtags: '',
       tamano: 'M',
       pisos: 2,
-      forma: 'Cilindrica',
+      forma: 'Cilíndrica',
       dimensiones: '',
       saborBizcocho: '',
       frutas: '',
       tipoCrema: '',
-      tipoPersonalizacion: 'Sin Personalizacion',
+      tipoPersonalizacion: 'Sin Personalización',
       precioPublico: 0,
       coste: 0,
       disponible: true,
@@ -249,13 +249,13 @@ export class Tartas implements OnInit {
           saborBizcocho: res.sabor || '',
           tipoCrema: res.crema || '',
           frutas: res.frutas || '',
-          forma: res.forma || 'Cilindrica',
+          forma: res.forma || 'Cilíndrica',
           tamano: res.tamano || 'M',
           hashtags: res.hashtags || '',
           precioPublico: res.precio || 0,
           pisos: res.pisos || 2,
           dimensiones: res.dimensiones || '',
-          tipoPersonalizacion: res.personalizacion || 'Sin Personalizacion',
+          tipoPersonalizacion: res.personalizacion || 'Sin Personalización',
           disponible: true,
           imagenUrl: 'images/tartas/' + (this.aiSelectedFile?.name || 'tarta.jpg')
         };
@@ -263,7 +263,7 @@ export class Tartas implements OnInit {
       },
       error: () => {
         this.aiProcessing.set(false);
-        alert('Error al procesar la imagen con IA. Intentalo de nuevo.');
+        alert('Error al procesar la imagen con IA. Inténtalo de nuevo.');
       }
     });
   }

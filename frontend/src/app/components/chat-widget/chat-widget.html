@@ -63,9 +63,9 @@
         <input type="text" [(ngModel)]="orderForm.cliente" placeholder="Tu nombre" class="order-input" />
         <input type="text" [(ngModel)]="orderForm.tartaNombre" placeholder="Nombre de la tarta" class="order-input" />
         <select [(ngModel)]="orderForm.tamano" class="order-input">
-          @for (t of tamanos; track t) { <option [value]="t">Tamano {{ t }}</option> }
+          @for (t of tamanos; track t) { <option [value]="t">Tamaño {{ t }}</option> }
         </select>
-        <input type="text" [(ngModel)]="orderForm.personalizacion" placeholder="Personalizacion (opcional)" class="order-input" />
+        <input type="text" [(ngModel)]="orderForm.personalizacion" placeholder="Personalización (opcional)" class="order-input" />
         <input type="number" [(ngModel)]="orderForm.precio" step="0.01" placeholder="Precio EUR (opcional)" class="order-input" />
         <input type="text" [(ngModel)]="orderForm.notas" placeholder="Notas adicionales (opcional)" class="order-input" />
         <button class="submit-order-btn" (click)="submitOrder()" [disabled]="!orderForm.tartaNombre.trim()">Confirmar Pedido</button>

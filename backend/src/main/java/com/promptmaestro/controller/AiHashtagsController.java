@@ -34,14 +34,14 @@ public class AiHashtagsController {
         String frutas = request.getOrDefault("frutas", "");
 
         String prompt = String.format(
-            "Eres un experto en marketing digital y reposteria. " +
+            "Eres un experto en marketing digital y repostería. " +
             "Analiza esta tarta: Nombre=%s, Bizcocho=%s, Crema=%s, Frutas=%s. " +
             "DEVUELVE EXACTAMENTE 15 hashtags separados por coma. " +
-            "Cada hashtag DEBE empezar con # y estar en minusculas. " +
+            "Cada hashtag DEBE empezar con # y estar en minúsculas. " +
             "Ninguno puede repetirse. " +
-            "Incluye: tipo de producto, ocasion, colores, ingredientes, estilo, decoracion, estacion, textura, forma. " +
-            "Ejemplo de respuesta: #chocolate,#tarta,#boda,#fondant,#fresa,#cumpleanos,#decoracion,#dulce,#crema,#hojaldre,#reposteria,#elegante,#personalizado,#bonito,#exquisito " +
-            "DEVUELVE SOLO LA LISTA DE 15 HASHTAGS SEPARADOS POR COMA, NADA MAS.",
+            "Incluye: tipo de producto, ocasión, colores, ingredientes, estilo, decoración, estación, textura, forma. " +
+            "Ejemplo de respuesta: #chocolate,#tarta,#boda,#fondant,#fresa,#cumpleaños,#decoración,#dulce,#crema,#hojaldre,#repostería,#elegante,#personalizado,#bonito,#exquisito " +
+            "DEVUELVE SOLO LA LISTA DE 15 HASHTAGS SEPARADOS POR COMA, NADA MÁS.",
             nombre, sabor, crema, frutas
         );
 
@@ -90,14 +90,14 @@ public class AiHashtagsController {
         String personalizacion = request.getOrDefault("tipoPersonalizacion", "");
 
         String prompt = String.format(
-            "Eres un copywriter experto en pasteleria artesanal. " +
-            "Genera una descripcion de marketing para esta tarta:\n" +
-            "Nombre: %s\nBizcocho: %s\nCrema: %s\nFrutas: %s\nForma: %s\nTamano: %s\nPisos: %s\nPersonalizacion: %s\n\n" +
+            "Eres un copywriter experto en pastelería artesanal. " +
+            "Genera una descripción de marketing para esta tarta:\n" +
+            "Nombre: %s\nBizcocho: %s\nCrema: %s\nFrutas: %s\nForma: %s\nTamaño: %s\nPisos: %s\nPersonalización: %s\n\n" +
             "REGLAS:\n" +
-            "- Maximo 2-3 lineas, tono elegante y apetitoso\n" +
-            "- Destaca los ingredientes y la artesania\n" +
+            "- Máximo 2-3 líneas, tono elegante y apetitoso\n" +
+            "- Destaca los ingredientes y la artesanía\n" +
             "- NO incluyas el precio\n" +
-            "- Devuelve SOLO la descripcion, sin comillas ni formato adicional",
+            "- Devuelve SOLO la descripción, sin comillas ni formato adicional",
             nombre, sabor, crema, frutas, forma, tamano, pisos, personalizacion
         );
 
@@ -113,14 +113,14 @@ public class AiHashtagsController {
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
             String url = geminiUrl + "?key=" + apiKey;
-            log.info("Llamando a Gemini para descripcion");
+            log.info("Llamando a Gemini para descripción");
             ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
             JsonNode root = objectMapper.readTree(response.getBody());
             String result = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText().trim();
-            log.info("Gemini descripcion: {}", result.substring(0, Math.min(result.length(), 80)));
+            log.info("Gemini descripción: {}", result.substring(0, Math.min(result.length(), 80)));
             return Map.of("descripcion", result);
         } catch (Exception e) {
-            log.warn("Gemini no disponible ({}), usando mock descripcion", e.getMessage());
+            log.warn("Gemini no disponible ({}), usando mock descripción", e.getMessage());
             return Map.of("descripcion", generateMockDescription(nombre, sabor, crema, frutas));
         }
     }
@@ -142,20 +142,20 @@ public class AiHashtagsController {
         }
 
         String prompt = String.format(
-            "Eres un experto en gestion de inventario para pasteleria artesanal. " +
-            "Analiza el inventario actual y sugiere acciones de reposicion.\n\n" +
+            "Eres un experto en gestión de inventario para pastelería artesanal. " +
+            "Analiza el inventario actual y sugiere acciones de reposición.\n\n" +
             "INVENTARIO ACTUAL:\n%s\n\n" +
             "Devuelve un JSON con un array 'sugerencias' donde cada elemento tiene:\n" +
             "- \"nombre\": nombre del producto\n" +
             "- \"proveedor\": proveedor\n" +
             "- \"stockActual\": cantidad actual\n" +
             "- \"unidad\": unidad de medida\n" +
-            "- \"cantidadSugerida\": cuantos unidades reponer\n" +
-            "- \"costeEstimado\": coste estimado de reposicion\n" +
+            "- \"cantidadSugerida\": cuántas unidades reponer\n" +
+            "- \"costeEstimado\": coste estimado de reposición\n" +
             "- \"prioridad\": \"alta\", \"media\" o \"baja\"\n" +
-            "- \"motivo\": razon breve de la sugerencia\n\n" +
+            "- \"motivo\": razón breve de la sugerencia\n\n" +
             "CRITERIOS:\n" +
-            "- Prioridad ALTA: stock < 5 unidades o ingredientes criticos\n" +
+            "- Prioridad ALTA: stock < 5 unidades o ingredientes críticos\n" +
             "- Prioridad MEDIA: stock entre 5-15 unidades\n" +
             "- Prioridad BAJA: stock > 15 unidades pero se recomienda mantener\n" +
             "DEVUELVE SOLO EL JSON, sin texto adicional.",
@@ -174,7 +174,7 @@ public class AiHashtagsController {
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
             String url = geminiUrl + "?key=" + apiKey;
-            log.info("Llamando a Gemini para optimizacion de inventario");
+            log.info("Llamando a Gemini para optimización de inventario");
             ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
             JsonNode root = objectMapper.readTree(response.getBody());
             String text = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText().trim();
@@ -194,7 +194,7 @@ public class AiHashtagsController {
         if (sabor != null && !sabor.isEmpty()) desc.append(" de ").append(sabor.toLowerCase());
         if (crema != null && !crema.isEmpty()) desc.append(" con ").append(crema.toLowerCase());
         if (frutas != null && !frutas.isEmpty()) desc.append(" y ").append(frutas.toLowerCase());
-        desc.append(". Elaborada con ingredientes de primera calidad en nuestra pasteleria artesanal de Malaga.");
+        desc.append(". Elaborada con ingredientes de primera calidad en nuestra pastelería artesanal de Málaga.");
         return desc.toString();
     }
 
@@ -210,11 +210,11 @@ public class AiHashtagsController {
             if (cantidad < 5) {
                 prioridad = "alta";
                 cantidadSugerida = 20;
-                motivo = "Stock critico, reposicion urgente";
+                motivo = "Stock crítico, reposición urgente";
             } else if (cantidad < 15) {
                 prioridad = "media";
                 cantidadSugerida = 15;
-                motivo = "Stock bajo, recomendar reposicion";
+                motivo = "Stock bajo, recomendar reposición";
             } else {
                 prioridad = "baja";
                 cantidadSugerida = 10;
@@ -236,7 +236,7 @@ public class AiHashtagsController {
     }
 
     private String generateMockHashtags(String nombre, String sabor, String crema, String frutas) {
-        StringBuilder tags = new StringBuilder("#pasteleria, #artesanal, #dulce");
+        StringBuilder tags = new StringBuilder("#pastelería, #artesanal, #dulce");
         if (sabor != null && !sabor.isEmpty()) tags.insert(0, "#" + sabor.toLowerCase() + ", ");
         if (crema != null && !crema.isEmpty()) tags.insert(0, "#" + crema.toLowerCase() + ", ");
         if (frutas != null && !frutas.isEmpty()) tags.append(", #").append(frutas.toLowerCase().replace(", ", ", #"));

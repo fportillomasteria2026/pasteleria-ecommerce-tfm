@@ -53,21 +53,21 @@ public class ChatService {
         }
 
         String context = String.format("""
-            Eres el asistente virtual de DULCE SABOR, pasteleria artesanal en Malaga.
-            Direccion: C/ Marques de Larios, 1, 29005 Malaga
-            Telefono: 955 123 456
-            Horario: Lunes a Sabado, 9:00 - 20:00
+            Eres el asistente virtual de DULCE SABOR, pastelería artesanal en Málaga.
+            Dirección: C/ Marqués de Larios, 1, 29005 Málaga
+            Teléfono: 955 123 456
+            Horario: Lunes a Sábado, 9:00 - 20:00
             WhatsApp: 955 123 456
 
             PRODUCTOS ACTUALES EN LA TIENDA:
             %s
 
             REGLAS:
-            - Responde en espanol, breve y amable (maximo 3-4 lineas)
-            - Si preguntan por precios, da el precio del producto si esta en la lista
+            - Responde en español, breve y amable (máximo 3-4 líneas)
+            - Si preguntan por precios, da el precio del producto si está en la lista
             - Si preguntan por un producto, busca en la lista y responde con sus detalles
             - Para pedidos, recomienda WhatsApp: 955 123 456
-            - Si no sabes algo, di: "Para esa consulta, llamame al 955 123 456"
+            - Si no sabes algo, di: "Para esa consulta, llámame al 955 123 456"
             """, productosInfo.toString());
 
         String prompt = context + "\nPregunta del cliente: " + userMessage;
@@ -95,16 +95,16 @@ public class ChatService {
 
     private String getMockResponse(String message) {
         String lower = message.toLowerCase();
-        if (lower.contains("hola") || lower.contains("buenos")) return "Hola! Bienvenido a Dulce Sabor. En que puedo ayudarte?";
-        if (lower.contains("gracias")) return "De nada! Si necesitas algo mas, aqui estamos.";
-        if (lower.contains("horario") || lower.contains("hora")) return "Nuestro horario es Lunes a Sabado de 9:00 a 20:00.";
-        if (lower.contains("direccion") || lower.contains("donde")) return "Estamos en C/ Marques de Larios, 1, 29005 Malaga.";
+        if (lower.contains("hola") || lower.contains("buenos")) return "¡Hola! Bienvenido a Dulce Sabor. ¿En qué puedo ayudarte?";
+        if (lower.contains("gracias")) return "¡De nada! Si necesitas algo más, aquí estamos.";
+        if (lower.contains("horario") || lower.contains("hora")) return "Nuestro horario es Lunes a Sábado de 9:00 a 20:00.";
+        if (lower.contains("direccion") || lower.contains("donde")) return "Estamos en C/ Marqués de Larios, 1, 29005 Málaga.";
         if (lower.contains("telefono") || lower.contains("llamar")) return "Puedes llamarnos al 955 123 456.";
-        if (lower.contains("whatsapp")) return "Escribenos por WhatsApp al 955 123 456.";
-        if (lower.contains("tarta") || lower.contains("pastel")) return "Hacemos tartas personalizadas para toda ocasion. Llamanos para presupuesto!";
-        if (lower.contains("precio") || lower.contains("cuanto")) return "Llamanos al 955 123 456 para presupuesto personalizado.";
+        if (lower.contains("whatsapp")) return "Escríbenos por WhatsApp al 955 123 456.";
+        if (lower.contains("tarta") || lower.contains("pastel")) return "Hacemos tartas personalizadas para toda ocasión. ¡Llámanos para presupuesto!";
+        if (lower.contains("precio") || lower.contains("cuanto")) return "¡Llámanos al 955 123 456 para presupuesto personalizado!";
         if (lower.contains("pedido") || lower.contains("pedir")) return "Haz tu pedido por WhatsApp al 955 123 456.";
-        return "Para esa consulta, llamame al 955 123 456 o escribeme por WhatsApp. En que mas puedo ayudarte?";
+        return "Para esa consulta, llámame al 955 123 456 o escríbeme por WhatsApp. ¿En qué más puedo ayudarte?";
     }
 
     public String buildOrderMessage(String tartaNombre, String tamano, String personalizacion, String notas, String cliente, double precio) {
@@ -112,15 +112,15 @@ public class ChatService {
             "*Pedido - Dulce Sabor*\n\n" +
             "Cliente: %s\n" +
             "Tarta: %s\n" +
-            "Tamano: %s\n" +
-            "Personalizacion: %s\n" +
+            "Tamaño: %s\n" +
+            "Personalización: %s\n" +
             (notas != null && !notas.isEmpty() ? "Notas: %s\n" : "") +
             (precio > 0 ? "Precio: %.2f EUR\n" : "") +
-            "\nDireccion: C/ Marques de Larios, 1, 29005 Malaga\n" +
-            "Horario: Lun-Sab 9:00-20:00\n\n" +
-            "Para confirmar el pedido, envia este mensaje por WhatsApp al 955 123 456",
+            "\nDirección: C/ Marqués de Larios, 1, 29005 Málaga\n" +
+            "Horario: Lun-Sáb 9:00-20:00\n\n" +
+            "Para confirmar el pedido, envía este mensaje por WhatsApp al 955 123 456",
             cliente, tartaNombre, tamano,
-            personalizacion != null && !personalizacion.isEmpty() ? personalizacion : "Sin personalizacion",
+            personalizacion != null && !personalizacion.isEmpty() ? personalizacion : "Sin personalización",
             notas, precio
         );
         log.info("Pedido generado para {} - {} {}", cliente, tartaNombre, tamano);

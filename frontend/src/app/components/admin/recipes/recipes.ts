@@ -18,8 +18,8 @@ export class Recipes implements OnInit {
   searchQuery = '';
   formItem: Recipe = this.getEmptyItem();
 
-  categorias = ['Bizcocho', 'Crema', 'Cobertura', 'Relleno', 'Decoracion', 'General'];
-  dificultades = ['Facil', 'Media', 'Dificil'];
+  categorias = ['Bizcocho', 'Crema', 'Cobertura', 'Relleno', 'Decoración', 'General'];
+  dificultades = ['Fácil', 'Media', 'Difícil'];
 
   constructor(private apiService: ApiService) {}
 
@@ -118,18 +118,18 @@ export class Recipes implements OnInit {
 
   getDifficultyColor(d: string): string {
     switch (d) {
-      case 'Facil': return '#22C55E';
+      case 'Fácil': return '#22C55E';
       case 'Media': return '#F59E0B';
-      case 'Dificil': return '#DC2626';
+      case 'Difícil': return '#DC2626';
       default: return '#8B7355';
     }
   }
 
   getDifficultyBg(d: string): string {
     switch (d) {
-      case 'Facil': return '#DCFCE7';
+      case 'Fácil': return '#DCFCE7';
       case 'Media': return '#FEF3C7';
-      case 'Dificil': return '#FEE2E2';
+      case 'Difícil': return '#FEE2E2';
       default: return '#F0E6D6';
     }
   }

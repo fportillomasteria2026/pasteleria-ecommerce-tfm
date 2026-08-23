@@ -36,7 +36,7 @@ public class AiService {
         String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
         String mimeType = image.getContentType() != null ? image.getContentType() : "image/jpeg";
 
-        String prompt = "Eres un experto en pasteleria. Analiza esta imagen de una tarta y devuelve un JSON con estos campos: nombre, descripcion, sabor, crema, frutas, forma, tamano, pisos, dimensiones, personalizacion, hashtags, precio. Devuelve SOLO el JSON.";
+        String prompt = "Eres un experto en pastelería. Analiza esta imagen de una tarta y devuelve un JSON con estos campos: nombre, descripción, sabor, crema, frutas, forma, tamaño, pisos, dimensiones, personalización, hashtags, precio. Devuelve SOLO el JSON.";
 
         Map<String, Object> requestBody = Map.of(
             "contents", java.util.List.of(Map.of(
@@ -79,12 +79,12 @@ public class AiService {
         result.put("sabor", "Chocolate");
         result.put("crema", "Ganache");
         result.put("frutas", "Fresa");
-        result.put("forma", "Cilindrica");
+        result.put("forma", "Cilíndrica");
         result.put("tamano", "M");
         result.put("pisos", 2);
         result.put("dimensiones", "h20xd25cm");
-        result.put("personalizacion", "Papel de Azucar");
-        result.put("hashtags", "chocolate,fresa,ganache,pasteleria,artesanal");
+        result.put("personalizacion", "Papel de Azúcar");
+        result.put("hashtags", "chocolate,fresa,ganache,pastelería,artesanal");
         result.put("precio", 45);
         return result;
     }

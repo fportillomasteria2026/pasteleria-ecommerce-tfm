@@ -28,7 +28,7 @@ export class Orders implements OnInit {
   ];
 
   tamanos = ['XS', 'S', 'M', 'L', 'XL'];
-  personalizaciones = ['Sin personalizacion', 'Papeleria', 'Papel de Azucar', 'Mezcla'];
+  personalizaciones = ['Sin personalización', 'Papelería', 'Papel de Azúcar', 'Mezcla'];
 
   constructor(private apiService: ApiService) {}
 
@@ -42,7 +42,7 @@ export class Orders implements OnInit {
       customerPhone: '',
       tartaName: '',
       tartaSize: 'M',
-      personalization: 'Sin personalizacion',
+      personalization: 'Sin personalización',
       notes: '',
       status: 'PENDIENTE',
       totalAmount: 0

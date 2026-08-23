@@ -51,7 +51,7 @@ export class ChatWidget {
     this.isLoading.set(true);
 
     const handleError = (error: any) => {
-      let msg = 'Disculpa, ha habido un error. Intentalo de nuevo.';
+      let msg = 'Disculpa, ha habido un error. Inténtalo de nuevo.';
       try {
         if (error?.error?.reply) msg = error.error.reply;
         else if (error?.error?.message) msg = error.error.message;
@@ -102,7 +102,7 @@ export class ChatWidget {
       },
       error: () => {
         this.messages.update(m => [...m, {
-          text: 'Error al generar el pedido. Intentalo de nuevo.',
+          text: 'Error al generar el pedido. Inténtalo de nuevo.',
           isUser: false,
           time: this.getTime()
         }]);
