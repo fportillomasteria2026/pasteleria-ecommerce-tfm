@@ -364,7 +364,7 @@ Contraseña: admin
 
 ## 9. Presentacion
 
-**URL de acceso a la presentacion:** `https://pasteleria-ecommerce-tfm.vercel.app/presentacion/`
+**URL de acceso a la presentacion:** `https://pasteleria-ecommerce-tfm.vercel.app/slides/presentacion.html`
 
 Presentacion interactiva con 14 diapositivas que incluye:
 - Descripcion del proyecto y objetivos
