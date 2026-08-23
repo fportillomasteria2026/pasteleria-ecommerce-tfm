@@ -21,6 +21,7 @@ export class ChatWidget {
     { text: 'Hola! Soy el asistente de Dulce Sabor. En que puedo ayudarte?', isUser: false, time: this.getTime() }
   ]);
   isLoading = signal(false);
+  private backendUrl = 'https://belieta-backend.onrender.com';
 
   constructor(private http: HttpClient) {}
 
@@ -36,15 +37,24 @@ export class ChatWidget {
     this.userInput = '';
     this.isLoading.set(true);
 
-    this.http.post<{ reply: string }>('https://belieta-backend.onrender.com/api/chat', { message: msg }).subscribe({
+    const handleError = (error: any) => {
+      let msg = 'Disculpa, ha habido un error. Inténtalo de nuevo.';
+      try {
+        if (error?.error?.reply) msg = error.error.reply;
+        else if (error?.error?.message) msg = error.error.message;
+        else if (error?.message) msg = `Error: ${error.message}`;
+      } catch {}
+      console.error('[ChatWidget] Error:', error);
+      this.messages.update(m => [...m, { text: msg, isUser: false, time: this.getTime() }]);
+      this.isLoading.set(false);
+    };
+
+    this.http.post<{ reply: string }>(`${this.backendUrl}/api/chat`, { message: msg }).subscribe({
       next: (res) => {
         this.messages.update(m => [...m, { text: res.reply, isUser: false, time: this.getTime() }]);
         this.isLoading.set(false);
       },
-      error: () => {
-        this.messages.update(m => [...m, { text: 'Disculpa, ha habido un error. Inténtalo de nuevo.', isUser: false, time: this.getTime() }]);
-        this.isLoading.set(false);
-      }
+      error: handleError
     });
   }
 

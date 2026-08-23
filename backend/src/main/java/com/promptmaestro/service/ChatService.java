@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class ChatService {
@@ -36,10 +34,10 @@ public class ChatService {
     public String chat(String userMessage) {
         log.info("Chat recibido: {}", userMessage);
         if (apiKey == null || apiKey.isEmpty()) {
+            log.info("Gemini API key no configurada, usando mock");
             return getMockResponse(userMessage);
         }
 
-        // Obtener productos de la BD
         List<Tarta> tartas = tartaRepository.findByActivoTrue();
         StringBuilder productosInfo = new StringBuilder();
         for (Tarta t : tartas) {
@@ -83,21 +81,14 @@ public class ChatService {
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
             String url = geminiUrl + "?key=" + apiKey;
 
-            CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
-                try {
-                    ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
-                    JsonNode root = objectMapper.readTree(response.getBody());
-                    return root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText().trim();
-                } catch (Exception ex) {
-                    log.error("Error en llamada Gemini: {}", ex.getMessage());
-                    return null;
-                }
-            });
-
-            return future.get(15, TimeUnit.SECONDS);
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+            JsonNode root = objectMapper.readTree(response.getBody());
+            String reply = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText().trim();
+            log.info("Gemini reply: {}", reply.substring(0, Math.min(reply.length(), 100)));
+            return reply;
 
         } catch (Exception e) {
-            log.error("Error Gemini chat: {}", e.getMessage());
+            log.warn("Gemini no disponible ({}), usando mock para: {}", e.getMessage(), userMessage);
             return getMockResponse(userMessage);
         }
     }

@@ -52,22 +52,24 @@ public class AiService {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
         String url = geminiUrl + "?key=" + apiKey;
 
-        log.info("Llamando a Gemini API...");
-        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
-        log.info("Gemini HTTP status: {}", response.getStatusCode());
+        try {
+            log.info("Llamando a Gemini API...");
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+            log.info("Gemini HTTP status: {}", response.getStatusCode());
 
-        if (response.getStatusCode().is4xxClientError() || response.getStatusCode().is5xxServerError()) {
-            throw new RuntimeException("Gemini HTTP " + response.getStatusCodeValue() + ": " + response.getBody());
+            JsonNode root = objectMapper.readTree(response.getBody());
+            if (root.has("error")) {
+                log.warn("Gemini error: {}", root.get("error").get("message").asText());
+                return getMockTartaAnalysis();
+            }
+
+            String text = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText();
+            String cleaned = text.trim().replaceAll("```json", "").replaceAll("```", "").trim();
+            return objectMapper.readValue(cleaned, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {});
+        } catch (Exception e) {
+            log.warn("Gemini no disponible ({}), usando mock", e.getMessage());
+            return getMockTartaAnalysis();
         }
-
-        JsonNode root = objectMapper.readTree(response.getBody());
-        if (root.has("error")) {
-            throw new RuntimeException("Gemini: " + root.get("error").get("message").asText());
-        }
-
-        String text = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText();
-        String cleaned = text.trim().replaceAll("```json", "").replaceAll("```", "").trim();
-        return objectMapper.readValue(cleaned, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {});
     }
 
     public Map<String, Object> getMockTartaAnalysis() {
