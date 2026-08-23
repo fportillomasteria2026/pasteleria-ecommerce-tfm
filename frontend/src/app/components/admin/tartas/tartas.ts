@@ -41,6 +41,7 @@ export class Tartas implements OnInit {
   showImageDialog = signal(false);
   serverImages = signal<string[]>([]);
   generatingHashtags = signal(false);
+  generatingDescription = signal(false);
   showAiModal = signal(false);
   aiProcessing = signal(false);
   aiSelectedFile: File | null = null;
@@ -151,6 +152,29 @@ export class Tartas implements OnInit {
       },
       error: () => {
         this.generatingHashtags.set(false);
+      }
+    });
+  }
+
+  generateDescription(): void {
+    this.generatingDescription.set(true);
+    const body = {
+      nombre: this.formItem.nombre || '',
+      saborBizcocho: this.formItem.saborBizcocho || '',
+      tipoCrema: this.formItem.tipoCrema || '',
+      frutas: this.formItem.frutas || '',
+      forma: this.formItem.forma || '',
+      tamano: this.formItem.tamano || '',
+      pisos: String(this.formItem.pisos || 2),
+      tipoPersonalizacion: this.formItem.tipoPersonalizacion || ''
+    };
+    this.http.post<{ descripcion: string }>('https://belieta-backend.onrender.com/api/admin/ai/generate-description', body).subscribe({
+      next: (res) => {
+        this.formItem.descripcion = res.descripcion;
+        this.generatingDescription.set(false);
+      },
+      error: () => {
+        this.generatingDescription.set(false);
       }
     });
   }

@@ -25,4 +25,17 @@ public class ChatController {
         String reply = chatService.chat(message);
         return ResponseEntity.ok(Map.of("reply", reply));
     }
+
+    @PostMapping("/order")
+    public ResponseEntity<Map<String, String>> createOrder(@RequestBody Map<String, Object> request) {
+        String tartaNombre = (String) request.getOrDefault("tartaNombre", "");
+        String tamano = (String) request.getOrDefault("tamano", "M");
+        String personalizacion = (String) request.getOrDefault("personalizacion", "");
+        String notas = (String) request.getOrDefault("notas", "");
+        String cliente = (String) request.getOrDefault("cliente", "Cliente");
+        double precio = request.containsKey("precio") ? ((Number) request.get("precio")).doubleValue() : 0;
+
+        String reply = chatService.buildOrderMessage(tartaNombre, tamano, personalizacion, notas, cliente, precio);
+        return ResponseEntity.ok(Map.of("reply", reply));
+    }
 }

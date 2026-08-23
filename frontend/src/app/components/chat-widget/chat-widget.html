@@ -28,8 +28,11 @@
     <div class="chat-messages">
       @for (msg of messages(); track $index) {
         <div class="chat-msg" [class.user]="msg.isUser" [class.bot]="!msg.isUser">
-          <div class="chat-bubble">{{ msg.text }}</div>
+          <div class="chat-bubble" [class.order-bubble]="msg.isOrder">{{ msg.text }}</div>
           <div class="chat-time">{{ msg.time }}</div>
+          @if (msg.isOrder) {
+            <button class="whatsapp-btn" (click)="openWhatsApp()">Enviar por WhatsApp</button>
+          }
         </div>
       }
       @if (isLoading()) {
@@ -40,6 +43,34 @@
         </div>
       }
     </div>
+
+    <!-- Quick Actions -->
+    @if (!showOrderForm()) {
+      <div class="quick-actions">
+        <button class="quick-btn" (click)="userInput='Que tartas teneis?'; send()">Ver tartas</button>
+        <button class="quick-btn" (click)="userInput='Cuales son vuestros horarios?'; send()">Horarios</button>
+        <button class="quick-btn order-btn" (click)="openOrderForm()">Hacer pedido</button>
+      </div>
+    }
+
+    <!-- Order Form -->
+    @if (showOrderForm()) {
+      <div class="order-form">
+        <div class="order-form-header">
+          <span>Nuevo Pedido</span>
+          <button class="order-close" (click)="closeOrderForm()">&times;</button>
+        </div>
+        <input type="text" [(ngModel)]="orderForm.cliente" placeholder="Tu nombre" class="order-input" />
+        <input type="text" [(ngModel)]="orderForm.tartaNombre" placeholder="Nombre de la tarta" class="order-input" />
+        <select [(ngModel)]="orderForm.tamano" class="order-input">
+          @for (t of tamanos; track t) { <option [value]="t">Tamano {{ t }}</option> }
+        </select>
+        <input type="text" [(ngModel)]="orderForm.personalizacion" placeholder="Personalizacion (opcional)" class="order-input" />
+        <input type="number" [(ngModel)]="orderForm.precio" step="0.01" placeholder="Precio EUR (opcional)" class="order-input" />
+        <input type="text" [(ngModel)]="orderForm.notas" placeholder="Notas adicionales (opcional)" class="order-input" />
+        <button class="submit-order-btn" (click)="submitOrder()" [disabled]="!orderForm.tartaNombre.trim()">Confirmar Pedido</button>
+      </div>
+    }
 
     <!-- Input -->
     <div class="chat-input-wrap">

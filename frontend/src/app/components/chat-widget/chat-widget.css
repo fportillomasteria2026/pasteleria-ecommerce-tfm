@@ -143,3 +143,92 @@
   }
   .chat-toggle { bottom: 80px; right: 16px; }
 }
+
+.quick-actions {
+  padding: 8px 16px;
+  display: flex;
+  gap: 6px;
+  border-top: 1px solid #E0D5C5;
+  background: white;
+  flex-wrap: wrap;
+}
+.quick-btn {
+  padding: 6px 12px;
+  border: 1px solid #E0D5C5;
+  border-radius: 16px;
+  background: #F9F6F1;
+  color: #8B7355;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Lato', Arial, sans-serif;
+}
+.quick-btn:hover { background: #C8A96E; color: white; border-color: #C8A96E; }
+.quick-btn.order-btn { background: #FEF3C7; color: #92400E; border-color: #FCD34D; }
+.quick-btn.order-btn:hover { background: #F59E0B; color: white; border-color: #F59E0B; }
+
+.order-form {
+  padding: 12px 16px;
+  border-top: 1px solid #E0D5C5;
+  background: #F9F6F1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.order-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #3E2723;
+}
+.order-close {
+  background: none; border: none; font-size: 18px; cursor: pointer; color: #8B7355;
+}
+.order-input {
+  padding: 8px 12px;
+  border: 1px solid #E0D5C5;
+  border-radius: 8px;
+  font-size: 12px;
+  outline: none;
+  font-family: 'Lato', Arial, sans-serif;
+  color: #3E2723;
+  background: white;
+}
+.order-input:focus { border-color: #C8A96E; }
+.submit-order-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #C8A96E, #B8954A);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  font-family: 'Lato', Arial, sans-serif;
+}
+.submit-order-btn:disabled { opacity: 0.5; cursor: default; }
+
+.order-bubble {
+  background: #FEF3C7 !important;
+  border: 1px solid #FCD34D !important;
+  white-space: pre-line;
+}
+.whatsapp-btn {
+  margin-top: 6px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 16px;
+  background: #25D366;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  font-family: 'Lato', Arial, sans-serif;
+  align-self: flex-start;
+}
+.whatsapp-btn:hover { opacity: 0.85; }

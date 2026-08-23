@@ -6,6 +6,7 @@ interface ChatMessage {
   text: string;
   isUser: boolean;
   time: string;
+  isOrder?: boolean;
 }
 
 @Component({
@@ -21,7 +22,19 @@ export class ChatWidget {
     { text: 'Hola! Soy el asistente de Dulce Sabor. En que puedo ayudarte?', isUser: false, time: this.getTime() }
   ]);
   isLoading = signal(false);
+  showOrderForm = signal(false);
   private backendUrl = 'https://belieta-backend.onrender.com';
+
+  orderForm = {
+    tartaNombre: '',
+    tamano: 'M',
+    personalizacion: '',
+    notas: '',
+    cliente: '',
+    precio: 0
+  };
+
+  tamanos = ['XS', 'S', 'M', 'L', 'XL'];
 
   constructor(private http: HttpClient) {}
 
@@ -38,7 +51,7 @@ export class ChatWidget {
     this.isLoading.set(true);
 
     const handleError = (error: any) => {
-      let msg = 'Disculpa, ha habido un error. Inténtalo de nuevo.';
+      let msg = 'Disculpa, ha habido un error. Intentalo de nuevo.';
       try {
         if (error?.error?.reply) msg = error.error.reply;
         else if (error?.error?.message) msg = error.error.message;
@@ -56,6 +69,58 @@ export class ChatWidget {
       },
       error: handleError
     });
+  }
+
+  openOrderForm(): void {
+    this.showOrderForm.set(true);
+    this.messages.update(m => [...m, {
+      text: 'Vamos a hacer tu pedido! Rellena los datos abajo.',
+      isUser: false,
+      time: this.getTime()
+    }]);
+  }
+
+  closeOrderForm(): void {
+    this.showOrderForm.set(false);
+  }
+
+  submitOrder(): void {
+    if (!this.orderForm.tartaNombre.trim()) return;
+    this.isLoading.set(true);
+    this.showOrderForm.set(false);
+
+    this.http.post<{ reply: string }>(`${this.backendUrl}/api/chat/order`, this.orderForm).subscribe({
+      next: (res) => {
+        this.messages.update(m => [...m, {
+          text: res.reply,
+          isUser: false,
+          time: this.getTime(),
+          isOrder: true
+        }]);
+        this.isLoading.set(false);
+        this.resetOrderForm();
+      },
+      error: () => {
+        this.messages.update(m => [...m, {
+          text: 'Error al generar el pedido. Intentalo de nuevo.',
+          isUser: false,
+          time: this.getTime()
+        }]);
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  openWhatsApp(): void {
+    const lastOrder = [...this.messages()].reverse().find(m => m.isOrder);
+    if (lastOrder) {
+      const encoded = encodeURIComponent(lastOrder.text);
+      window.open(`https://wa.me/34955123456?text=${encoded}`, '_blank');
+    }
+  }
+
+  private resetOrderForm(): void {
+    this.orderForm = { tartaNombre: '', tamano: 'M', personalizacion: '', notas: '', cliente: '', precio: 0 };
   }
 
   private getTime(): string {

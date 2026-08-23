@@ -9,6 +9,7 @@ import { Ingredients } from './components/admin/ingredients/ingredients';
 import { Recipes } from './components/admin/recipes/recipes';
 import { Orders } from './components/admin/orders/orders';
 import { Tartas } from './components/admin/tartas/tartas';
+import { InventoryAi } from './components/admin/inventory-ai/inventory-ai';
 import { adminGuard } from './guards/admin-guard';
 
 export const routes: Routes = [
@@ -22,5 +23,6 @@ export const routes: Routes = [
   { path: 'admin/ingredients', component: Ingredients, canActivate: [adminGuard] },
   { path: 'admin/recipes', component: Recipes, canActivate: [adminGuard] },
   { path: 'admin/orders', component: Orders, canActivate: [adminGuard] },
+  { path: 'admin/inventory-ai', component: InventoryAi, canActivate: [adminGuard] },
   { path: '**', redirectTo: '' }
 ];

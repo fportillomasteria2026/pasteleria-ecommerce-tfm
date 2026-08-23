@@ -106,4 +106,24 @@ public class ChatService {
         if (lower.contains("pedido") || lower.contains("pedir")) return "Haz tu pedido por WhatsApp al 955 123 456.";
         return "Para esa consulta, llamame al 955 123 456 o escribeme por WhatsApp. En que mas puedo ayudarte?";
     }
+
+    public String buildOrderMessage(String tartaNombre, String tamano, String personalizacion, String notas, String cliente, double precio) {
+        String msg = String.format(
+            "*Pedido - Dulce Sabor*\n\n" +
+            "Cliente: %s\n" +
+            "Tarta: %s\n" +
+            "Tamano: %s\n" +
+            "Personalizacion: %s\n" +
+            (notas != null && !notas.isEmpty() ? "Notas: %s\n" : "") +
+            (precio > 0 ? "Precio: %.2f EUR\n" : "") +
+            "\nDireccion: C/ Marques de Larios, 1, 29005 Malaga\n" +
+            "Horario: Lun-Sab 9:00-20:00\n\n" +
+            "Para confirmar el pedido, envia este mensaje por WhatsApp al 955 123 456",
+            cliente, tartaNombre, tamano,
+            personalizacion != null && !personalizacion.isEmpty() ? personalizacion : "Sin personalizacion",
+            notas, precio
+        );
+        log.info("Pedido generado para {} - {} {}", cliente, tartaNombre, tamano);
+        return msg;
+    }
 }

@@ -48,6 +48,9 @@
       <a routerLink="/admin/orders" routerLinkActive="active-link" class="admin-nav-item" (click)="closeSidebar()">
         <span class="admin-nav-icon">&#128196;</span> Pedidos
       </a>
+      <a routerLink="/admin/inventory-ai" routerLinkActive="active-link" class="admin-nav-item" (click)="closeSidebar()">
+        <span class="admin-nav-icon">&#129302;</span> IA Inventario
+      </a>
     </nav>
 
     <div class="admin-sidebar-footer">
@@ -83,6 +86,11 @@
             <span class="admin-welcome-card-icon">&#128196;</span>
             <span class="admin-welcome-card-title">Pedidos</span>
             <span class="admin-welcome-card-sub">Gestion</span>
+          </a>
+          <a routerLink="/admin/inventory-ai" class="admin-welcome-card">
+            <span class="admin-welcome-card-icon">&#129302;</span>
+            <span class="admin-welcome-card-title">IA Inventario</span>
+            <span class="admin-welcome-card-sub">Analisis</span>
           </a>
         </div>
       </div>
