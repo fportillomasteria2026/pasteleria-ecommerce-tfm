@@ -1,104 +1,111 @@
-<div style="font-family:'Lato',Arial,sans-serif;">
-  <a routerLink="/admin/dashboard" class="btn-back">&larr; Volver al Dashboard</a>
+<div style="font-family:'Lato',Arial,sans-serif; padding:16px;">
+  <a routerLink="/admin/dashboard" style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border:1px solid #E0D5C5; border-radius:50px; color:#8B7355; font-size:11px; font-weight:600; text-decoration:none; margin-bottom:10px;">&larr; Volver al Dashboard</a>
 
   <!-- Header -->
-  <div class="card" style="padding:16px 20px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+  <div style="background:white; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.04); padding:12px 16px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between;">
     <div style="display:flex; align-items:center; gap:10px;">
-      <div class="icon-box">&#128196;</div>
-      <h2 class="card-title">Gestion de Pedidos</h2>
+      <div style="width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,#C8A96E,#B8954A); display:flex; align-items:center; justify-content:center; font-size:14px;">&#128196;</div>
+      <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:16px; font-weight:700; color:#3E2723;">Gestion de Pedidos</h2>
     </div>
     <div style="display:flex; gap:6px; align-items:center;">
-      <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="search()" placeholder="Buscar..." class="input-sm" style="width:160px;" />
-      <button (click)="newItem()" class="btn-green">+ Nuevo</button>
+      <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="search()" placeholder="Buscar..." style="padding:6px 10px; border:1px solid #E0D5C5; border-radius:6px; font-size:11px; width:160px;" />
+      <button (click)="newItem()" style="padding:7px 14px; border:none; border-radius:6px; background:#22C55E; color:white; font-size:11px; font-weight:700; cursor:pointer;">+ Nuevo</button>
     </div>
   </div>
 
   <!-- Filtros -->
-  <div style="display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap;">
-    <button (click)="statusFilter.set(''); loadOrders()" class="filter-btn" [class.filter-active]="!statusFilter()">Todos</button>
-    <button (click)="statusFilter.set('PENDIENTE'); loadOrders()" class="filter-btn" [class.filter-yellow]="statusFilter() === 'PENDIENTE'">Pendientes</button>
-    <button (click)="statusFilter.set('EN_PROCESO'); loadOrders()" class="filter-btn" [class.filter-blue]="statusFilter() === 'EN_PROCESO'">En Proceso</button>
-    <button (click)="statusFilter.set('COMPLETADO'); loadOrders()" class="filter-btn" [class.filter-green]="statusFilter() === 'COMPLETADO'">Completados</button>
-    <button (click)="statusFilter.set('CANCELADO'); loadOrders()" class="filter-btn" [class.filter-red]="statusFilter() === 'CANCELADO'">Cancelados</button>
+  <div style="display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;">
+    <button (click)="statusFilter.set(''); loadOrders()" [style.background]="!statusFilter() ? '#3E2723' : 'white'" [style.color]="!statusFilter() ? 'white' : '#8B7355'" [style.border-color]="!statusFilter() ? '#3E2723' : '#E0D5C5'" style="padding:5px 12px; border:1px solid; border-radius:20px; font-size:10px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif;">Todos</button>
+    <button (click)="statusFilter.set('PENDIENTE'); loadOrders()" [style.background]="statusFilter()==='PENDIENTE' ? '#FEF3C7' : 'white'" [style.color]="statusFilter()==='PENDIENTE' ? '#92400E' : '#8B7355'" [style.border-color]="statusFilter()==='PENDIENTE' ? '#FCD34D' : '#E0D5C5'" style="padding:5px 12px; border:1px solid; border-radius:20px; font-size:10px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif;">Pendientes</button>
+    <button (click)="statusFilter.set('EN_PROCESO'); loadOrders()" [style.background]="statusFilter()==='EN_PROCESO' ? '#DBEAFE' : 'white'" [style.color]="statusFilter()==='EN_PROCESO' ? '#1E40AF' : '#8B7355'" [style.border-color]="statusFilter()==='EN_PROCESO' ? '#93C5FD' : '#E0D5C5'" style="padding:5px 12px; border:1px solid; border-radius:20px; font-size:10px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif;">En Proceso</button>
+    <button (click)="statusFilter.set('COMPLETADO'); loadOrders()" [style.background]="statusFilter()==='COMPLETADO' ? '#DCFCE7' : 'white'" [style.color]="statusFilter()==='COMPLETADO' ? '#166534' : '#8B7355'" [style.border-color]="statusFilter()==='COMPLETADO' ? '#86EFAC' : '#E0D5C5'" style="padding:5px 12px; border:1px solid; border-radius:20px; font-size:10px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif;">Completados</button>
+    <button (click)="statusFilter.set('CANCELADO'); loadOrders()" [style.background]="statusFilter()==='CANCELADO' ? '#FEE2E2' : 'white'" [style.color]="statusFilter()==='CANCELADO' ? '#991B1B' : '#8B7355'" [style.border-color]="statusFilter()==='CANCELADO' ? '#FCA5A5' : '#E0D5C5'" style="padding:5px 12px; border:1px solid; border-radius:20px; font-size:10px; font-weight:600; cursor:pointer; font-family:'Lato',Arial,sans-serif;">Cancelados</button>
   </div>
 
   <!-- Formulario -->
-  <div class="card" style="padding:16px 20px; margin-bottom:12px;">
-    <div class="form-header">
-      <div class="form-dot" [style.background]="isNewItem() ? '#22C55E' : '#C8A96E'"></div>
-      <h3 class="form-title">{{ isNewItem() ? 'Nuevo Pedido' : 'Editar Pedido #' + formItem.id }}</h3>
+  <div style="background:white; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.04); padding:14px 16px; margin-bottom:10px;">
+    <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+      <div style="width:6px; height:6px; border-radius:50%;" [style.background]="isNewItem() ? '#22C55E' : '#C8A96E'"></div>
+      <span style="font-size:12px; font-weight:700; color:#3E2723;">{{ isNewItem() ? 'Nuevo Pedido' : 'Editar Pedido #' + formItem.id }}</span>
     </div>
 
-    <div class="form-row">
-      <div class="field field-lg"><label>Cliente *</label><input type="text" [(ngModel)]="formItem.customerName" placeholder="Nombre del cliente" class="input" /></div>
-      <div class="field field-sm"><label>Telefono</label><input type="text" [(ngModel)]="formItem.customerPhone" placeholder="955 123 456" class="input" /></div>
-      <div class="field field-md"><label>Tarta</label><input type="text" [(ngModel)]="formItem.tartaName" placeholder="Nombre de la tarta" class="input" /></div>
-      <div class="field field-xs"><label>Tamano</label><select [(ngModel)]="formItem.tartaSize" class="input"><option value="">-</option>@for (t of tamanos; track t) { <option [value]="t">{{ t }}</option> }</select></div>
+    <!-- Fila 1: Cliente + Telefono + Tarta + Tamano -->
+    <div style="display:flex; gap:6px; margin-bottom:4px;">
+      <div style="flex:1.5;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Cliente *</label><input type="text" [(ngModel)]="formItem.customerName" placeholder="Nombre del cliente" style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:11px; box-sizing:border-box;" /></div>
+      <div style="flex:0.8;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Telefono</label><input type="text" [(ngModel)]="formItem.customerPhone" placeholder="955 123 456" style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:11px; box-sizing:border-box;" /></div>
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Tarta</label><input type="text" [(ngModel)]="formItem.tartaName" placeholder="Nombre de la tarta" style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:11px; box-sizing:border-box;" /></div>
+      <div style="flex:0 0 70px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Tamano</label><select [(ngModel)]="formItem.tartaSize" style="width:100%; padding:5px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px; box-sizing:border-box;"><option value="">-</option>@for (t of tamanos; track t) { <option [value]="t">{{ t }}</option> }</select></div>
     </div>
 
-    <div class="form-row form-row-bg">
-      <div class="field field-md"><label>Personalizacion</label><select [(ngModel)]="formItem.personalization" class="input"><option value="">-</option>@for (p of personalizaciones; track p) { <option [value]="p">{{ p }}</option> }</select></div>
-      <div class="field field-xs"><label>Total EUR</label><input type="number" [(ngModel)]="formItem.totalAmount" step="0.01" class="input" /></div>
-      <div class="field" style="flex:2;"><label>Notas</label><input type="text" [(ngModel)]="formItem.notes" placeholder="Notas del pedido..." class="input" /></div>
+    <!-- Fila 2: Personalizacion + Total + Notas -->
+    <div style="display:flex; gap:6px; margin-bottom:4px; padding:6px 8px; background:#F9F6F1; border-radius:4px;">
+      <div style="flex:1;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Personalizacion</label><select [(ngModel)]="formItem.personalization" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;"><option value="">-</option>@for (p of personalizaciones; track p) { <option [value]="p">{{ p }}</option> }</select></div>
+      <div style="flex:0 0 90px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Total EUR</label><input type="number" [(ngModel)]="formItem.totalAmount" step="0.01" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
+      <div style="flex:2;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Notas</label><input type="text" [(ngModel)]="formItem.notes" placeholder="Notas del pedido..." style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;" /></div>
     </div>
 
-    <div class="form-row">
-      <div class="field field-sm"><label>Estado</label>
-        <select [(ngModel)]="formItem.status" class="input">
-          @for (s of statuses; track s.value) { <option [value]="s.value">{{ s.label }}</option> }
-        </select>
-      </div>
+    <!-- Fila 3: Estado -->
+    <div style="display:flex; gap:6px; margin-bottom:6px; padding:6px 8px; background:#F0F7F4; border-radius:4px;">
+      <div style="flex:0 0 150px;"><label style="display:block; font-size:8px; font-weight:700; color:#8B7355; text-transform:uppercase; margin-bottom:1px;">Estado</label><select [(ngModel)]="formItem.status" style="width:100%; padding:4px 6px; border:1px solid #E0D5C5; border-radius:3px; font-size:10px;">@for (s of statuses; track s.value) { <option [value]="s.value">{{ s.label }}</option> }</select></div>
     </div>
 
-    <div class="form-actions">
-      <button (click)="saveItem()" class="btn-green">{{ isNewItem() ? 'Crear' : 'Guardar' }}</button>
-      @if (!isNewItem()) { <button (click)="confirmDelete(formItem.id!)" class="btn-red">Eliminar</button> }
-      <button (click)="newItem()" class="btn-gray">Limpiar</button>
+    <!-- Botones -->
+    <div style="display:flex; gap:6px; padding-top:6px; border-top:1px solid #F0E6D6;">
+      <button (click)="saveItem()" style="padding:7px 18px; border:none; border-radius:4px; background:#22C55E; color:white; font-size:11px; font-weight:700; cursor:pointer;">{{ isNewItem() ? 'Crear Pedido' : 'Guardar' }}</button>
+      @if (!isNewItem()) { <button (click)="confirmDelete(formItem.id!)" style="padding:7px 14px; border:1px solid #FECACA; border-radius:4px; background:white; color:#DC2626; font-size:11px; font-weight:700; cursor:pointer;">Eliminar</button> }
+      <button (click)="newItem()" style="padding:7px 14px; border:1px solid #E0D5C5; border-radius:4px; background:white; color:#8B7355; font-size:11px; font-weight:700; cursor:pointer;">Limpiar</button>
     </div>
   </div>
 
   <!-- Tabla -->
-  <div class="card" style="padding:16px 20px;">
+  <div style="background:white; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.04); padding:12px 16px;">
     <div style="overflow-x:auto;">
-      <table class="table">
-        <thead>
-          <tr><th>#</th><th>Cliente</th><th>Telefono</th><th>Tarta</th><th>Tam.</th><th>Personalizacion</th><th>Estado</th><th style="text-align:right">Total</th><th>Fecha</th><th></th></tr>
-        </thead>
+      <table style="width:100%; border-collapse:collapse; font-size:10px;">
+        <thead><tr style="border-bottom:1px solid #E0D5C5;">
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">#</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Cliente</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Telefono</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Tarta</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Tam.</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Estado</th>
+          <th style="text-align:right; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Total</th>
+          <th style="text-align:left; padding:6px 4px; color:#8B7355; font-size:8px; text-transform:uppercase;">Fecha</th>
+          <th style="padding:6px 4px;"></th>
+        </tr></thead>
         <tbody>
           @for (order of items(); track order.id) {
-            <tr [class.row-selected]="formItem.id === order.id" (click)="selectItem(order)">
-              <td class="cell-muted">{{ order.id }}</td>
-              <td class="cell-bold">{{ order.customerName }}</td>
-              <td class="cell-muted">{{ order.customerPhone || '-' }}</td>
-              <td class="cell-muted">{{ order.tartaName || '-' }}</td>
-              <td><span class="badge">{{ order.tartaSize || '-' }}</span></td>
-              <td class="cell-muted" style="font-size:10px;">{{ order.personalization || '-' }}</td>
-              <td><span class="badge" [style.background]="getStatusBg(order.status)" [style.color]="getStatusColor(order.status)">{{ getStatusLabel(order.status) }}</span></td>
-              <td class="cell-right cell-price">{{ (order.totalAmount || 0).toFixed(2) }} EUR</td>
-              <td class="cell-muted">{{ getShortDate(order.createdAt) }}</td>
-              <td>
-                <button (click)="$event.stopPropagation(); selectItem(order)" class="btn-xs btn-blue">Editar</button>
-                <button (click)="$event.stopPropagation(); confirmDelete(order.id!)" class="btn-xs btn-red-outline">Borrar</button>
+            <tr style="border-bottom:1px solid #F0E6D6; cursor:pointer; transition:background 0.15s;" [style.background]="formItem.id === order.id ? '#FEF3C7' : 'transparent'" (click)="selectItem(order)" onmouseover="if(this.style.backgroundColor!=='rgb(254, 243, 199)')this.style.background='#F5F0EB'" onmouseout="if(this.style.backgroundColor!=='rgb(254, 243, 199)')this.style.background='transparent'">
+              <td style="padding:5px 4px; color:#8B7355; font-size:9px;">{{ order.id }}</td>
+              <td style="padding:5px 4px; font-weight:600; color:#3E2723;">{{ order.customerName }}</td>
+              <td style="padding:5px 4px; color:#8B7355; font-size:9px;">{{ order.customerPhone || '-' }}</td>
+              <td style="padding:5px 4px; color:#8B7355; font-size:9px;">{{ order.tartaName || '-' }}</td>
+              <td style="padding:5px 4px;"><span style="padding:1px 6px; border-radius:8px; background:#F0E6D6; color:#3E2723; font-size:9px; font-weight:600;">{{ order.tartaSize || '-' }}</span></td>
+              <td><span style="padding:2px 8px; border-radius:10px; font-size:9px; font-weight:600;" [style.background]="getStatusBg(order.status)" [style.color]="getStatusColor(order.status)">{{ getStatusLabel(order.status) }}</span></td>
+              <td style="padding:5px 4px; text-align:right; font-weight:600; color:#C8A96E; font-size:9px;">{{ (order.totalAmount || 0).toFixed(2) }}</td>
+              <td style="padding:5px 4px; color:#8B7355; font-size:9px;">{{ getShortDate(order.createdAt) }}</td>
+              <td style="padding:5px 4px;">
+                <button (click)="$event.stopPropagation(); selectItem(order)" style="padding:2px 6px; border:1px solid #E0D5C5; border-radius:3px; background:white; color:#2563EB; font-size:9px; font-weight:600; cursor:pointer;">Editar</button>
+                <button (click)="$event.stopPropagation(); confirmDelete(order.id!)" style="padding:2px 6px; border:1px solid #FECACA; border-radius:3px; background:white; color:#DC2626; font-size:9px; font-weight:600; cursor:pointer;">Borrar</button>
               </td>
             </tr>
           }
         </tbody>
       </table>
     </div>
-    @if (items().length === 0 && !loading()) { <p class="empty-msg">No hay pedidos registrados</p> }
+    @if (items().length === 0 && !loading()) { <p style="text-align:center; padding:20px; color:#8B7355; font-size:11px;">No hay pedidos registrados</p> }
   </div>
 </div>
 
 <!-- Modal Confirmar Eliminar -->
 @if (showDeleteConfirm()) {
   <div style="position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; display:flex; align-items:center; justify-content:center;" (click)="cancelDelete()">
-    <div class="card" style="padding:24px; width:360px; max-width:90vw; text-align:center;" (click)="$event.stopPropagation()">
+    <div style="background:white; border-radius:12px; padding:24px; width:360px; max-width:90vw; text-align:center;" (click)="$event.stopPropagation()">
       <div style="font-size:36px; margin-bottom:12px;">&#128465;</div>
       <h3 style="font-size:16px; font-weight:700; color:#3E2723; margin-bottom:8px;">Eliminar Pedido</h3>
       <p style="font-size:12px; color:#8B7355; margin-bottom:20px;">Seguro que quieres eliminar este pedido?</p>
       <div style="display:flex; gap:8px; justify-content:center;">
-        <button (click)="cancelDelete()" class="btn-gray">Cancelar</button>
-        <button (click)="executeDelete()" class="btn-red">Eliminar</button>
+        <button (click)="cancelDelete()" style="padding:7px 14px; border:1px solid #E0D5C5; border-radius:4px; background:white; color:#8B7355; font-size:11px; font-weight:700; cursor:pointer;">Cancelar</button>
+        <button (click)="executeDelete()" style="padding:7px 14px; border:1px solid #FECACA; border-radius:4px; background:white; color:#DC2626; font-size:11px; font-weight:700; cursor:pointer;">Eliminar</button>
       </div>
     </div>
   </div>
