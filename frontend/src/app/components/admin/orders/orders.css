@@ -1,3 +1,46 @@
 :host {
   display: block;
 }
+
+.stat-card {
+  background: white;
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  text-align: center;
+}
+.stat-number {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+.stat-label {
+  font-size: 10px;
+  color: #8B7355;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 2px;
+}
+.stat-pending .stat-number { color: #92400E; }
+.stat-process .stat-number { color: #1E40AF; }
+.stat-done .stat-number { color: #166534; }
+.stat-revenue .stat-number { color: #C8A96E; }
+
+.filter-btn {
+  padding: 6px 14px;
+  border: 1px solid #E0D5C5;
+  border-radius: 20px;
+  background: white;
+  color: #8B7355;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Lato', Arial, sans-serif;
+}
+.filter-btn:hover { border-color: #C8A96E; background: #F9F6F1; }
+.filter-active { background: #3E2723; color: white; border-color: #3E2723; }
+.filter-yellow { background: #FEF3C7; color: #92400E; border-color: #FCD34D; }
+.filter-blue { background: #DBEAFE; color: #1E40AF; border-color: #93C5FD; }
+.filter-green { background: #DCFCE7; color: #166534; border-color: #86EFAC; }
+.filter-red { background: #FEE2E2; color: #991B1B; border-color: #FCA5A5; }

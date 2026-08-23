@@ -15,12 +15,38 @@ export class Orders implements OnInit {
   statusFilter = signal('');
   loading = signal(true);
   isNewItem = signal(false);
-  formItem: Order = { customerName: '', status: 'PENDIENTE', totalAmount: 0 };
+  showDeleteConfirm = signal(false);
+  deleteTargetId: number | null = null;
+  searchQuery = '';
+  formItem: Order = this.getEmptyOrder();
+
+  statuses = [
+    { value: 'PENDIENTE', label: 'Pendiente', icon: '&#9203;' },
+    { value: 'EN_PROCESO', label: 'En Proceso', icon: '&#128296;' },
+    { value: 'COMPLETADO', label: 'Completado', icon: '&#9989;' },
+    { value: 'CANCELADO', label: 'Cancelado', icon: '&#10060;' }
+  ];
+
+  tamanos = ['XS', 'S', 'M', 'L', 'XL'];
+  personalizaciones = ['Sin personalizacion', 'Papeleria', 'Papel de Azucar', 'Mezcla'];
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.loadOrders();
+  }
+
+  getEmptyOrder(): Order {
+    return {
+      customerName: '',
+      customerPhone: '',
+      tartaName: '',
+      tartaSize: 'M',
+      personalization: 'Sin personalizacion',
+      notes: '',
+      status: 'PENDIENTE',
+      totalAmount: 0
+    };
   }
 
   loadOrders(): void {
@@ -31,8 +57,29 @@ export class Orders implements OnInit {
     });
   }
 
+  search(): void {
+    if (!this.searchQuery.trim()) {
+      this.loadOrders();
+      return;
+    }
+    this.loading.set(true);
+    this.apiService.getOrders(undefined).subscribe({
+      next: (data) => {
+        const q = this.searchQuery.toLowerCase();
+        const filtered = data.filter(o =>
+          o.customerName?.toLowerCase().includes(q) ||
+          o.tartaName?.toLowerCase().includes(q) ||
+          o.customerPhone?.includes(q)
+        );
+        this.items.set(filtered);
+        this.loading.set(false);
+      },
+      error: () => { this.items.set([]); this.loading.set(false); }
+    });
+  }
+
   newItem(): void {
-    this.formItem = { customerName: '', status: 'PENDIENTE', totalAmount: 0 };
+    this.formItem = this.getEmptyOrder();
     this.isNewItem.set(true);
   }
 
@@ -42,7 +89,7 @@ export class Orders implements OnInit {
   }
 
   saveItem(): void {
-    if (!this.formItem.customerName) return;
+    if (!this.formItem.customerName?.trim()) return;
     if (this.isNewItem()) {
       this.apiService.createOrder(this.formItem).subscribe({
         next: () => { this.loadOrders(); this.newItem(); }
@@ -55,9 +102,34 @@ export class Orders implements OnInit {
     }
   }
 
-  deleteItem(id: number): void {
-    this.apiService.deleteOrder(id).subscribe({
-      next: () => { this.loadOrders(); this.newItem(); }
+  quickStatus(order: Order, newStatus: string): void {
+    if (!order.id) return;
+    this.apiService.updateOrderStatus(order.id, newStatus).subscribe({
+      next: (updated) => {
+        this.items.set(this.items().map(o => o.id === updated.id ? updated : o));
+      }
+    });
+  }
+
+  confirmDelete(id: number): void {
+    this.deleteTargetId = id;
+    this.showDeleteConfirm.set(true);
+  }
+
+  cancelDelete(): void {
+    this.showDeleteConfirm.set(false);
+    this.deleteTargetId = null;
+  }
+
+  executeDelete(): void {
+    if (this.deleteTargetId === null) return;
+    this.apiService.deleteOrder(this.deleteTargetId).subscribe({
+      next: () => {
+        this.loadOrders();
+        this.showDeleteConfirm.set(false);
+        this.deleteTargetId = null;
+        if (this.formItem.id === this.deleteTargetId) this.newItem();
+      }
     });
   }
 
@@ -79,5 +151,27 @@ export class Orders implements OnInit {
       case 'CANCELADO': return '#991B1B';
       default: return '#374151';
     }
+  }
+
+  getStatusLabel(status: string): string {
+    const s = this.statuses.find(st => st.value === status);
+    return s ? s.label : status;
+  }
+
+  getShortDate(date: string | undefined): string {
+    if (!date) return '-';
+    const d = new Date(date);
+    return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: '2-digit' });
+  }
+
+  getStats(): { total: number; pendientes: number; enProceso: number; completados: number; totalRevenue: number } {
+    const all = this.items();
+    return {
+      total: all.length,
+      pendientes: all.filter(o => o.status === 'PENDIENTE').length,
+      enProceso: all.filter(o => o.status === 'EN_PROCESO').length,
+      completados: all.filter(o => o.status === 'COMPLETADO').length,
+      totalRevenue: all.filter(o => o.status === 'COMPLETADO').reduce((sum, o) => sum + (o.totalAmount || 0), 0)
+    };
   }
 }

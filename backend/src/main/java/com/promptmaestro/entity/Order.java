@@ -14,6 +14,17 @@ public class Order {
     @Column(nullable = false)
     private String customerName;
 
+    private String customerPhone;
+
+    private String tartaName;
+
+    private String tartaSize;
+
+    private String personalization;
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;
+
     @Column(nullable = false)
     private String status;
 
@@ -22,41 +33,39 @@ public class Order {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    public Order() {}
+    private LocalDateTime updatedAt;
 
-    public Order(Long id, String customerName, String status, Double totalAmount) {
-        this.id = id;
-        this.customerName = customerName;
-        this.status = status;
-        this.totalAmount = totalAmount;
-    }
+    public Order() {}
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getCustomerName() { return customerName; }
     public void setCustomerName(String customerName) { this.customerName = customerName; }
+    public String getCustomerPhone() { return customerPhone; }
+    public void setCustomerPhone(String customerPhone) { this.customerPhone = customerPhone; }
+    public String getTartaName() { return tartaName; }
+    public void setTartaName(String tartaName) { this.tartaName = tartaName; }
+    public String getTartaSize() { return tartaSize; }
+    public void setTartaSize(String tartaSize) { this.tartaSize = tartaSize; }
+    public String getPersonalization() { return personalization; }
+    public void setPersonalization(String personalization) { this.personalization = personalization; }
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
     public Double getTotalAmount() { return totalAmount; }
     public void setTotalAmount(Double totalAmount) { this.totalAmount = totalAmount; }
     public LocalDateTime getCreatedAt() { return createdAt; }
-
-    public static Builder builder() { return new Builder(); }
-
-    public static class Builder {
-        private Long id;
-        private String customerName;
-        private String status;
-        private Double totalAmount;
-        public Builder id(Long id) { this.id = id; return this; }
-        public Builder customerName(String customerName) { this.customerName = customerName; return this; }
-        public Builder status(String status) { this.status = status; return this; }
-        public Builder totalAmount(Double totalAmount) { this.totalAmount = totalAmount; return this; }
-        public Order build() { return new Order(id, customerName, status, totalAmount); }
-    }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

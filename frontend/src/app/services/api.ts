@@ -46,9 +46,15 @@ export interface MateriaPrima {
 export interface Order {
   id?: number;
   customerName: string;
+  customerPhone?: string;
+  tartaName?: string;
+  tartaSize?: string;
+  personalization?: string;
+  notes?: string;
   status: string;
   totalAmount: number;
   createdAt?: string;
+  updatedAt?: string;
 }
 
 @Injectable({
@@ -125,6 +131,10 @@ export class ApiService {
 
   updateOrder(id: number, order: Order): Observable<Order> {
     return this.http.put<Order>(`${this.baseUrl}/admin/orders/${id}`, order);
+  }
+
+  updateOrderStatus(id: number, status: string): Observable<Order> {
+    return this.http.patch<Order>(`${this.baseUrl}/admin/orders/${id}/status`, { status });
   }
 
   deleteOrder(id: number): Observable<void> {
