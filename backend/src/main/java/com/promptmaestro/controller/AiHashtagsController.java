@@ -34,10 +34,16 @@ public class AiHashtagsController {
         String frutas = request.getOrDefault("frutas", "");
 
         String prompt = String.format(
-            "Eres un experto en marketing de pasteleria. Analiza esta tarta y genera entre 10 y 20 hashtags descriptivos. " +
+            "Eres un experto en marketing digital y reposteria. Analiza esta tarta y genera EXACTAMENTE entre 10 y 20 hashtags diferentes. " +
             "Nombre: %s. Bizcocho: %s. Crema: %s. Frutas: %s. " +
-            "Cada hashtag debe ir con #, en minusculas, sin espacios. Ejemplo: #chocolate, #fresa, #boda, #fondant, #cumpleanos. " +
-            "Separa cada hashtag con coma. Minimo 10, maximo 20.",
+            "REGLAS ESTRICTAS: " +
+            "1. Cada hashtag DEBE ir con # al principio " +
+            "2. Minimo 10 hashtags, maximo 20 " +
+            "3. Todos deben ser diferentes (sin repetir) " +
+            "4. En minusculas, sin espacios " +
+            "5. Incluye hashtags de: producto, ocasion, colores, ingredientes, estilo, decoracion, estacion del ano " +
+            "Ejemplo: #chocolate,#fresa,#boda,#fondant,#cumpleanos,#decoracion,#dulce,#crema,#hojaldre,#reposteria,#elegante,#personalizado " +
+            "Separa cada hashtag con coma. NO repitas ninguno.",
             nombre, sabor, crema, frutas
         );
 
@@ -57,8 +63,17 @@ public class AiHashtagsController {
             ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
             JsonNode root = objectMapper.readTree(response.getBody());
             String result = root.get("candidates").get(0).get("content").get("parts").get(0).get("text").asText().trim();
-            log.info("Gemini respondio: {}", result);
-            return Map.of("hashtags", result);
+            // Deduplicar y asegurar formato #hashtag
+            String[] tags = result.split(",");
+            java.util.LinkedHashSet<String> unique = new java.util.LinkedHashSet<>();
+            for (String tag : tags) {
+                String t = tag.trim().toLowerCase();
+                if (!t.startsWith("#")) t = "#" + t;
+                unique.add(t);
+            }
+            String finalResult = String.join(", ", unique);
+            log.info("Gemini hashtags ({}): {}", unique.size(), finalResult);
+            return Map.of("hashtags", finalResult);
         } catch (Exception e) {
             log.error("Error Gemini hashtags: {}", e.getMessage());
             return Map.of("hashtags", generateMockHashtags(nombre, sabor, crema, frutas));
